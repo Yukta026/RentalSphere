@@ -1,4 +1,4 @@
-package com.rentalsphere.backend.enums;
+package com.rentalsphere.backend.Enums;
 
 public enum Roles {
     ADMIN,

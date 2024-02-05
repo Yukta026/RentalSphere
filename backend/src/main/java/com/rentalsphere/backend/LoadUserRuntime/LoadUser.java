@@ -1,6 +1,6 @@
 package com.rentalsphere.backend.LoadUserRuntime;
 
-import com.rentalsphere.backend.enums.Roles;
+import com.rentalsphere.backend.Enums.Roles;
 import com.rentalsphere.backend.User.Repository.UserRepository;
 import com.rentalsphere.backend.User.Model.User;
 import org.springframework.boot.CommandLineRunner;

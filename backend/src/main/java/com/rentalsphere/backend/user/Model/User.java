@@ -1,6 +1,6 @@
 package com.rentalsphere.backend.User.Model;
 
-import com.rentalsphere.backend.enums.Roles;
+import com.rentalsphere.backend.Enums.Roles;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
