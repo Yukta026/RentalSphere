@@ -1,6 +1,6 @@
-package com.rentalsphere.backend.user.Repository;
+package com.rentalsphere.backend.User.Repository;
 
-import com.rentalsphere.backend.user.User;
+import com.rentalsphere.backend.User.Model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

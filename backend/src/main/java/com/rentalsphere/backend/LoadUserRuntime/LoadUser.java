@@ -1,8 +1,8 @@
 package com.rentalsphere.backend.LoadUserRuntime;
 
 import com.rentalsphere.backend.enums.Roles;
-import com.rentalsphere.backend.user.Repository.UserRepository;
-import com.rentalsphere.backend.user.User;
+import com.rentalsphere.backend.User.Repository.UserRepository;
+import com.rentalsphere.backend.User.Model.User;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

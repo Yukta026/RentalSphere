@@ -1,8 +1,9 @@
-package com.rentalsphere.backend.user;
+package com.rentalsphere.backend.User.Model;
 
 import com.rentalsphere.backend.enums.Roles;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,10 +22,13 @@ public class User implements UserDetails {
     @Id@GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     @NotBlank(message = "firstname cannot be blank.")
+    @Pattern(regexp = "[a-zA-Z]+", message = "Only characters are allowed.")
     private String firstName;
     @NotBlank(message = "lastname cannot be blank.")
+    @Pattern(regexp = "[a-zA-Z]+", message = "Only characters are allowed.")
     private String lastName;
     @NotBlank(message = "email cannot be blank.")
+    @Pattern(regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$", message = "Valid email required.")
     private String email;
     @NotBlank(message = "password cannot be blank.")
     private String password;
