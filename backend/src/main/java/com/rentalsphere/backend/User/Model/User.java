@@ -1,6 +1,6 @@
 package com.rentalsphere.backend.User.Model;
 
-import com.rentalsphere.backend.Enums.Roles;
+import com.rentalsphere.backend.Role.Model.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -12,9 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Data
 @NoArgsConstructor
@@ -37,13 +35,17 @@ public class User implements UserDetails {
     private String email;
     @NotBlank(message = "password cannot be blank.")
     private String password;
-    @Enumerated(EnumType.STRING)
-    private Roles role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private List<Role> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role.name());
-        return List.of(authority);
+        List<SimpleGrantedAuthority> authority = new ArrayList<>();
+        this.getRoles().forEach(role->{
+            authority.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
+        });
+        return authority;
     }
 
     @Override
