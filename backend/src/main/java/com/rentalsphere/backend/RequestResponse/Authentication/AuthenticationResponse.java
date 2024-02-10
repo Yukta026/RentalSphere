@@ -1,15 +1,18 @@
 package com.rentalsphere.backend.RequestResponse.Authentication;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.rentalsphere.backend.RequestResponse.BasicResponse.BasicResponse;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+
+import java.util.List;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse {
+@SuperBuilder
+@EqualsAndHashCode(callSuper = true)
+public class AuthenticationResponse extends BasicResponse {
     private String email;
     private String token;
+    private List<String> roles;
 }

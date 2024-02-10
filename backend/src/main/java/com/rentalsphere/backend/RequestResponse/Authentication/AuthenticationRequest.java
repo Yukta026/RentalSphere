@@ -1,12 +1,9 @@
 package com.rentalsphere.backend.RequestResponse.Authentication;
 
-import com.rentalsphere.backend.Enums.Roles;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @AllArgsConstructor
