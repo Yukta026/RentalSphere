@@ -1,8 +1,8 @@
 package com.rentalsphere.backend.Authentication.Controller;
 
 import com.rentalsphere.backend.Authentication.Service.AuthenticationService;
-import com.rentalsphere.backend.RequestResponse.Authentication.AuthenticationRequest;
 import com.rentalsphere.backend.RequestResponse.Authentication.AuthenticationResponse;
+import com.rentalsphere.backend.RequestResponse.Authentication.RegisterRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ public class AuthenticationController{
     private final AuthenticationService authenticationService;
 
     @PostMapping(path = "/register")
-    public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody AuthenticationRequest request){
+    public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody RegisterRequest request){
         return new ResponseEntity<>(authenticationService.register(request), HttpStatus.CREATED);
     }
 }
