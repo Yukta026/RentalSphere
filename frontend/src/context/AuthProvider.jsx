@@ -7,26 +7,26 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if (
-      window.localStorage.getItem("id") &&
-      window.localStorage.getItem("id") !== undefined &&
-      window.localStorage.getItem("username") &&
-      window.localStorage.getItem("username") !== undefined &&
+      window.localStorage.getItem("email") &&
+      window.localStorage.getItem("email") !== undefined &&
       window.localStorage.getItem("token") &&
-      window.localStorage.getItem("token") !== undefined
+      window.localStorage.getItem("token") !== undefined &&
+      window.localStorage.getItem("role") &&
+      window.localStorage.getItem("role") !== undefined
     ) {
       setAuth({
-        id: parseInt(window.localStorage.getItem("id")),
-        username: window.localStorage.getItem("username"),
-        public_hashkey: window.localStorage.getItem("token"),
+        email: window.localStorage.getItem("email"),
+        token: window.localStorage.getItem("token"),
+        role: window.localStorage.getItem("role"),
       });
     }
   }, []);
 
   useEffect(() => {
-    if (auth && auth.id && auth.username && auth.token) {
-      window.localStorage.setItem("id", auth.id);
-      window.localStorage.setItem("username", auth.username);
+    if (auth && auth.email && auth.email && auth.token && auth.role) {
+      window.localStorage.setItem("email", auth.email);
       window.localStorage.setItem("token", auth.token);
+      window.localStorage.setItem("role", auth.role);
     }
   }, [auth]);
 
