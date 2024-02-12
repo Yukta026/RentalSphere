@@ -3,14 +3,18 @@ package com.rentalsphere.backend.Authentication.Service;
 import com.rentalsphere.backend.Authentication.Service.IService.IAuthenticationService;
 import com.rentalsphere.backend.Configuration.JwtService;
 import com.rentalsphere.backend.Enums.Roles;
+import com.rentalsphere.backend.Exception.User.InvalidCredentialsException;
 import com.rentalsphere.backend.Exception.User.UserAlreadyExistsException;
 import com.rentalsphere.backend.RequestResponse.Authentication.AuthenticationResponse;
+import com.rentalsphere.backend.RequestResponse.Authentication.LoginRequest;
 import com.rentalsphere.backend.RequestResponse.Authentication.RegisterRequest;
 import com.rentalsphere.backend.Role.Repository.RoleRepository;
 import com.rentalsphere.backend.User.Model.User;
 import com.rentalsphere.backend.User.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +47,42 @@ public class AuthenticationService implements IAuthenticationService {
                 .isSuccess(true)
                 .email(user.getEmail())
                 .token(token)
+                .roles(userRoles)
+                .timeStamp(new Date())
+                .build();
+    }
+
+    public AuthenticationResponse login(LoginRequest request){
+        if (userRepository.findByEmail(request.getEmail()).isEmpty()) {
+
+            throw new InvalidCredentialsException("Invalid Email");
+        }
+
+
+
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow();
+
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new InvalidCredentialsException("Invalid Credentials");
+        }
+
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+
+        );
+
+
+
+        List<String> userRoles = user.getRoles().stream().map(role -> role.getName().name()).toList();
+        String jwtToken = jwtService.generateToken(user);
+        return AuthenticationResponse.builder()
+                .isSuccess(true)
+                .email(user.getEmail())
+                .token(jwtToken)
                 .roles(userRoles)
                 .timeStamp(new Date())
                 .build();
