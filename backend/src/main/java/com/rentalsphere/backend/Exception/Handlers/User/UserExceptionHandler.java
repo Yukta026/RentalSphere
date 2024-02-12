@@ -1,5 +1,6 @@
 package com.rentalsphere.backend.Exception.Handlers.User;
 
+import com.rentalsphere.backend.Exception.User.InvalidCredentialsException;
 import com.rentalsphere.backend.Exception.User.UserAlreadyExistsException;
 import com.rentalsphere.backend.RequestResponse.Exception.ExceptionResponse;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,17 @@ public class UserExceptionHandler {
         ExceptionResponse response = ExceptionResponse.builder()
                 .isSuccess(false)
                 .errorMessage(userAlreadyExistsException.getMessage())
+                .timeStamp(new Date())
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
+
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<ExceptionResponse> handleInvalidCredentialsException(InvalidCredentialsException invalidCredentialsException) {
+        ExceptionResponse response = ExceptionResponse.builder()
+                .isSuccess(false)
+                .errorMessage(invalidCredentialsException.getMessage())
                 .timeStamp(new Date())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.CONFLICT);
