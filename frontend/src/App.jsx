@@ -1,23 +1,23 @@
 import "./App.css";
-import { Route, Routes } from "react-router-dom";
-import Login from "./components/Login.jsx";
-import ErrorPage from "./components/ErrorPage.jsx";
-import Register from "./components/Register.jsx";
-// import TenantDashboard from "./components/TenantDashboard.jsx";
-import Landing from "./components/Landing.jsx";
+import Navbar from "./components/Shared/Navbar";
+import Footer from "./components/Shared/Footer";
+import AppRoutes from "./AppRoutes.jsx";
+import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "./context/AuthProvider.jsx";
 
 function App() {
   return (
-    <>
-    {/* <Landing/> */}
-      <Routes>
-        <Route exact path="/" element={<Landing />} />
-        <Route exact path="/login" element={<Login />} />
-        <Route exact path="/signup" element={<Register />} />
-        {/* <Route exact path="/dashboard" element={<TenantDashboard />} /> */}
-        <Route path="*" element={<ErrorPage />} />
-      </Routes>
-    </>
+    <BrowserRouter>
+      <AuthProvider>
+        <div className="flex-col min-h-screen h-screen justify-between">
+          <Navbar />
+          <div className="min-h-full">
+            <AppRoutes />
+          </div>
+          <Footer />
+        </div>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 
