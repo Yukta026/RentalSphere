@@ -28,6 +28,7 @@ public class ValidationExceptionHandler extends ResponseEntityExceptionHandler {
         }
         ExceptionResponse response = ExceptionResponse.builder()
                 .errorMessage("Validation Failed.")
+                .isSuccess(false)
                 .fieldErrors(errors)
                 .timeStamp(new Date())
                 .build();

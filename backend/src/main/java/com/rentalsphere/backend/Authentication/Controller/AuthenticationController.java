@@ -2,6 +2,7 @@ package com.rentalsphere.backend.Authentication.Controller;
 
 import com.rentalsphere.backend.Authentication.Service.AuthenticationService;
 import com.rentalsphere.backend.RequestResponse.Authentication.AuthenticationResponse;
+import com.rentalsphere.backend.RequestResponse.Authentication.LoginRequest;
 import com.rentalsphere.backend.RequestResponse.Authentication.RegisterRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,5 +22,10 @@ public class AuthenticationController{
     @PostMapping(path = "/register")
     public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody RegisterRequest request){
         return new ResponseEntity<>(authenticationService.register(request), HttpStatus.CREATED);
+    }
+
+    @PostMapping(path = "/login")
+    public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody LoginRequest request){
+        return new ResponseEntity<>(authenticationService.login(request), HttpStatus.CREATED);
     }
 }
