@@ -105,7 +105,7 @@ export default function Login() {
       const response = await Axios.post(
         LOGIN_URL,
         {
-          username: userEmail,
+          email: userEmail,
           password: pwd,
         },
         {
@@ -116,7 +116,7 @@ export default function Login() {
       // console.log(JSON.stringify(response.data));
       setIsLoading(false);
 
-      if (!response.data.auth) {
+      if (!response.data.success) {
         // setLoginStatus(false);
         setErrMsg("Invalid username or password");
       } else {
@@ -125,7 +125,7 @@ export default function Login() {
           // id: response.data.id,
           email: response.data.email,
           token: response.data.token,
-          role: response.data.roles[1],
+          // role: response.data.roles[1],
         });
         // localStorage.setItem("token", response.data.token);
         // setLoginStatus(true);
@@ -133,11 +133,13 @@ export default function Login() {
           navigate(from, {
             replace: true,
           });
-        } else if (auth && auth.role && auth.role === "TENANT") {
-          navigate(`/tenantdashboard`, { replace: true });
-        } else if (auth && auth.role && auth.role === "MANAGER") {
-          navigate(`/managerdashboard`, { replace: true });
-        } else {
+        }
+        // else if (auth && auth.role && auth.role === "TENANT") {
+        //   navigate(`/tenantdashboard`, { replace: true });
+        // } else if (auth && auth.role && auth.role === "MANAGER") {
+        //   navigate(`/managerdashboard`, { replace: true });
+        // }
+        else {
           navigate(`/`, { replace: true });
         }
       }
@@ -146,7 +148,7 @@ export default function Login() {
       console.log(err);
       if (!err?.response) {
         setErrMsg("No Server Response");
-      } else if (err.response?.status === 400) {
+      } else if (err.response?.status === 409) {
         setErrMsg("Missing Username or Password");
       } else if (err.response?.status === 401) {
         setErrMsg("Unauthorized");
