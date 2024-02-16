@@ -10,23 +10,24 @@ export const AuthProvider = ({ children }) => {
       window.localStorage.getItem("email") &&
       window.localStorage.getItem("email") !== undefined &&
       window.localStorage.getItem("token") &&
-      window.localStorage.getItem("token") !== undefined &&
-      window.localStorage.getItem("role") &&
-      window.localStorage.getItem("role") !== undefined
+      window.localStorage.getItem("token") !== undefined
+      // &&
+      // window.localStorage.getItem("role") &&
+      // window.localStorage.getItem("role") !== undefined
     ) {
       setAuth({
         email: window.localStorage.getItem("email"),
         token: window.localStorage.getItem("token"),
-        role: window.localStorage.getItem("role"),
+        // role: window.localStorage.getItem("role"),
       });
     }
   }, []);
 
   useEffect(() => {
-    if (auth && auth.email && auth.email && auth.token && auth.role) {
+    if (auth && auth.email && auth.token) {
       window.localStorage.setItem("email", auth.email);
       window.localStorage.setItem("token", auth.token);
-      window.localStorage.setItem("role", auth.role);
+      // window.localStorage.setItem("role", auth.role);
     }
   }, [auth]);
 

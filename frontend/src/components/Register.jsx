@@ -34,6 +34,30 @@ export default function Register() {
     setLNameError("");
   }, [userEmail, pwd, fName, lName]);
 
+  useEffect(() => {
+    if (window.localStorage.getItem("token")) {
+      if (
+        window.localStorage.getItem("role") &&
+        window.localStorage.getItem("role") === "TENANT"
+      ) {
+        navigate(`/tenantdashboard`, {
+          replace: true,
+        });
+      } else if (
+        window.localStorage.getItem("role") &&
+        window.localStorage.getItem("role") === "PROPERTY MANAGER"
+      ) {
+        navigate(`/managerdashboard`, {
+          replace: true,
+        });
+      } else {
+        navigate(`/`, {
+          replace: true,
+        });
+      }
+    }
+  }, [navigate]);
+
   const validateInputs = () => {
     let isValid = true;
     const emailRegex = /^\S+@\S+\.\S+$/; // Regex for email validation
@@ -107,9 +131,8 @@ export default function Register() {
         setAuth({
           email: response.data.email,
           token: response.data.token,
-          role: response.data.roles[1],
+          // role: response.data.roles[1],
         });
-        // localStorage.setItem("token", response.data.token);
         setLoginStatus(true);
         if (from && from !== "/") {
           navigate(from, {
