@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,10 +39,10 @@ public class AuthenticationService implements IAuthenticationService {
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .roles(List.of(roleRepository.findByName(Roles.USER)))
+                .roles(Arrays.asList(roleRepository.findByName(Roles.USER)))
                 .build();
         userRepository.save(user);
-        List<String> userRoles = user.getRoles().stream().map(role -> role.getName().name()).toList();
+        List<String> userRoles = user.getRoles().stream().map(role -> role.getName().name()).collect(Collectors.toList());
         String token = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .isSuccess(true)
