@@ -53,19 +53,14 @@ public class AuthenticationService implements IAuthenticationService {
                 .build();
     }
 
+    @Override
     public AuthenticationResponse login(LoginRequest request){
-        if (userRepository.findByEmail(request.getEmail()).isEmpty()) {
-
-            throw new InvalidCredentialsException("Invalid Email");
-        }
-
-
-
-        User user = userRepository.findByEmail(request.getEmail()).orElseThrow();
-
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(()->
+                new InvalidCredentialsException("No registered user with this email")
+        );
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new InvalidCredentialsException("Invalid Credentials");
+            throw new InvalidCredentialsException("Incorrect Password");
         }
 
         authenticationManager.authenticate(
@@ -76,9 +71,7 @@ public class AuthenticationService implements IAuthenticationService {
 
         );
 
-
-
-        List<String> userRoles = user.getRoles().stream().map(role -> role.getName().name()).toList();
+        List<String> userRoles = user.getRoles().stream().map(role -> role.getName().name()).collect(Collectors.toList());
         String jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .isSuccess(true)
