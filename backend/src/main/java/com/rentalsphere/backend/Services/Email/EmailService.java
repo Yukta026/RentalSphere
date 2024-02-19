@@ -15,6 +15,9 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Email service class
+ */
 @Service
 @RequiredArgsConstructor
 public class EmailService implements IEmailService {
@@ -29,11 +32,13 @@ public class EmailService implements IEmailService {
      */
     @Override
     public void sendEmail(String to, String subject, String body) {
+        // setting details for mail transfer
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
         message.setSubject(subject);
         message.setText(body);
 
+        // send mail
         mailSender.send(message);
     }
 
@@ -49,16 +54,22 @@ public class EmailService implements IEmailService {
     @Override
     public void sendEmailTemplate(String to, String subject, String name, String emailMessage) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
+
+        // setting up variables in mail template
         Context context = new Context();
         context.setVariable("name", name);
         context.setVariable("message", emailMessage);
         context.setVariable("logo","logo");
         String process = templateEngine.process("AdminDecision.html", context);
         MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
+
+        // setting details for mail transfer
         helper.setTo(to);
         helper.setSubject(subject);
         helper.setText(process, true);
         helper.addInline("logo", new ClassPathResource("static/images/logo.png"));
+
+        // send mail
         mailSender.send(message);
     }
 }
