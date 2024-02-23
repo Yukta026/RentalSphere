@@ -1,4 +1,5 @@
-package com.rentalsphere.backend.PropertyApplication.Model;
+package com.rentalsphere.backend.Property.Model;
+import com.rentalsphere.backend.User.Model.User;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -85,8 +86,6 @@ public class PropertyApplication {
     @Column(name = "CreationDate", nullable = false)
     private Date creationDate;
 
-    @Column(name = "ModificationDate", nullable = false)
-    private Date modificationDate;
 
 }
 

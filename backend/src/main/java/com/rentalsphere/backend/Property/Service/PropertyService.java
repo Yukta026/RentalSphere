@@ -1,7 +1,7 @@
-package com.rentalsphere.backend.PropertyApplication.Service;
+package com.rentalsphere.backend.Property.Service;
 
-import com.rentalsphere.backend.PropertyApplication.Model.PropertyApplication;
-import com.rentalsphere.backend.PropertyApplication.Repository.PropertyApplicationRepository;
+import com.rentalsphere.backend.Property.Model.PropertyApplication;
+import com.rentalsphere.backend.Property.Repository.PropertyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PropertyApplicationService {
+public class PropertyService {
 
     @Autowired
-    private PropertyApplicationRepository propertyApplicationRepository;
+    private PropertyRepository propertyRepository;
 
     public PropertyApplication savePropertyApplication(PropertyApplication propertyApplication) {
 
@@ -20,14 +20,14 @@ public class PropertyApplicationService {
         //     throw new IllegalArgumentException("Property address cannot be empty");
         // }
 
-        return propertyApplicationRepository.save(propertyApplication);
+        return propertyRepository.save(propertyApplication);
     }
 
     public List<PropertyApplication> getAllPropertyApplications() {
-        return propertyApplicationRepository.findAll();
+        return propertyRepository.findAll();
     }
 
     public Optional<PropertyApplication> getPropertyApplicationById(Long id) {
-        return propertyApplicationRepository.findById(id);
+        return propertyRepository.findById(id);
     }
 }
