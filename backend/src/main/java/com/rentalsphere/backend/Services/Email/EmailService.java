@@ -1,5 +1,6 @@
 package com.rentalsphere.backend.Services.Email;
 
+import com.rentalsphere.backend.Enums.EmailType;
 import com.rentalsphere.backend.Services.Email.IService.IEmailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -25,10 +26,9 @@ public class EmailService implements IEmailService {
     private final SpringTemplateEngine templateEngine;
 
     /**
-     *
-     * @param to - receiver email
+     * @param to      - receiver email
      * @param subject - subject of email
-     * @param body - body of email
+     * @param body    - body of email
      */
     @Override
     public void sendEmail(String to, String subject, String body) {
@@ -43,24 +43,29 @@ public class EmailService implements IEmailService {
     }
 
     /**
-     *
-     * @param to - receiver email
-     * @param subject - email subject
-     * @param name - name of receiver
+     * @param emailType    - type of email template
+     * @param to           - receiver email
+     * @param subject      - email subject
+     * @param name         - name of receiver
      * @param emailMessage - message to add in email body
      * @throws MessagingException - exception thrown by MimeMessage
      */
     @Async
     @Override
-    public void sendEmailTemplate(String to, String subject, String name, String emailMessage) throws MessagingException {
+    public void sendEmailTemplate(EmailType emailType, String to, String subject, String name, String emailMessage) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
 
         // setting up variables in mail template
         Context context = new Context();
         context.setVariable("name", name);
         context.setVariable("message", emailMessage);
-        context.setVariable("logo","logo");
-        String process = templateEngine.process("AdminDecision.html", context);
+        context.setVariable("logo", "logo");
+
+        String process = null;
+        if (emailType.equals(EmailType.ADMIN_DECISION)) {
+            process = templateEngine.process("AdminDecision.html", context);
+        }
+
         MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
 
         // setting details for mail transfer
