@@ -1,7 +1,8 @@
 package com.rentalsphere.backend.Property.Controller;
 
-import com.rentalsphere.backend.Property.Model.PropertyApplication;
+import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.Property.Service.PropertyService;
+import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,8 +19,8 @@ public class PropertyController {
     private final PropertyService propertyService;
 
     @PostMapping(path = "/register")
-    public ResponseEntity<PropertyApplication> createPropertyApplication(@Valid @RequestBody PropertyRequest request) {
-        PropertyApplication propertyApplication = propertyService.savePropertyApplication(request);
-        return new ResponseEntity<>(propertyApplication, HttpStatus.CREATED);
+    public ResponseEntity<Property> createPropertyApplication(@Valid @RequestBody PropertyRegisterRequest request) {
+        Property property = propertyService.savePropertyApplication(request);
+        return new ResponseEntity<>(property, HttpStatus.CREATED);
     }
 }
