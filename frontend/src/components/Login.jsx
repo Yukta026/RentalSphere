@@ -7,6 +7,7 @@ import LoadingSpinner from "../assets/LoadingSpinner.jsx";
 // const IS_AUTH_URL = "http://localhost:3001/isUserAuth";
 // const LOGIN_URL = import.meta.env.VITE_LOGIN_URL;
 const LOGIN_URL = import.meta.env.VITE_LOGIN_URL;
+import { httpPost } from "../Utils/HttpRequest.jsx"; // Import the httpRequest module
 
 export default function Login() {
   Axios.defaults.withCredentials = true;
@@ -22,6 +23,7 @@ export default function Login() {
   const [errMsg, setErrMsg] = useState("");
   const [userEmailError, setUserEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     setErrMsg("");
@@ -81,69 +83,106 @@ export default function Login() {
     return isValid;
   };
 
-  // const userAuthenticated = () => {
-  //   Axios.get(IS_AUTH_URL, {
-  //     headers: {
-  //       "x-access-token": localStorage.getItem("token"),
-  //     },
-  //   }).then((response) => {
-  //     console.log(response);
-  //   });
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (!validateInputs()) {
+  //     // console.log("Hitting this code");
+  //     return;
+  //   }
+  //   try {
+  //     setIsLoading(true);
+  //     const headers = {
+  //       "Content-Type": "application/json",
+  //     };
+  //     const response = await Axios.post(
+  //       LOGIN_URL,
+  //       {
+  //         email: userEmail,
+  //         password: pwd,
+  //       },
+  //       {
+  //         headers: headers,
+  //       }
+  //     );
+  //     // console.log(response?.data);
+  //     // console.log(JSON.stringify(response.data));
+  //     setIsLoading(false);
+
+  //     if (!response.data.success) {
+  //       // setLoginStatus(false);
+  //       setErrMsg("Invalid username or password");
+  //     } else {
+  //       console.log(response.data);
+  //       setAuth({
+  //         // id: response.data.id,
+  //         email: response.data.email,
+  //         token: response.data.token,
+  //         // role: response.data.roles[1],
+  //       });
+  //       // localStorage.setItem("token", response.data.token);
+  //       // setLoginStatus(true);
+  //       if (from && from !== "/") {
+  //         navigate(from, {
+  //           replace: true,
+  //         });
+  //       }
+  //       // else if (auth && auth.role && auth.role === "TENANT") {
+  //       //   navigate(`/tenantdashboard`, { replace: true });
+  //       // } else if (auth && auth.role && auth.role === "MANAGER") {
+  //       //   navigate(`/managerdashboard`, { replace: true });
+  //       // }
+  //       else {
+  //         navigate(`/`, { replace: true });
+  //       }
+  //     }
+  //   } catch (err) {
+  //     setIsLoading(false);
+  //     console.log(err);
+  //     if (!err?.response) {
+  //       setErrMsg("No Server Response");
+  //     } else if (err.response?.status === 409) {
+  //       setErrMsg("Missing Username or Password");
+  //     } else if (err.response?.status === 401) {
+  //       setErrMsg("Unauthorized");
+  //     } else {
+  //       setErrMsg("Login Failed");
+  //     }
+  //   }
   // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateInputs()) {
-      // console.log("Hitting this code");
       return;
     }
+    setIsLoading(true);
+    setErrMsg("");
+
     try {
-      setIsLoading(true);
-      const headers = {
-        "Content-Type": "application/json",
-      };
-      const response = await Axios.post(
+      const response = await httpPost(
         LOGIN_URL,
-        {
-          email: userEmail,
-          password: pwd,
-        },
-        {
-          headers: headers,
-        }
+        { email: userEmail, password: pwd },
+        { "Content-Type": "application/json" }
       );
-      // console.log(response?.data);
-      // console.log(JSON.stringify(response.data));
       setIsLoading(false);
 
-      if (!response.data.success) {
-        // setLoginStatus(false);
+      if (!response.success) {
         setErrMsg("Invalid username or password");
       } else {
         console.log(response.data);
         setAuth({
-          // id: response.data.id,
           email: response.data.email,
           token: response.data.token,
-          // role: response.data.roles[1],
         });
-        // localStorage.setItem("token", response.data.token);
-        // setLoginStatus(true);
         if (from && from !== "/") {
           navigate(from, {
             replace: true,
           });
-        }
-        // else if (auth && auth.role && auth.role === "TENANT") {
-        //   navigate(`/tenantdashboard`, { replace: true });
-        // } else if (auth && auth.role && auth.role === "MANAGER") {
-        //   navigate(`/managerdashboard`, { replace: true });
-        // }
-        else {
-          navigate(`/`, { replace: true });
+        } else {
+          navigate("/", { replace: true });
         }
       }
-    } catch (err) {
+    } catch (error) {
       setIsLoading(false);
       console.log(err);
       if (!err?.response) {
@@ -156,6 +195,15 @@ export default function Login() {
         setErrMsg("Login Failed");
       }
     }
+  };
+
+  const handleForgotPassword = () => {
+    // Navigate to the password recovery route
+    navigate("/forgotpassword");
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
   return (
@@ -242,14 +290,7 @@ export default function Login() {
                   >
                     Password
                   </label>
-                  <div className="text-sm">
-                    {/* <a
-                      href="#"
-                      className="font-semibold text-indigo-600 hover:text-indigo-500"
-                    >
-                      Forgot password?
-                    </a> */}
-                  </div>
+                  <div className="text-sm"></div>
                 </div>
                 <div className="mt-2">
                   {/* <input
@@ -270,10 +311,11 @@ export default function Login() {
                   <input
                     id="password"
                     name="password"
-                    type="password"
+                    // type="password"
+                    type={showPassword ? "text" : "password"}
                     autoComplete="current-password"
                     required
-                    placeholder="********"
+                    placeholder="************"
                     className={`input input-bordered input-primary w-full ${
                       passwordError ? "border-red-500" : ""
                     }`}
@@ -282,10 +324,21 @@ export default function Login() {
                     }}
                     value={pwd}
                   />
-
                   {passwordError && (
                     <p className="text-red-500 text-sm mt-1">{passwordError}</p>
                   )}
+                </div>
+              </div>
+
+              <div className="mt-2 flex justify-between">
+                <div className="text-sm">
+                  <a
+                    href="#"
+                    className="font-semibold text-indigo-600 hover:text-indigo-500"
+                    onClick={handleForgotPassword}
+                  >
+                    Forgot password?
+                  </a>
                 </div>
               </div>
 
