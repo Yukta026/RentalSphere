@@ -61,10 +61,45 @@ export const outstandingBalancesData = [
 ];
 
 export const sidebarMenuItems = [
-  { name: "Dashboard", path: "overview" },
-  { name: "Rent Management", path: "rentmanagement" },
-  { name: "Lease Management", path: "leasemanagement" },
-  { name: "Violation Log", path: "violationlog" },
-  { name: "Service Requests", path: "servicerequests" },
-  { name: "Announcements", path: "announcements" },
+  { name: "Dashboard", path: "overview", icon: "FiHome" },
+  {
+    name: "Rent Management",
+    path: "rentmanagement",
+    icon: "FaRegMoneyBillAlt",
+  },
+  {
+    name: "Lease Management",
+    path: "leasemanagement",
+    icon: "IoDocumentOutline",
+  },
+  {
+    name: "Violation Log",
+    path: "violationlog",
+    icon: "AiTwotoneFileExclamation",
+  },
+  { name: "Service Requests", path: "servicerequests", icon: "FiTool" },
+  { name: "Announcements", path: "announcements", icon: "TbSpeakerphone" },
+];
+
+export const sampleAnnouncements = [
+  {
+    id: 1,
+    title: "Important Announcement 1",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    date: "2024-02-23",
+  },
+  {
+    id: 2,
+    title: "Important Announcement 2",
+    content:
+      "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
+    date: "2024-02-22",
+  },
+  {
+    id: 3,
+    title: "Important Announcement 3",
+    content:
+      "Nulla facilisi. Integer fermentum elit in ipsum faucibus, eget scelerisque nulla fermentum.",
+    date: "2024-02-21",
+  },
 ];
