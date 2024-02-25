@@ -4,7 +4,7 @@ import ErrorPage from "./components/ErrorPage.jsx";
 import Register from "./components/Register.jsx";
 import Landing from "./components/Landing.jsx";
 import TenantDashboard from "./components/TenantDashboard.jsx";
-import ManagerDashboard from "./components/ManagerDashboard/ManagerDashboard.jsx";
+// import ManagerDashboard from "./components/ManagerDashboard/ManagerDashboard.jsx";
 // import PMRentManage from "./components/ManagerDashboard/PMRentManage.jsx";
 // import PMLeaseManage from "./components/ManagerDashboard/PMLeaseManage.jsx";
 // import PMViolationLog from "./components/ManagerDashboard/PMViolationLog.jsx";
