@@ -8,5 +8,5 @@ import jakarta.mail.MessagingException;
  */
 public interface IEmailService {
     public void sendEmail(String to, String subject, String body);
-    public void sendEmailTemplate(EmailType emailType, String to, String subject, String name, String emailMessage) throws MessagingException;
+    public void sendEmailTemplate(EmailType emailType, String to, String subject, String name, String emailMessage, String token) throws MessagingException;
 }
