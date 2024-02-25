@@ -6,6 +6,7 @@ import { AiTwotoneFileExclamation } from "react-icons/ai";
 import { FiHome, FiTool } from "react-icons/fi";
 import { TbSpeakerphone } from "react-icons/tb";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
+import { IoCheckboxOutline } from "react-icons/io5";
 
 function ManagerDashboard() {
   const navigate = useNavigate();
@@ -31,13 +32,14 @@ function ManagerDashboard() {
         return <FaRegMoneyBillAlt />;
       case "IoDocumentOutline":
         return <IoDocumentOutline />;
-
       case "AiTwotoneFileExclamation":
         return <AiTwotoneFileExclamation />;
       case "FiTool":
         return <FiTool />;
       case "TbSpeakerphone":
         return <TbSpeakerphone />;
+      case "IoCheckboxOutline":
+        return <IoCheckboxOutline />;
       default:
         return null;
     }
@@ -47,7 +49,9 @@ function ManagerDashboard() {
     <div className="flex min-h-screen">
       {/* Sidebar */}
       <div className="w-1/4 p-4 bg-white drop-shadow-md">
-        <h2 className="text-lg font-bold mb-10">Property Manager Dashboard</h2>
+        <h2 className="text-lg font-bold mb-10 mt-6">
+          Property Manager Dashboard
+        </h2>
         <ul>
           {sidebarMenuItems.map((menuItem, index) => (
             <li className="my-2" key={index}>
