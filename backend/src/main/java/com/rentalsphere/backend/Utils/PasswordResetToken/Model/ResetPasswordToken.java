@@ -15,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResetPasswordToken {
-    private static final int EXPIRY_TIME = 60*60*1000;
+    private static final int EXPIRY_TIME = 60 * 60 * 1000;
     @Id@GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String token;
@@ -24,4 +24,11 @@ public class ResetPasswordToken {
     private User user;
     @Temporal(TemporalType.TIMESTAMP)
     private Date expiryDate;
+
+    public static class ResetPasswordTokenBuilder{
+        public ResetPasswordTokenBuilder expiryDate(Date expiryDate){
+            this.expiryDate = new Date(expiryDate.getTime() + EXPIRY_TIME);
+            return this;
+        }
+    }
 }
