@@ -62,6 +62,12 @@ export const outstandingBalancesData = [
 
 export const sidebarMenuItems = [
   { name: "Dashboard", path: "overview", icon: "FiHome" },
+  { name: "Announcements", path: "announcements", icon: "TbSpeakerphone" },
+  {
+    name: "Tenant Approvals",
+    path: "tenantapprovals",
+    icon: "IoCheckboxOutline",
+  },
   {
     name: "Rent Management",
     path: "rentmanagement",
@@ -78,7 +84,6 @@ export const sidebarMenuItems = [
     icon: "AiTwotoneFileExclamation",
   },
   { name: "Service Requests", path: "servicerequests", icon: "FiTool" },
-  { name: "Announcements", path: "announcements", icon: "TbSpeakerphone" },
 ];
 
 export const sampleAnnouncements = [
@@ -102,4 +107,26 @@ export const sampleAnnouncements = [
       "Nulla facilisi. Integer fermentum elit in ipsum faucibus, eget scelerisque nulla fermentum.",
     date: "2024-02-21",
   },
+];
+
+export const tenantApprovalsData = [
+  {
+    tenantName: "John Doe",
+    email: "john.doe@example.com",
+    unit: "A101",
+    moveInDate: "2024-03-01",
+    duration: "12 months",
+    reason: "Looking for a new rental home",
+    date: "2024-02-24",
+  },
+  {
+    tenantName: "Jane Smith",
+    email: "jane.smith@example.com",
+    unit: "B203",
+    moveInDate: "2024-04-01",
+    duration: "6 months",
+    reason: "Relocating for work",
+    date: "2024-02-23",
+  },
+  // Add more tenant request objects as needed
 ];

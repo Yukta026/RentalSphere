@@ -11,6 +11,7 @@ import PMViolationLog from "./components/ManagerDashboard/PMViolationLog.jsx";
 import PMServiceReqs from "./components/ManagerDashboard/PMServiceReqs.jsx";
 import PMAnnouncements from "./components/ManagerDashboard/PMAnnouncements.jsx";
 import PMOverview from "./components/ManagerDashboard/PMOverview.jsx";
+import PMTenantApprovals from "./components/ManagerDashboard/PMTenantApprovals.jsx";
 
 const AppRoutes = () => {
   return (
@@ -21,11 +22,12 @@ const AppRoutes = () => {
       <Route exact path="/tenantdashboard" element={<TenantDashboard />} />
       <Route exact path="/managerdashboard" element={<ManagerDashboard />}>
         <Route exact path="overview" element={<PMOverview />} />
+        <Route exact path="announcements" element={<PMAnnouncements />} />
+        <Route exact path="tenantapprovals" element={<PMTenantApprovals />} />
         <Route exact path="rentmanagement" element={<PMRentManage />} />
         <Route exact path="leasemanagement" element={<PMLeaseManage />} />
         <Route exact path="violationlog" element={<PMViolationLog />} />
         <Route exact path="servicerequests" element={<PMServiceReqs />} />
-        <Route exact path="announcements" element={<PMAnnouncements />} />
       </Route>
       <Route path="*" element={<ErrorPage />} />
     </Routes>
