@@ -10,6 +10,8 @@ import java.util.Optional;
 public interface IPropertyService {
 
     public Property savePropertyApplication(PropertyRegisterRequest property);
+
     public List<Property> getAllPropertyApplications();
+
     public Optional<Property> getPropertyApplicationById(Long id);
 }
