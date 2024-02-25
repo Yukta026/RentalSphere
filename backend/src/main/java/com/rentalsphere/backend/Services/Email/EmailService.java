@@ -25,6 +25,8 @@ public class EmailService implements IEmailService {
     private final JavaMailSender mailSender;
     private final SpringTemplateEngine templateEngine;
 
+    private final static String URL = "http://127.0.0.1:5173/";
+
     /**
      * @param to      - receiver email
      * @param subject - subject of email
@@ -52,7 +54,7 @@ public class EmailService implements IEmailService {
      */
     @Async
     @Override
-    public void sendEmailTemplate(EmailType emailType, String to, String subject, String name, String emailMessage) throws MessagingException {
+    public void sendEmailTemplate(EmailType emailType, String to, String subject, String name, String emailMessage, String token) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
 
         // setting up variables in mail template
@@ -61,9 +63,14 @@ public class EmailService implements IEmailService {
         context.setVariable("message", emailMessage);
         context.setVariable("logo", "logo");
 
+        // check for template to use
         String process = null;
         if (emailType.equals(EmailType.ADMIN_DECISION)) {
             process = templateEngine.process("AdminDecision.html", context);
+        }
+        else if(emailType.equals(EmailType.PASSWORD_RESET)){
+            context.setVariable("url",URL + "/reset-password/" + token);
+            process = templateEngine.process("PasswordReset.html", context);
         }
 
         MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());

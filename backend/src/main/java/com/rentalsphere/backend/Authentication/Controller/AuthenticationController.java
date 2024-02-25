@@ -1,17 +1,13 @@
 package com.rentalsphere.backend.Authentication.Controller;
 
 import com.rentalsphere.backend.Authentication.Service.AuthenticationService;
-import com.rentalsphere.backend.RequestResponse.Authentication.AuthenticationResponse;
-import com.rentalsphere.backend.RequestResponse.Authentication.LoginRequest;
-import com.rentalsphere.backend.RequestResponse.Authentication.RegisterRequest;
+import com.rentalsphere.backend.RequestResponse.Authentication.*;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,5 +23,15 @@ public class AuthenticationController{
     @PostMapping(path = "/login")
     public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody LoginRequest request){
         return new ResponseEntity<>(authenticationService.login(request), HttpStatus.CREATED);
+    }
+
+    @PostMapping(path = "/forgotpassword")
+    public ResponseEntity<ForgotPasswordResponse> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) throws MessagingException {
+        return new ResponseEntity<>(authenticationService.forgotPassword(request), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/changepassword")
+    public ResponseEntity<ForgotPasswordResponse> forgotPassword(@Valid @RequestBody ChangePasswordRequest request) throws MessagingException {
+        return new ResponseEntity<>(authenticationService.changePassword(request), HttpStatus.OK);
     }
 }
