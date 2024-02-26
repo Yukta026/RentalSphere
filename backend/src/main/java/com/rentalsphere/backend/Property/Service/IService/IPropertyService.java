@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public interface IPropertyService {
 
-    public Property savePropertyApplication(PropertyRegisterRequest property);
+    public PropertyRegisterResponse savePropertyApplication(PropertyRegisterRequest property)throws IOException, ParseException;
 
     public List<Property> getAllPropertyApplications();
 

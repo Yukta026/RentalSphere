@@ -3,6 +3,7 @@ package com.rentalsphere.backend.Property.Controller;
 import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.Property.Service.PropertyService;
 import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterRequest;
+import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterResponse;
 import com.rentalsphere.backend.Tenant.Model.Tenant;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
