@@ -2,6 +2,7 @@ package com.rentalsphere.backend.Property.Controller;
 
 import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.Property.Service.PropertyService;
+import com.rentalsphere.backend.RequestResponse.Property.AllPropertiesResponse;
 import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterRequest;
 import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterResponse;
 import com.rentalsphere.backend.Tenant.Model.Tenant;
@@ -42,5 +43,10 @@ public class PropertyController {
     public ResponseEntity<List<Property>> getAllPropertyApplications() {
         List<Property> properties = propertyService.getAllPropertyApplications();
         return new ResponseEntity<>(properties, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<AllPropertiesResponse> getAllProperties(){
+        return new ResponseEntity<>(propertyService.getAllProperties(), HttpStatus.OK);
     }
 }

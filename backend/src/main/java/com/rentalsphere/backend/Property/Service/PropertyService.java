@@ -1,12 +1,15 @@
 package com.rentalsphere.backend.Property.Service;
 
+import com.rentalsphere.backend.DTOs.PropertyDTO;
 import com.rentalsphere.backend.Enums.ApplicationStatus;
 import com.rentalsphere.backend.Exception.User.UserNotFoundException;
+import com.rentalsphere.backend.Mappers.PropertyMapper;
 import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.Property.Repository.PropertyRepository;
 import com.rentalsphere.backend.Property.Service.IService.IPropertyService;
 import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterRequest;
 import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterResponse;
+import com.rentalsphere.backend.RequestResponse.Property.AllPropertiesResponse;
 import com.rentalsphere.backend.Services.Cloudinary.CloudinaryService;
 import com.rentalsphere.backend.User.Model.User;
 import com.rentalsphere.backend.User.Repository.UserRepository;
@@ -111,5 +114,20 @@ public class PropertyService implements IPropertyService {
     @Override
     public Optional<Property> getPropertyApplicationById(Long id) {
         return propertyRepository.findById(id);
+    }
+
+    @Override
+    public AllPropertiesResponse getAllProperties() {
+        List<Property> properties = propertyRepository.findAllByApplicationStatus(ApplicationStatus.APPROVED);
+        List<PropertyDTO> propertyDTOList = new ArrayList<>();
+
+        for(Property property: properties){
+            propertyDTOList.add(PropertyMapper.convertToProperty(property));
+        }
+        return AllPropertiesResponse.builder()
+                .isSuccess(true)
+                .properties(propertyDTOList)
+                .timeStamp(new Date())
+                .build();
     }
 }
