@@ -1,5 +1,7 @@
 package com.rentalsphere.backend.User.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.Role.Model.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -38,6 +40,9 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles;
+    @JsonIgnore
+    @OneToMany(mappedBy = "propertyManager")
+    private List<Property> properties;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -76,5 +81,10 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toString(){
+        return "";
     }
 }

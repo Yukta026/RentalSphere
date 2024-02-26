@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
+import java.util.List;
+
 @Configuration
 public class LoadUser {
     @Bean
@@ -30,11 +32,12 @@ public class LoadUser {
             admin.setLastName("admin");
             admin.setEmail("admin@gmail.com");
             admin.setPassword(passwordEncoder.encode("Admin@12345"));
-            admin.setRoles(Arrays.asList(adminRole));
+            admin.setRoles(List.of(adminRole));
 
-            if(!userRepository.findByEmail(admin.getEmail()).isPresent()){
-                userRepository.save(admin);
+            if(userRepository.findByEmail(admin.getEmail()).isPresent()){
+                return;
             }
+            userRepository.save(admin);
         };
     }
 }

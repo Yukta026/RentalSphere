@@ -2,8 +2,11 @@ package com.rentalsphere.backend.Property.Service.IService;
 
 import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterRequest;
+import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterResponse;
 import jakarta.validation.Valid;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 
