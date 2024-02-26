@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import LoadingSpinner from "../assets/LoadingSpinner.jsx";
 import { httpPost } from "../Utils/HttpRequest.jsx"; // Import the httpRequest module
+import useAuth from "../hooks/useAuth.jsx";
 const FORGOT_PASSW_URL = import.meta.env.VITE_FORGOT_PASSW_URL;
 
 const ForgotPassword = () => {
@@ -10,6 +11,7 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
+  const { auth, setAuth } = useAuth();
 
   const validateEmail = (email) => {
     const emailRegex = /^\S+@\S+\.\S+$/;
@@ -55,12 +57,15 @@ const ForgotPassword = () => {
     try {
       const response = await httpPost(
         FORGOT_PASSW_URL,
-        { email },
+        { email: email },
         { headers: { "Content-Type": "application/json" } }
       );
       setIsLoading(false);
       if (response.success) {
         setSuccessMsg("Password reset instructions sent to your email.");
+        setAuth({
+          email: email,
+        });
       } else {
         setErrMsg(response.message);
       }

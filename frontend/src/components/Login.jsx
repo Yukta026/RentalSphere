@@ -169,10 +169,10 @@ export default function Login() {
       if (!response.success) {
         setErrMsg("Invalid username or password");
       } else {
-        console.log(response.data);
+        console.log(response);
         setAuth({
-          email: response.data.email,
-          token: response.data.token,
+          email: response.email,
+          token: response.token,
         });
         if (from && from !== "/") {
           navigate(from, {
@@ -184,12 +184,12 @@ export default function Login() {
       }
     } catch (error) {
       setIsLoading(false);
-      console.log(err);
-      if (!err?.response) {
+      console.log(error);
+      if (!error?.response) {
         setErrMsg("No Server Response");
-      } else if (err.response?.status === 409) {
+      } else if (error.response?.status === 409) {
         setErrMsg("Missing Username or Password");
-      } else if (err.response?.status === 401) {
+      } else if (error.response?.status === 401) {
         setErrMsg("Unauthorized");
       } else {
         setErrMsg("Login Failed");
