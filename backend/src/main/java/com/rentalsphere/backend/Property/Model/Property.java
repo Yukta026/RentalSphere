@@ -52,9 +52,9 @@ public class Property {
 //    @Column(name = "PropertyType", nullable = false)
 //    private String propertyType;
 //
-//    @NotBlank(message = "Property address cannot be blank.")
-//    @Column(name = "PropertyAddress", nullable = false)
-//    private String propertyAddress;
+    @NotBlank(message = "Property address cannot be blank.")
+    @Column(name = "PropertyAddress", nullable = false)
+    private String propertyAddress;
 //
     @NotBlank(message = "City cannot be blank.")
     @Column(name = "City", nullable = false)
@@ -120,9 +120,9 @@ public class Property {
     @Enumerated(EnumType.STRING)
     private ApplicationStatus applicationStatus;
 
-//    @NotNull(message = "Creation date cannot be null.")
-//    @Column(name = "CreationDate", nullable = false)
-//    private Date creationDate;
+    @NotNull(message = "Creation date cannot be null.")
+    @Column(name = "CreationDate", nullable = false)
+    private Date creationDate;
     @NotBlank(message = "License number cannot be blank.")
     @Column(name = "LicenseNumber", nullable = false)
     private String licenseNumber;

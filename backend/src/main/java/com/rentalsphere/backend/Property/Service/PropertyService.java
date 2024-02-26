@@ -82,8 +82,10 @@ public class PropertyService implements IPropertyService {
                 .numBedrooms(propertyrequest.getNumBedrooms())
                 .numBathrooms(propertyrequest.getNumBathrooms())
                 .phoneNumber(propertyrequest.getPhoneNumber())
+                .propertyAddress(propertyrequest.getPropertyAddress())
                 .zipCode(propertyrequest.getZipCode())
                 .licenseNumber(propertyrequest.getLicenseNumber())
+                .creationDate(new Date())
                 .applicationStatus(ApplicationStatus.PENDING)
                 .build();
         property = propertyRepository.save(property);
