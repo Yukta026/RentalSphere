@@ -1,6 +1,12 @@
 import { createContext, useState, useEffect } from "react";
 
-const AuthContext = createContext({});
+const AuthContext = createContext({
+  // user: null,
+  // setUser: () => {},
+  // token: null,
+  // setToken: () => { },
+  // logout: () => { }
+});
 
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({});
@@ -20,7 +26,21 @@ export const AuthProvider = ({ children }) => {
         token: window.localStorage.getItem("token"),
         // role: window.localStorage.getItem("role"),
       });
+    } else if (
+      window.localStorage.getItem("email") &&
+      window.localStorage.getItem("email") !== undefined
+    ) {
+      setAuth({
+        email: window.localStorage.getItem("email"),
+      });
     }
+    // else {
+    //   setAuth({
+    //     email: "yashwalia@dal.ca",
+    //     token:
+    //       "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5YXNod2FsaWFAZGFsLmNhIiwiaWF0IjoxNzA4NTMxODAwLCJleHAiOjE3MDg1MzMyNDB9.Cp-3LGGlxtUrwTPDnQcxkywT0nts6F0S67F-60Jhd6w",
+    //   });
+    // }
   }, []);
 
   useEffect(() => {
@@ -28,7 +48,13 @@ export const AuthProvider = ({ children }) => {
       window.localStorage.setItem("email", auth.email);
       window.localStorage.setItem("token", auth.token);
       // window.localStorage.setItem("role", auth.role);
+    } else if (auth && auth.email) {
+      window.localStorage.setItem("email", auth.email);
     }
+  }, [auth]);
+
+  useEffect(() => {
+    console.log("Auth change was made!!", auth);
   }, [auth]);
 
   return (

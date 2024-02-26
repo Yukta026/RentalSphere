@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { httpPost } from "../Utils/HttpRequest.jsx";
+import useAuth from "../hooks/useAuth.jsx";
+const CHANGE_PASSW_URL = import.meta.env.VITE_CHANGE_PASSW_URL;
 
 const PasswordReset = () => {
   const { token } = useParams();
@@ -8,31 +10,32 @@ const PasswordReset = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
+  const { auth, setAuth } = useAuth();
 
-  useEffect(() => {
-    const validateToken = async () => {
-      try {
-        const response = await httpPost(
-          "/validate-token",
-          { token },
-          { headers: { "Content-Type": "application/json" } }
-        );
-        if (!response.success) {
-          setErrMsg("Invalid or expired token");
-          setTimeout(() => {
-            // window.location.href = "/login"; // Redirect to login page after showing error message
-            navigate(`/login`, {
-              replace: true,
-            });
-          }, 3000);
-        }
-      } catch (error) {
-        setErrMsg("Failed to validate token");
-      }
-    };
+  // useEffect(() => {
+  //   const validateToken = async () => {
+  //     try {
+  //       const response = await httpPost(
+  //         "/",
+  //         { token },
+  //         { headers: { "Content-Type": "application/json" } }
+  //       );
+  //       if (!response.success) {
+  //         setErrMsg("Invalid or expired token");
+  //         setTimeout(() => {
+  //           // window.location.href = "/login"; // Redirect to login page after showing error message
+  //           navigate(`/login`, {
+  //             replace: true,
+  //           });
+  //         }, 3000);
+  //       }
+  //     } catch (error) {
+  //       setErrMsg("Failed to validate token");
+  //     }
+  //   };
 
-    validateToken();
-  }, [token]);
+  //   validateToken();
+  // }, [token]);
 
   const handlePasswordReset = async (e) => {
     e.preventDefault();
@@ -46,12 +49,18 @@ const PasswordReset = () => {
 
     try {
       const response = await httpPost(
-        "/reset-password",
-        { newPassword, token },
+        CHANGE_PASSW_URL,
+        {
+          email: auth.email,
+          token: token,
+          newPassword: newPassword,
+        },
         { headers: { "Content-Type": "application/json" } }
       );
       if (response.success) {
         setSuccessMsg("Password reset successful");
+        setAuth({});
+        navigate("/login", { replace: true });
       } else {
         setErrMsg(response.message);
       }
