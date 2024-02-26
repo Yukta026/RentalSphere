@@ -26,7 +26,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-@CrossOrigin(origins = "http://127.0.0.1:5173")
 @Service
 @RequiredArgsConstructor
 public class PropertyService implements IPropertyService {

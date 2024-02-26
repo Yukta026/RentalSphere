@@ -20,7 +20,7 @@ import java.util.Optional;
 import java.io.IOException;
 import java.text.ParseException;
 
-@CrossOrigin(origins = "http://127.0.0.1:5173")
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/v1/property")
