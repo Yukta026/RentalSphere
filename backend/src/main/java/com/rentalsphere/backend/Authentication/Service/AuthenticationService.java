@@ -127,7 +127,7 @@ public class AuthenticationService implements IAuthenticationService {
             throw new TokenNotFoundException("Invalid token");
         }
 
-        if(!token.getExpiryDate().before(new Date())){
+        if(!new Date().before(token.getExpiryDate())){
             resetPasswordTokenRepository.deleteByToken(token.getToken());
             throw new TokenNotFoundException("Token is expired");
         }

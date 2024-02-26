@@ -25,7 +25,7 @@ public class EmailService implements IEmailService {
     private final JavaMailSender mailSender;
     private final SpringTemplateEngine templateEngine;
 
-    private final static String URL = "http://127.0.0.1:5173/";
+    private final static String URL = "http://127.0.0.1:5173";
 
     /**
      * @param to      - receiver email
