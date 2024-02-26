@@ -23,6 +23,12 @@ import Contacts from  "./components/TenantDashboard/Contacts.jsx";
 import Community from "./components/TenantDashboard/Community.jsx";
 import NewPost from "./components/TenantDashboard/NewPost.jsx";
 import NewRequest from "./components/TenantDashboard/NewRequest.jsx";
+import Home from "./components/Home.jsx";
+import AddPropertyManager from "./components/AddPropertyManager.jsx";
+import AdminDashboard from "./components/AdminDashboard/AdminDashboard.jsx";
+import PropertyMangers from "./components/AdminDashboard/PropertyMangers.jsx";
+import RequestDetails from "./components/AdminDashboard/RequestDetails.jsx";
+
 
 const AppRoutes = () => {
   return (
@@ -30,6 +36,11 @@ const AppRoutes = () => {
       <Route exact path="/" element={<Landing />} />
       <Route exact path="/login" element={<Login />} />
       <Route exact path="/register" element={<Register />} />
+      <Route exact path="/home" element={<Home />} />
+      <Route exact path="/property-manager" element={<AddPropertyManager />} />
+      <Route exact path="/admin" element={<AdminDashboard />} />
+      <Route exact path="/listed-property-manager" element={<PropertyMangers />} />
+      <Route exact path="/admin/:id" element={<RequestDetails />} />
 
       <Route exact path="/forgotpassword" element={<ForgotPassword />} />
       <Route
