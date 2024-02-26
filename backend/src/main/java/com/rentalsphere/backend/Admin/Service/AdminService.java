@@ -76,7 +76,7 @@ public class AdminService implements IAdminService {
         property.setApplicationStatus(ApplicationStatus.REJECTED);
         propertyRepository.save(property);
         try {
-            emailService.sendEmailTemplate(EmailType.ADMIN_DECISION, user.get().getEmail(), "Request Accepted", user.get().getFirstName() + " " + user.get().getLastName(), "Congratulations, your request to become a Property manager has been approved by Admin.", null);
+            emailService.sendEmailTemplate(EmailType.ADMIN_DECISION, user.get().getEmail(), "Request Rejected", user.get().getFirstName() + " " + user.get().getLastName(), "Unfortunately, your request to become a Property manager has been rejected by Admin.", null);
         }catch (MessagingException e){
             e.printStackTrace();
         }
