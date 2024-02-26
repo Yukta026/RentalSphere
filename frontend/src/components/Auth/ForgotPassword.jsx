@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import LoadingSpinner from "../assets/LoadingSpinner.jsx";
-import { httpPost } from "../Utils/HttpRequest.jsx"; // Import the httpRequest module
-import useAuth from "../hooks/useAuth.jsx";
+import LoadingSpinner from "../../assets/LoadingSpinner.jsx";
+import { httpPost } from "../../Utils/HttpRequest.jsx"; // Import the httpRequest module
+import useAuth from "../../hooks/useAuth.jsx";
 const FORGOT_PASSW_URL = import.meta.env.VITE_FORGOT_PASSW_URL;
 
 const ForgotPassword = () => {

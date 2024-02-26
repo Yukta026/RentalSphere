@@ -7,13 +7,20 @@ import { FiHome, FiTool } from "react-icons/fi";
 import { TbSpeakerphone } from "react-icons/tb";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
 import { IoCheckboxOutline } from "react-icons/io5";
+import useAuth from "../../hooks/useAuth.jsx";
 
-function ManagerDashboard() {
+function PMDashboard() {
   const navigate = useNavigate();
   const location = useLocation();
+  // const from = location.state?.from?.pathname || "/";
+  const { auth, setAuth } = useAuth(); // Get the auth object and the setAuth function
 
   const handleNavigation = (componentName) => {
-    navigate(`/managerdashboard/${componentName}`);
+    if (auth.role !== "MANAGER-PENDING") {
+      navigate(`/managerdashboard/${componentName}`);
+    } else {
+      return;
+    }
   };
 
   useEffect(() => {
@@ -21,7 +28,16 @@ function ManagerDashboard() {
   }, [location]);
 
   useEffect(() => {
-    navigate(`/managerdashboard/overview`);
+    // if (from) {
+    //   navigate(`/managerdashboard/pending`);
+    // } else {
+    if (auth.role === "PROPERTY MANAGER") {
+      navigate(`/managerdashboard/overview`, {
+        replace: true,
+      });
+    }
+
+    // }
   }, []);
 
   const getIconComponent = (iconName) => {
@@ -85,4 +101,4 @@ function ManagerDashboard() {
   );
 }
 
-export default ManagerDashboard;
+export default PMDashboard;

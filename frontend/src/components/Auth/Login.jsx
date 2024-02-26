@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Axios from "axios";
-import useAuth from "../hooks/useAuth.jsx";
-import LoadingSpinner from "../assets/LoadingSpinner.jsx";
+import useAuth from "../../hooks/useAuth.jsx";
+import LoadingSpinner from "../../assets/LoadingSpinner.jsx";
 // const LOGIN_URL = "http://localhost:3001/login";
 // const IS_AUTH_URL = "http://localhost:3001/isUserAuth";
 // const LOGIN_URL = import.meta.env.VITE_LOGIN_URL;
 const LOGIN_URL = import.meta.env.VITE_LOGIN_URL;
-import { httpPost } from "../Utils/HttpRequest.jsx"; // Import the httpRequest module
+import { httpPost } from "../../Utils/HttpRequest.jsx"; // Import the httpRequest module
 
 export default function Login() {
   Axios.defaults.withCredentials = true;
@@ -33,25 +33,28 @@ export default function Login() {
 
   useEffect(() => {
     if (window.localStorage.getItem("token")) {
-      if (
-        window.localStorage.getItem("role") &&
-        window.localStorage.getItem("role") === "TENANT"
-      ) {
-        navigate(`/tenantdashboard`, {
-          replace: true,
-        });
-      } else if (
-        window.localStorage.getItem("role") &&
-        window.localStorage.getItem("role") === "MANAGER"
-      ) {
-        navigate(`/managerdashboard`, {
-          replace: true,
-        });
-      } else {
-        navigate(`/`, {
-          replace: true,
-        });
-      }
+      navigate(`/home`, {
+        replace: true,
+      });
+      // if (
+      //   window.localStorage.getItem("role") &&
+      //   window.localStorage.getItem("role") === "TENANT"
+      // ) {
+      //   navigate(`/tenantdashboard`, {
+      //     replace: true,
+      //   });
+      // } else if (
+      //   window.localStorage.getItem("role") &&
+      //   window.localStorage.getItem("role") === "MANAGER"
+      // ) {
+      //   navigate(`/managerdashboard`, {
+      //     replace: true,
+      //   });
+      // } else {
+      //   navigate(`/`, {
+      //     replace: true,
+      //   });
+      // }
     }
   }, [navigate]);
 

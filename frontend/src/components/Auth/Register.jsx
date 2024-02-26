@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Axios from "axios";
-import useAuth from "../hooks/useAuth.jsx";
-import LoadingSpinner from "../assets/LoadingSpinner.jsx";
+import useAuth from "../../hooks/useAuth.jsx";
+import LoadingSpinner from "../../assets/LoadingSpinner.jsx";
 const REGISTER_URL = import.meta.env.VITE_REGISTER_URL;
 
 export default function Register() {
@@ -36,25 +36,28 @@ export default function Register() {
 
   useEffect(() => {
     if (window.localStorage.getItem("token")) {
-      if (
-        window.localStorage.getItem("role") &&
-        window.localStorage.getItem("role") === "TENANT"
-      ) {
-        navigate(`/tenantdashboard`, {
-          replace: true,
-        });
-      } else if (
-        window.localStorage.getItem("role") &&
-        window.localStorage.getItem("role") === "PROPERTY MANAGER"
-      ) {
-        navigate(`/managerdashboard`, {
-          replace: true,
-        });
-      } else {
-        navigate(`/`, {
-          replace: true,
-        });
-      }
+      navigate(`/home`, {
+        replace: true,
+      });
+      // if (
+      //   window.localStorage.getItem("role") &&
+      //   window.localStorage.getItem("role") === "TENANT"
+      // ) {
+      //   navigate(`/tenantdashboard`, {
+      //     replace: true,
+      //   });
+      // } else if (
+      //   window.localStorage.getItem("role") &&
+      //   window.localStorage.getItem("role") === "PROPERTY MANAGER"
+      // ) {
+      //   navigate(`/managerdashboard`, {
+      //     replace: true,
+      //   });
+      // } else {
+      //   navigate(`/`, {
+      //     replace: true,
+      //   });
+      // }
     }
   }, [navigate]);
 

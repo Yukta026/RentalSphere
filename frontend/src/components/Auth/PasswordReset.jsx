@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { httpPost } from "../Utils/HttpRequest.jsx";
-import useAuth from "../hooks/useAuth.jsx";
+import { httpPost } from "../../Utils/HttpRequest.jsx";
+import useAuth from "../../hooks/useAuth.jsx";
 const CHANGE_PASSW_URL = import.meta.env.VITE_CHANGE_PASSW_URL;
 
 const PasswordReset = () => {
