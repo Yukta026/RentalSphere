@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
-import java.util.List;
+import java.util.UUID;
 
 
 @Builder
@@ -24,46 +24,22 @@ import java.util.List;
 public class Property {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "PropertyApplicationID")
-    private Long propertyApplicationID;
+    private UUID propertyApplicationID;
 
     @ManyToOne
-    @JoinColumn(name = "manager_id", referencedColumnName = "id") // This is the foreign key column in PropertyApplications table
-    private User propertyManager;
+    @JoinColumn(name = "userID") // This is the foreign key column in PropertyApplications table
+    private User user;
 
-//    @Column(name = "CompanyName")
-//    private String companyName;
-//
-    @NotBlank(message = "Email address cannot be blank.")
-    @Pattern(regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$", message = "Valid email required.")
-    @Column(name = "EmailAddress", nullable = false, unique = true)
-    private String emailAddress;
-//
-//    @NotBlank(message = "Country Code cannot be blank.")
-//    @Column(name = "CountryCode", nullable = false)
-//    private String countryCode;
-//
     @NotBlank(message = "Phone number cannot be blank.")
     @Column(name = "PhoneNumber", nullable = false)
     private String phoneNumber;
-//
-//    @NotBlank(message = "Property type cannot be blank.")
-//    @Column(name = "PropertyType", nullable = false)
-//    private String propertyType;
-//
+
     @NotBlank(message = "Property address cannot be blank.")
     @Column(name = "PropertyAddress", nullable = false)
     private String propertyAddress;
-//
-    @NotBlank(message = "City cannot be blank.")
-    @Column(name = "City", nullable = false)
-    private String city;
-//
-    @NotBlank(message = "State cannot be blank.")
-    @Column(name = "State", nullable = false)
-    private String state;
-//
+
     @NotBlank(message = "ZIP code cannot be blank.")
     @Column(name = "ZIPCode", nullable = false)
     private String zipCode;
@@ -72,27 +48,12 @@ public class Property {
     @DecimalMin(value = "0.00", inclusive = false, message = "Monthly rent must be greater than 0.")
     @Column(name = "MonthlyRent", nullable = false)
     private Double monthlyRent;
-//
-//    @Column(name = "LeaseTerms", nullable = false)
-//    private String leaseTerms;
-//
+
     @NotNull(message = "Available move-in date cannot be null.")
     @Column(name = "AvailableMoveInDate", nullable = false)
-    private Date availableMoveInDate;
-//
-    @NotNull(message = "Number of bedrooms cannot be null.")
-    @Min(value = 1, message = "Number of bedrooms must be at least 1.")
-    @Column(name = "NumBedrooms", nullable = false)
-    private Integer numBedrooms;
-//
-    @NotNull(message = "Number of bathrooms cannot be null.")
-    @Min(value = 1, message = "Number of bathrooms must be at least 1.")
-    @Column(name = "NumBathrooms", nullable = false)
-    private Integer numBathrooms;
-//
-//    @Column(name = "Amenities")
-//    private String amenities;
-//
+    private Date availableMoveInDate;;
+
+    @NotNull(message = "Property Description cannot be null.")
     @Column(name = "PropertyDescription", columnDefinition = "TEXT")
     private String propertyDescription;
 //
@@ -115,7 +76,7 @@ public class Property {
 //    @Column(name = "ConsentGiven", nullable = false)
 //    private Boolean consentGiven;
 
-//    @NotBlank(message = "Application status cannot be blank.")
+    @NotBlank(message = "Application status cannot be blank.")
     @Column(name = "ApplicationStatus", nullable = false)
     @Enumerated(EnumType.STRING)
     private ApplicationStatus applicationStatus;
