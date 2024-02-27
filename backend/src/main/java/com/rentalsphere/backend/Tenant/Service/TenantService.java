@@ -1,53 +1,65 @@
 package com.rentalsphere.backend.Tenant.Service;
 
+import com.rentalsphere.backend.Exception.User.UserNotFoundException;
 import com.rentalsphere.backend.Property.Repository.PropertyRepository;
 import com.rentalsphere.backend.RequestResponse.Tenant.TenantRegisterRequest;
 import com.rentalsphere.backend.Tenant.Model.Tenant;
 import com.rentalsphere.backend.Tenant.Repository.TenantRepository;
 import com.rentalsphere.backend.Tenant.Service.IService.ITenantService;
+import com.rentalsphere.backend.User.Model.User;
+import com.rentalsphere.backend.User.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@
 @Service
 public class TenantService implements ITenantService {
 
     @Autowired
     private TenantRepository tenantRepository;
 
+    @Autowired
+    private  UserRepository userRepository;
+
     @Override
     public Tenant saveTenantApplication(TenantRegisterRequest tenantRequest) {
 
+        Optional<User> user = userRepository.findByEmail(tenantRequest.getEmailAddress());
+
+        if(user.isEmpty()){
+            throw new UserNotFoundException("User does not exists.");
+        }
         // Assuming there is a mapper method to convert TenantRegisterRequest to Tenant entity
         Tenant tenant = Tenant.builder()
-                .emailAddress(tenantRequest.getEmailAddress())
-                .countryCode(tenantRequest.getCountryCode())
+//                .emailAddress(tenantRequest.getEmailAddress())
+//                .countryCode(tenantRequest.getCountryCode())
                 .phoneNumber(tenantRequest.getPhoneNumber())
                 .dateOfBirth(tenantRequest.getDateOfBirth())
                 .socialSecurityNumber(tenantRequest.getSocialSecurityNumber())
                 .streetAddress(tenantRequest.getStreetAddress())
-                .city(tenantRequest.getCity())
-                .state(tenantRequest.getState())
-                .zipCode(tenantRequest.getZipCode())
-                .propertyListingID(tenantRequest.getPropertyListingID())
+//                .city(tenantRequest.getCity())
+//                .state(tenantRequest.getState())
+//                .zipCode(tenantRequest.getZipCode())
+             //   .propertyListingID(tenantRequest.getPropertyListingID())
                 .desiredMoveInDate(tenantRequest.getDesiredMoveInDate())
                 .leaseTermMonths(tenantRequest.getLeaseTermMonths())
-                .monthlyBudget(tenantRequest.getMonthlyBudget())
+//                .monthlyBudget(tenantRequest.getMonthlyBudget())
                 .numOccupants(tenantRequest.getNumOccupants())
                 .currentEmployer(tenantRequest.getCurrentEmployer())
-                .positionTitle(tenantRequest.getPositionTitle())
-                .monthlyIncome(tenantRequest.getMonthlyIncome())
-                .supervisorName(tenantRequest.getSupervisorName())
-                .supervisorPhoneNumber(tenantRequest.getSupervisorPhoneNumber())
+//                .positionTitle(tenantRequest.getPositionTitle())
+//                .monthlyIncome(tenantRequest.getMonthlyIncome())
+//                .supervisorName(tenantRequest.getSupervisorName())
+//                .supervisorPhoneNumber(tenantRequest.getSupervisorPhoneNumber())
                 .lengthOfEmployment(tenantRequest.getLengthOfEmployment())
-                .emergencyContactFullName(tenantRequest.getEmergencyContactFullName())
-                .relationship(tenantRequest.getRelationship())
-                .emergencyContactPhoneNumber(tenantRequest.getEmergencyContactPhoneNumber())
-                .emailContact(tenantRequest.getEmailContact())
-                .phoneContact(tenantRequest.getPhoneContact())
-                .consentGiven(tenantRequest.getConsentGiven())
+//                .emergencyContactFullName(tenantRequest.getEmergencyContactFullName())
+//                .relationship(tenantRequest.getRelationship())
+//                .emergencyContactPhoneNumber(tenantRequest.getEmergencyContactPhoneNumber())
+//                .emailContact(tenantRequest.getEmailContact())
+//                .phoneContact(tenantRequest.getPhoneContact())
+//                .consentGiven(tenantRequest.getConsentGiven())
                 .applicationStatus(tenantRequest.getApplicationStatus())
                 .creationDate(tenantRequest.getCreationDate())
                 .build();;
