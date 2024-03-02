@@ -12,10 +12,10 @@ build-backend:
     - cd backend
     - ./mvnw clean package
   # artifacts:
-  #   paths: 
+  #   paths:
   #     - backend/target/backend-0.0.1-SNAPSHOT.jar
-    tags:
-      - rentalsphere
+  #   tags:
+  #     - rentalsphere
 
 build-frontend:
   stage: build
@@ -28,8 +28,8 @@ build-frontend:
   # artifacts:
   #   paths:
   #     - frontend/dist
-  tags:
-    - rentalsphere
+  # tags:
+  #   - rentalsphere
 
 # test:
 #   stage: test
@@ -83,9 +83,6 @@ build-frontend:
 #   only:
 #     - cicd-yash2
 
-
-
-
 publish:
   image: docker:latest
   stage: publish
@@ -114,11 +111,6 @@ publish:
 
   only:
     - cicd-yash2
-
-
-
-
-
 
 deploy-backend:
   image: alpine:latest
