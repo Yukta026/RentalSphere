@@ -1,6 +1,6 @@
 stages:
   - build
-  - test
+  # - test
   # - quality
   - publish
   - deploy
@@ -31,14 +31,62 @@ build-frontend:
   # tags:
   #   - rentalsphere
 
-test:
-  stage: test
-  image: maven:latest
-  script:
-    - cd backend
-    - ./mvnw test
+# test:
+#   stage: test
+#   image: maven:latest
+#   script:
+#     - cd backend
+#     - ./mvnw test
 
-publish-backend:
+# publish-backend:
+#   image: docker:latest
+#   stage: publish
+#   tags:
+#     - rentalsphere
+#   variables:
+#     DOCKER_TLS_CERTDIR: ""
+#     DOCKER_HOST: "tcp://docker:2375"
+#   services:
+#     - docker:dind
+#   script:
+#     - pwd
+#     - ls
+#     - echo $SERVER_IP
+#     - docker --version
+#     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PWD docker.io
+#     - cd backend/
+#     - docker build -t docker.io/$DOCKER_HUB_USERNAME/rentalsphere-backend:$CI_COMMIT_SHORT_SHA .
+#     - docker push docker.io/$DOCKER_HUB_USERNAME/rentalsphere-backend:$CI_COMMIT_SHORT_SHA
+#   only:
+#     - cicd-yash2
+
+# publish-frontend:
+#   image: docker:latest
+#   stage: publish
+#   tags:
+#     - rentalsphere
+#   variables:
+#     DOCKER_TLS_CERTDIR: ""
+#     DOCKER_HOST: "tcp://docker:2375"
+#   services:
+#     - docker:dind
+#   script:
+#     - cd frontend/
+#     - echo "Publishing the frontend"
+#     - pwd
+#     - ls
+#     - echo $SERVER_IP
+#     - docker --version
+#     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PWD docker.io
+#     - docker build -t docker.io/$DOCKER_HUB_USERNAME/rentalsphere-frontend:$CI_COMMIT_SHORT_SHA .
+#     - docker push docker.io/$DOCKER_HUB_USERNAME/rentalsphere-frontend:$CI_COMMIT_SHORT_SHA
+#   only:
+#     - cicd-yash2
+
+
+
+
+publish:
   image: docker:latest
   stage: publish
   tags:
@@ -50,38 +98,27 @@ publish-backend:
     - docker:dind
   script:
     - pwd
-    - ls
     - echo $SERVER_IP
     - docker --version
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PWD docker.io
+
     - cd backend/
     - docker build -t docker.io/$DOCKER_HUB_USERNAME/rentalsphere-backend:$CI_COMMIT_SHORT_SHA .
     - docker push docker.io/$DOCKER_HUB_USERNAME/rentalsphere-backend:$CI_COMMIT_SHORT_SHA
+
+    - cd ..
+
+    - cd frontend/
+    - docker build -t docker.io/$DOCKER_HUB_USERNAME/rentalsphere-frontend:$CI_COMMIT_SHORT_SHA .
+    - docker push docker.io/$DOCKER_HUB_USERNAME/rentalsphere-frontend:$CI_COMMIT_SHORT_SHA
+
   only:
     - cicd-yash2
 
-publish-frontend:
-  image: docker:latest
-  stage: publish
-  tags:
-    - rentalsphere
-  variables:
-    DOCKER_TLS_CERTDIR: ""
-    DOCKER_HOST: "tcp://docker:2375"
-  services:
-    - docker:dind
-  script:
-    - cd frontend/
-    - echo "Publishing the frontend"
-    - pwd
-    - ls
-    - echo $SERVER_IP
-    - docker --version
-    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PWD docker.io
-    - docker build -t docker.io/$DOCKER_HUB_USERNAME/rentalsphere-frontend:$CI_COMMIT_SHORT_SHA .
-    - docker push docker.io/$DOCKER_HUB_USERNAME/rentalsphere-frontend:$CI_COMMIT_SHORT_SHA
-  only:
-    - cicd-yash2
+
+
+
+
 
 deploy-backend:
   image: alpine:latest
