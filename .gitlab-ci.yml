@@ -55,7 +55,7 @@ publish-backend:
     - echo $SERVER_IP
     - docker --version
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PWD docker.io
-    - docker build -t docker.io/$DOCKER_HUB_USERNAME/rentalsphere-backend:$CI_COMMIT_SHORT_SHA .
+    - docker build -t docker.io/$DOCKER_HUB_USERNAME/rentalsphere-backend:$CI_COMMIT_SHORT_SHA -f Dockerfile .
     - docker push docker.io/$DOCKER_HUB_USERNAME/rentalsphere-backend:$CI_COMMIT_SHORT_SHA
   only:
     - cicd-yash2
@@ -102,7 +102,7 @@ deploy-backend:
   environment:
     # name: production
     name: test
-    url: http://172.17.0.236:8080
+    url: http://172.17.3.125:8080
   only:
     - cicd-yash2
 
@@ -123,7 +123,7 @@ deploy-frontend:
   environment:
     # name: production
     name: test
-    url: http://172.17.0.236:5173
+    url: http://172.17.3.125:5173
 
   only:
     - cicd-yash2
