@@ -3,10 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import Axios from "axios";
 import useAuth from "../../hooks/useAuth.jsx";
 import LoadingSpinner from "../../assets/LoadingSpinner.jsx";
-// const LOGIN_URL = "http://localhost:3001/login";
-// const IS_AUTH_URL = "http://localhost:3001/isUserAuth";
-// const LOGIN_URL = import.meta.env.VITE_LOGIN_URL;
-const LOGIN_URL = import.meta.env.VITE_LOGIN_URL;
+const LOGIN_URL = import.meta.env.VITE_BACKEND_URL + "/auth/login";
 import { httpPost } from "../../Utils/HttpRequest.jsx"; // Import the httpRequest module
 
 export default function Login() {
