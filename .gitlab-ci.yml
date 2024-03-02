@@ -11,11 +11,11 @@ build-backend:
   script:
     - cd backend
     - ./mvnw clean package
-  artifacts:
-    paths: 
-      - backend/target/backend-0.0.1-SNAPSHOT.jar
-    tags:
-      - rentalsphere
+  # artifacts:
+  #   paths: 
+  #     - backend/target/backend-0.0.1-SNAPSHOT.jar
+  #   tags:
+  #     - rentalsphere
 
 build-frontend:
   stage: build
@@ -25,11 +25,11 @@ build-frontend:
     - echo "Building the pipeline"
     - npm install
     - npm run build
-  artifacts:
-    paths:
-      - frontend/dist
-  tags:
-    - rentalsphere
+  # artifacts:
+  #   paths:
+  #     - frontend/dist
+  # tags:
+  #   - rentalsphere
 
 test:
   stage: test
