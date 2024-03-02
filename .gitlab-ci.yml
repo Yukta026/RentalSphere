@@ -14,8 +14,8 @@ build-backend:
   # artifacts:
   #   paths: 
   #     - backend/target/backend-0.0.1-SNAPSHOT.jar
-  #   tags:
-  #     - rentalsphere
+    tags:
+      - rentalsphere
 
 build-frontend:
   stage: build
@@ -28,8 +28,8 @@ build-frontend:
   # artifacts:
   #   paths:
   #     - frontend/dist
-  # tags:
-  #   - rentalsphere
+  tags:
+    - rentalsphere
 
 # test:
 #   stage: test
