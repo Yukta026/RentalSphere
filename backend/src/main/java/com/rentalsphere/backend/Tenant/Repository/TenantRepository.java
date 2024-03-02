@@ -10,5 +10,5 @@ import java.util.List;
 public interface TenantRepository extends JpaRepository<Tenant, Long> {
 
     // Custom query method to find tenants by propertyListingID
-    List<Tenant> findByPropertyListingID(String propertyListingID);
+    // List<Tenant> findByPropertyListingID(String propertyListingID);
 }
