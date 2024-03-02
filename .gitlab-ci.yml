@@ -1,0 +1,129 @@
+stages:
+  - build
+  - test
+  # - quality
+  - publish
+  - deploy
+
+build-backend:
+  stage: build
+  image: maven:latest
+  script:
+    - cd backend
+    - ./mvnw clean package
+  artifacts:
+    paths: 
+      - backend/target/backend-0.0.1-SNAPSHOT.jar
+    tags:
+      - rentalsphere
+
+build-frontend:
+  stage: build
+  image: node:latest
+  script:
+    - cd frontend
+    - echo "Building the pipeline"
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - frontend/dist
+  tags:
+    - rentalsphere
+
+test:
+  stage: test
+  image: maven:latest
+  script:
+    - cd backend
+    - ./mvnw test
+
+publish-backend:
+  image: docker:latest
+  stage: publish
+  tags:
+    - rentalsphere
+  variables:
+    DOCKER_TLS_CERTDIR: ""
+    DOCKER_HOST: "tcp://docker:2375"
+  services:
+    - docker:dind
+  script:
+    - cd backend/
+    - pwd
+    - ls
+    - echo $SERVER_IP
+    - docker --version
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PWD docker.io
+    - docker build -t docker.io/$DOCKER_HUB_USERNAME/rentalsphere-backend:$CI_COMMIT_SHORT_SHA .
+    - docker push docker.io/$DOCKER_HUB_USERNAME/rentalsphere-backend:$CI_COMMIT_SHORT_SHA
+  only:
+    - cicd-yash2
+
+
+publish-frontend:
+  image: docker:latest
+  stage: publish
+  tags:
+    - rentalsphere
+  variables:
+    DOCKER_TLS_CERTDIR: ""
+    DOCKER_HOST: "tcp://docker:2375"
+  services:
+    - docker:dind
+  script:
+    - cd frontend/
+    - echo "Publishing the frontend"
+    - pwd
+    - ls
+    - echo $SERVER_IP
+    - docker --version
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PWD docker.io
+    - docker build -t docker.io/$DOCKER_HUB_USERNAME/rentalsphere-frontend:$CI_COMMIT_SHORT_SHA .
+    - docker push docker.io/$DOCKER_HUB_USERNAME/rentalsphere-frontend:$CI_COMMIT_SHORT_SHA
+  only:
+    - cicd-yash2
+
+deploy-backend:
+  image: alpine:latest
+  stage: deploy
+  tags:
+    - rentalsphere
+  script:
+    - echo "Deploying Backend..."
+    - apk update && apk add openssh-client sshpass
+    - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PWD docker.io"
+    - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker pull docker.io/$DOCKER_HUB_USERNAME/rentalsphere-backend:$CI_COMMIT_SHORT_SHA"
+    - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker container rm -f rentalsphere-backend || true"
+    - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker run -d -p 8080:8080 --name rentalsphere-backend docker.io/$DOCKER_HUB_USERNAME/rentalsphere-backend:$CI_COMMIT_SHORT_SHA"
+    - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker images -a"
+    - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker container ls -a"
+
+  environment:
+    # name: production
+    name: test
+    url: http://172.17.0.236:8080
+  only:
+    - cicd-yash2
+
+deploy-frontend:
+  image: alpine:latest
+  stage: deploy
+  tags:
+    - rentalsphere
+  script:
+    - echo "Deploying Frontend..."
+    - apk update && apk add openssh-client sshpass
+    - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PWD docker.io"
+    - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker pull docker.io/$DOCKER_HUB_USERNAME/rentalsphere-frontend:$CI_COMMIT_SHORT_SHA"
+    - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker container rm -f rentalsphere-frontend || true"
+    - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker run -d -p 5173:5173 --name rentalsphere-frontend docker.io/$DOCKER_HUB_USERNAME/rentalsphere-frontend:$CI_COMMIT_SHORT_SHA"
+    - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker images -a"
+    - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker container ls -a"
+  environment:
+    # name: production
+    name: test
+    url: http://172.17.0.236:5173
+
+  only:
+    - cicd-yash2
