@@ -96,8 +96,8 @@ build-frontend:
 publish:
   image: docker:latest
   stage: publish
-  # tags:
-  #   - rentalsphere
+  tags:
+    - rentalsphere
   variables:
     DOCKER_TLS_CERTDIR: ""
     DOCKER_HOST: "tcp://docker:2375"
@@ -124,8 +124,8 @@ publish:
 deploy-backend:
   image: alpine:latest
   stage: deploy
-  # tags:
-  #   - rentalsphere
+  tags:
+    - rentalsphere
   script:
     - cd backend/
     - echo "Deploying Backend..."
@@ -148,8 +148,8 @@ deploy-backend:
 deploy-frontend:
   image: alpine:latest
   stage: deploy
-  # tags:
-  #   - rentalsphere
+  tags:
+    - rentalsphere
   script:
     - cd frontend/
     - echo "Deploying Frontend..."
