@@ -49,17 +49,16 @@ publish-backend:
   services:
     - docker:dind
   script:
-    - cd backend/
     - pwd
     - ls
     - echo $SERVER_IP
     - docker --version
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PWD docker.io
-    - docker build -t docker.io/$DOCKER_HUB_USERNAME/rentalsphere-backend:$CI_COMMIT_SHORT_SHA -f Dockerfile .
+    - cd backend/
+    - docker build -t docker.io/$DOCKER_HUB_USERNAME/rentalsphere-backend:$CI_COMMIT_SHORT_SHA .
     - docker push docker.io/$DOCKER_HUB_USERNAME/rentalsphere-backend:$CI_COMMIT_SHORT_SHA
   only:
     - cicd-yash2
-
 
 publish-frontend:
   image: docker:latest
