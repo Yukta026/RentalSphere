@@ -3,6 +3,7 @@ package com.rentalsphere.backend.User.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.Role.Model.Role;
+import com.rentalsphere.backend.Tenant.Model.Tenant;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -43,6 +44,8 @@ public class User implements UserDetails {
     @JsonIgnore
     @OneToMany(mappedBy = "propertyManager")
     private List<Property> properties;
+    @OneToMany(mappedBy = "user")
+    private List<Tenant> tenats;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -25,7 +25,7 @@ public class Tenant {
     private UUID tenantID;
 
     @ManyToOne
-    @JoinColumn(name = "userID") // This is the foreign key column in TenantApplications table
+    @JoinColumn(name = "userID", referencedColumnName = "id")
     private User user;
 
     @NotBlank(message = "PhoneNumber cannot be blank.")
@@ -47,11 +47,6 @@ public class Tenant {
     @NotBlank(message = "Address cannot be blank.")
     @Column(name = "Address", nullable = false)
     private String streetAddress;
-
-//    @NotBlank(message = "PropertyListingID cannot be blank.")
-//    @Column(name = "PropertyApplicationID", nullable = false)
-//    private Property PropertyApplicationID;
-
 
     @NotNull(message = "DesiredMoveInDate cannot be blank.")
     @Column(name = "DesiredMoveInDate", nullable = false)
@@ -83,6 +78,4 @@ public class Tenant {
     @NotNull(message = "CreationDate cannot be blank.")
     @Column(name = "CreationDate", nullable = false)
     private Date creationDate;
-
-    // getters and setters
 }

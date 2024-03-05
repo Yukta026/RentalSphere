@@ -4,10 +4,8 @@ import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.Property.Service.PropertyService;
 import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterRequest;
 import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterResponse;
-import com.rentalsphere.backend.Tenant.Model.Tenant;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +17,7 @@ import java.util.Optional;
 import java.io.IOException;
 import java.text.ParseException;
 
-@CrossOrigin(origins = "http://127.0.0.1:5173")
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/v1/property")
@@ -38,7 +36,7 @@ public class PropertyController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping("/all")
+    @GetMapping("/")
     public ResponseEntity<List<Property>> getAllPropertyApplications() {
         List<Property> properties = propertyService.getAllPropertyApplications();
         return new ResponseEntity<>(properties, HttpStatus.OK);

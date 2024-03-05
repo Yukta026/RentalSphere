@@ -32,12 +32,20 @@ public class LoadUser {
             admin.setLastName("admin");
             admin.setEmail("admin@gmail.com");
             admin.setPassword(passwordEncoder.encode("Admin@12345"));
-            admin.setRoles(List.of(adminRole));
+            admin.setRoles(Arrays.asList(adminRole));
 
-            if(userRepository.findByEmail(admin.getEmail()).isPresent()){
+            User propertyManager = new User();
+            propertyManager.setFirstName("Property");
+            propertyManager.setLastName("Manager");
+            propertyManager.setEmail("pm@gmail.com");
+            propertyManager.setPassword(passwordEncoder.encode("PM@12345"));
+            propertyManager.setRoles(Arrays.asList(userRole, propertyManagerRole));
+
+            if(userRepository.findByEmail(admin.getEmail()).isPresent() && userRepository.findByEmail(propertyManager.getEmail()).isPresent()){
                 return;
             }
             userRepository.save(admin);
+            userRepository.save(propertyManager);
         };
     }
 }
