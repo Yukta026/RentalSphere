@@ -49,10 +49,13 @@ public class AdminService implements IAdminService {
         user.get().getRoles().add(roleRepository.findByName(Roles.PROPERTY_MANAGER));
         userRepository.save(user.get());
         Property property = propertyRepository.findByPropertyManagerAndApplicationStatus(user.get(), ApplicationStatus.PENDING);
+        if(property == null){
+            throw new UserNotFoundException("User does not exists");
+        }
         property.setApplicationStatus(ApplicationStatus.APPROVED);
         propertyRepository.save(property);
         try {
-            emailService.sendEmailTemplate(EmailType.ADMIN_DECISION, user.get().getEmail(), "Request Accepted", user.get().getFirstName() + " " + user.get().getLastName(), "Congratulations, your request to become a Property manager has been approved by Admin.", null);
+            emailService.sendEmailTemplate(EmailType.ADMIN_DECISION, user.get().getEmail(), "Request Accepted", user.get().getFirstName() + " " + user.get().getLastName(), "Congratulations, your request to become property manager has been accepted by Admin.", null);
         }catch (MessagingException e){
             e.printStackTrace();
         }
@@ -73,6 +76,9 @@ public class AdminService implements IAdminService {
         }
 
         Property property = propertyRepository.findByPropertyManagerAndApplicationStatus(user.get(), ApplicationStatus.PENDING);
+        if(property == null){
+            throw new UserNotFoundException("User does not exists");
+        }
         property.setApplicationStatus(ApplicationStatus.REJECTED);
         propertyRepository.save(property);
         try {

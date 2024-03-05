@@ -38,39 +38,10 @@ public class PropertyService implements IPropertyService {
     public PropertyRegisterResponse savePropertyApplication(PropertyRegisterRequest propertyrequest) throws IOException, ParseException{
         Optional<User> user = userRepository.findByEmail(propertyrequest.getEmail());
 
-        if(user.isEmpty()){
+        if(!user.isPresent()){
             throw new UserNotFoundException("User does not exists.");
         }
 
-//        Property property = Property.builder()
-//                .companyName(propertyrequest.getCompanyName())
-//                .emailAddress(propertyrequest.getEmailAddress())
-//                .propertyManager(user.get())
-//                .countryCode(propertyrequest.getCountryCode())
-//                .phoneNumber(propertyrequest.getPhoneNumber())
-//                .propertyType(propertyrequest.getPropertyType())
-//                .propertyAddress(propertyrequest.getPropertyAddress())
-//                .city(propertyrequest.getCity())
-//                .state(propertyrequest.getState())
-//                .zipCode(propertyrequest.getZipCode())
-//                .monthlyRent(propertyrequest.getMonthlyRent())
-//                .leaseTerms(propertyrequest.getLeaseTerms())
-//                .availableMoveInDate(propertyrequest.getAvailableMoveInDate())
-//                .numBedrooms(propertyrequest.getNumBedrooms())
-//                .numBathrooms(propertyrequest.getNumBathrooms())
-//                .amenities(propertyrequest.getAmenities())
-//                .propertyDescription(propertyrequest.getPropertyDescription())
-//                .specialRequirements(propertyrequest.getSpecialRequirements())
-//                .communicationConsent(propertyrequest.getCommunicationConsent())
-//                .emailContact(propertyrequest.getEmailContact())
-//                .phoneContact(propertyrequest.getPhoneContact())
-//                .consentGiven(propertyrequest.getConsentGiven())
-//                .applicationStatus(ApplicationStatus.PENDING)
-//                .creationDate(propertyrequest.getCreationDate())
-//                .build();
-
-
-//        Map uploadedImage = cloudinaryService.upload(propertyrequest.getImage());
         Property property = Property.builder()
                 .propertyManager(user.get())
                 .emailAddress(user.get().getEmail())
