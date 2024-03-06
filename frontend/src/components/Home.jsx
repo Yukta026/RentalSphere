@@ -15,6 +15,7 @@ const Home = () => {
   const [listings, setListings] = useState(sampleListingsData);
   const navigate = useNavigate();
 
+
   // useEffect(() => {
   //   // Fetch data from endpoints
   //   const fetchData = async () => {
@@ -31,13 +32,16 @@ const Home = () => {
   //   fetchData();
   // }, []); // Empty dependency array ensures the effect runs only once
 
+
   return (
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full m-6 p-10">
         {listings.map((listing, index) => (
           <div className="relative mx-auto w-full" key={index}>
             <Link
-              to="#"
+              to={`/home/${listing.id}`}
+              // target="_blank"
+              // to={{ pathname: `/home/${listing.id}`, state: { from: listing } }}
               className="relative inline-block duration-300 ease-in-out transition-transform transform hover:-translate-y-2 w-full"
             >
               <div className="shadow p-4 rounded-lg bg-white">

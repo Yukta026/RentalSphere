@@ -114,9 +114,11 @@ const AdminDashboard = () => {
                 </td>
               </tr>
             ))}
+
           </tbody>
         </table>
       </div>
+      
       <dialog id="my_modal_3" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <form method="dialog">
