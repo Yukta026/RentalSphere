@@ -143,3 +143,20 @@ export const sampleTenantReqs = [
     details: "Request details for Jane Smith",
   },
 ];
+
+export const sampleListingsData = [
+  {
+    numBedrooms: "3",
+    numBathrooms: "3",
+    title: "Statue of Liberty",
+    address: "New York, NY 10004, United States",
+    listingType: "Condominium",
+    furnishType: "Partly Furnished",
+    area: "1,386 sq. ft.",
+    rate: "$1.98/sq.ft",
+    owner: "John Doe",
+    price:"3,200",
+    imageURL:
+      "https://cdn.pixabay.com/photo/2017/09/09/18/25/living-room-2732939_1280.jpg",
+  },
+];

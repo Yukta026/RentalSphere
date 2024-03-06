@@ -3,10 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import Axios from "axios";
 import useAuth from "../../hooks/useAuth.jsx";
 import LoadingSpinner from "../../assets/LoadingSpinner.jsx";
-// const LOGIN_URL = "http://localhost:3001/login";
-// const IS_AUTH_URL = "http://localhost:3001/isUserAuth";
-// const LOGIN_URL = import.meta.env.VITE_LOGIN_URL;
-const LOGIN_URL = import.meta.env.VITE_LOGIN_URL;
+const LOGIN_URL = import.meta.env.VITE_BACKEND_URL + "/auth/login";
 import { httpPost } from "../../Utils/HttpRequest.jsx"; // Import the httpRequest module
 
 export default function Login() {
@@ -33,28 +30,25 @@ export default function Login() {
 
   useEffect(() => {
     if (window.localStorage.getItem("token")) {
-      navigate(`/home`, {
-        replace: true,
-      });
-      // if (
-      //   window.localStorage.getItem("role") &&
-      //   window.localStorage.getItem("role") === "TENANT"
-      // ) {
-      //   navigate(`/tenantdashboard`, {
-      //     replace: true,
-      //   });
-      // } else if (
-      //   window.localStorage.getItem("role") &&
-      //   window.localStorage.getItem("role") === "MANAGER"
-      // ) {
-      //   navigate(`/managerdashboard`, {
-      //     replace: true,
-      //   });
-      // } else {
-      //   navigate(`/`, {
-      //     replace: true,
-      //   });
-      // }
+      if (
+        window.localStorage.getItem("role") &&
+        window.localStorage.getItem("role") === "TENANT"
+      ) {
+        navigate(`/tenantdashboard`, {
+          replace: true,
+        });
+      } else if (
+        window.localStorage.getItem("role") &&
+        window.localStorage.getItem("role") === "ADMIN"
+      ) {
+        navigate(`/admin`, {
+          replace: true,
+        });
+      } else {
+        navigate(`/`, {
+          replace: true,
+        });
+      }
     }
   }, [navigate]);
 
@@ -176,6 +170,7 @@ export default function Login() {
         setAuth({
           email: response.email,
           token: response.token,
+          role: response.roles[1] ? response.roles[1] : response.roles[0],
         });
         if (from && from !== "/") {
           navigate(from, {

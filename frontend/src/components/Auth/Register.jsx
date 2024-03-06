@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import Axios from "axios";
 import useAuth from "../../hooks/useAuth.jsx";
 import LoadingSpinner from "../../assets/LoadingSpinner.jsx";
-const REGISTER_URL = import.meta.env.VITE_REGISTER_URL;
+const REGISTER_URL = import.meta.env.VITE_BACKEND_URL + "/auth/register";
 
 export default function Register() {
   Axios.defaults.withCredentials = true;
@@ -134,7 +134,7 @@ export default function Register() {
         setAuth({
           email: response.data.email,
           token: response.data.token,
-          // role: response.data.roles[1],
+          role: response.roles[1] ? response.roles[1] : response.roles[0],
         });
         setLoginStatus(true);
         if (from && from !== "/") {

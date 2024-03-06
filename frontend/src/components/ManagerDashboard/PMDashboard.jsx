@@ -27,17 +27,18 @@ function PMDashboard() {
     console.log(location);
   }, [location]);
 
-  useEffect(() => {
-    // if (from) {
-    //   navigate(`/managerdashboard/pending`);
-    // } else {
-    if (auth.role === "PROPERTY MANAGER") {
-      navigate(`/managerdashboard/overview`, {
-        replace: true,
-      });
-    }
+  // useEffect(() => {
+  //   if (auth.role === "PROPERTY_MANAGER") {
+  //     navigate(`/managerdashboard/overview`, {
+  //       replace: true,
+  //     });
+  //   }
+  // }, []);
 
-    // }
+  useEffect(() => {
+    navigate(`/managerdashboard/overview`, {
+      replace: true,
+    });
   }, []);
 
   const getIconComponent = (iconName) => {
