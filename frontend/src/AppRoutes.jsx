@@ -31,7 +31,7 @@ import TenantNewPost from "./components/TenantDashboard/TenantNewPost.jsx";
 import TenantNewRequest from "./components/TenantDashboard/TenantNewRequest.jsx";
 
 import AdminDashboard from "./components/AdminDashboard/AdminDashboard.jsx";
-import PropertyManagers from "./components/AdminDashboard/PropertyManagers.jsx";
+import ApprovedPMs from "./components/AdminDashboard/ApprovedPMs.jsx";
 import RequestDetails from "./components/AdminDashboard/RequestDetails.jsx";
 import PropertyDetails from "./components/PropertyDetails.jsx";
 
@@ -83,7 +83,7 @@ const AppRoutes = () => {
       {/*  */}
       {/* Admin Routes */}
       <Route exact path="/admin" element={<AdminDashboard />} />
-      <Route exact path="/approved-managers" element={<PropertyManagers />} />
+      <Route exact path="/approved-managers" element={<ApprovedPMs />} />
       <Route exact path="/admin/:id" element={<RequestDetails />} />
     </Routes>
   );
