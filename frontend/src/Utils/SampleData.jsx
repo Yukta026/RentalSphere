@@ -146,6 +146,7 @@ export const sampleTenantReqs = [
 
 export const sampleListingsData = [
   {
+    id:1,
     numBedrooms: "3",
     numBathrooms: "3",
     title: "Statue of Liberty",
@@ -159,4 +160,5 @@ export const sampleListingsData = [
     imageURL:
       "https://cdn.pixabay.com/photo/2017/09/09/18/25/living-room-2732939_1280.jpg",
   },
+  
 ];

@@ -33,12 +33,14 @@ import TenantNewRequest from "./components/TenantDashboard/TenantNewRequest.jsx"
 import AdminDashboard from "./components/AdminDashboard/AdminDashboard.jsx";
 import PropertyManagers from "./components/AdminDashboard/PropertyManagers.jsx";
 import RequestDetails from "./components/AdminDashboard/RequestDetails.jsx";
+import PropertyDetails from "./components/PropertyDetails.jsx";
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route exact path="/" element={<Landing />} />
       <Route exact path="/home" element={<Home />} />
+      <Route exact path="/home/:id" element={<PropertyDetails />} />
       <Route path="*" element={<ErrorPage />} />
       {/*  */}
       {/* Authentication Routes */}

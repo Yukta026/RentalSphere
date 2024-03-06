@@ -54,7 +54,7 @@ const Navbar = () => {
             <nav>
               <ul className="flex space-x-4">
                 <li
-                  className="hover:text-red-600 font-extrabold"
+                  className="hover:text-red-600 cursor-pointer font-extrabold"
                   onClick={() => {
                     navigate("/home");
                   }}
