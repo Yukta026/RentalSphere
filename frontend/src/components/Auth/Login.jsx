@@ -11,7 +11,7 @@ export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
-  const { setAuth } = useAuth();
+  const { auth, setAuth } = useAuth();
 
   const [isLoading, setIsLoading] = useState(false);
   const [userEmail, setUserEmail] = useState("");
@@ -28,29 +28,47 @@ export default function Login() {
     setPasswordError("");
   }, [userEmail, pwd]);
 
+  // useEffect(() => {
+  //   if (window.localStorage.getItem("token")) {
+  //     if (
+  //       window.localStorage.getItem("role") &&
+  //       window.localStorage.getItem("role") === "TENANT"
+  //     ) {
+  //       navigate(`/tenantdashboard`, {
+  //         replace: true,
+  //       });
+  //     } else if (
+  //       window.localStorage.getItem("role") &&
+  //       window.localStorage.getItem("role") === "ADMIN"
+  //     ) {
+  //       navigate(`/admin`, {
+  //         replace: true,
+  //       });
+  //     } else {
+  //       navigate(`/`, {
+  //         replace: true,
+  //       });
+  //     }
+  //   }
+  // }, [navigate]);
+
   useEffect(() => {
-    if (window.localStorage.getItem("token")) {
-      if (
-        window.localStorage.getItem("role") &&
-        window.localStorage.getItem("role") === "TENANT"
-      ) {
-        navigate(`/tenantdashboard`, {
-          replace: true,
-        });
-      } else if (
-        window.localStorage.getItem("role") &&
-        window.localStorage.getItem("role") === "ADMIN"
-      ) {
-        navigate(`/admin`, {
-          replace: true,
-        });
-      } else {
-        navigate(`/`, {
-          replace: true,
-        });
-      }
+    // if (from && from !== "/") {
+    //   navigate(from, {
+    //     replace: true,
+    //   });
+    // } else
+    if (auth && auth.role && auth.role === "ADMIN") {
+      navigate("/admin");
+    } else if (auth && auth.role && auth.role === "TENANT") {
+      navigate("/tenantdashboard", { replace: true });
+    } else if (auth && auth.role && auth.role === "PROPERTY_MANAGER") {
+      navigate("/managerdashboard", { replace: true });
+    } else if (auth && auth.role && auth.role === "USER") {
+      navigate("/home", { replace: true });
+    } else {
     }
-  }, [navigate]);
+  }, [auth]);
 
   const validateInputs = () => {
     let isValid = true;
@@ -80,73 +98,6 @@ export default function Login() {
     return isValid;
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   if (!validateInputs()) {
-  //     // console.log("Hitting this code");
-  //     return;
-  //   }
-  //   try {
-  //     setIsLoading(true);
-  //     const headers = {
-  //       "Content-Type": "application/json",
-  //     };
-  //     const response = await Axios.post(
-  //       LOGIN_URL,
-  //       {
-  //         email: userEmail,
-  //         password: pwd,
-  //       },
-  //       {
-  //         headers: headers,
-  //       }
-  //     );
-  //     // console.log(response?.data);
-  //     // console.log(JSON.stringify(response.data));
-  //     setIsLoading(false);
-
-  //     if (!response.data.success) {
-  //       // setLoginStatus(false);
-  //       setErrMsg("Invalid username or password");
-  //     } else {
-  //       console.log(response.data);
-  //       setAuth({
-  //         // id: response.data.id,
-  //         email: response.data.email,
-  //         token: response.data.token,
-  //         // role: response.data.roles[1],
-  //       });
-  //       // localStorage.setItem("token", response.data.token);
-  //       // setLoginStatus(true);
-  //       if (from && from !== "/") {
-  //         navigate(from, {
-  //           replace: true,
-  //         });
-  //       }
-  //       // else if (auth && auth.role && auth.role === "TENANT") {
-  //       //   navigate(`/tenantdashboard`, { replace: true });
-  //       // } else if (auth && auth.role && auth.role === "MANAGER") {
-  //       //   navigate(`/managerdashboard`, { replace: true });
-  //       // }
-  //       else {
-  //         navigate(`/`, { replace: true });
-  //       }
-  //     }
-  //   } catch (err) {
-  //     setIsLoading(false);
-  //     console.log(err);
-  //     if (!err?.response) {
-  //       setErrMsg("No Server Response");
-  //     } else if (err.response?.status === 409) {
-  //       setErrMsg("Missing Username or Password");
-  //     } else if (err.response?.status === 401) {
-  //       setErrMsg("Unauthorized");
-  //     } else {
-  //       setErrMsg("Login Failed");
-  //     }
-  //   }
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateInputs()) {
@@ -172,18 +123,12 @@ export default function Login() {
           token: response.token,
           role: response.roles[1] ? response.roles[1] : response.roles[0],
         });
-        if (from && from !== "/") {
-          navigate(from, {
-            replace: true,
-          });
-        } else {
-          navigate("/", { replace: true });
-        }
       }
     } catch (error) {
       setIsLoading(false);
       console.log(error);
       if (!error?.response) {
+        console.log(error);
         setErrMsg("No Server Response");
       } else if (error.response?.status === 409) {
         setErrMsg("Missing Username or Password");
@@ -241,21 +186,6 @@ export default function Login() {
                   Email address
                 </label>
                 <div className="mt-2">
-                  {/* <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    // autoComplete="email"
-                    required
-                    className={`block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${
-                      userEmailError ? "border-red-500" : ""
-                    }`}
-                    onChange={(e) => {
-                      setUserEmail(e.target.value);
-                    }}
-                    value={userEmail}
-                  /> */}
-
                   <input
                     id="email"
                     name="email"
@@ -291,21 +221,6 @@ export default function Login() {
                   <div className="text-sm"></div>
                 </div>
                 <div className="mt-2">
-                  {/* <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    autoComplete="current-password"
-                    required
-                    className={`block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${
-                      passwordError ? "border-red-500" : ""
-                    }`}
-                    onChange={(e) => {
-                      setPwd(e.target.value);
-                    }}
-                    value={pwd}
-                  /> */}
-
                   <input
                     id="password"
                     name="password"
@@ -361,12 +276,6 @@ export default function Login() {
                 Register
               </Link>
             </p>
-            {/* 
-            {loginStatus && (
-              <button onClick={userAuthenticated}>
-                Check if authenticated
-              </button>
-            )} */}
           </div>
         )}
       </div>
