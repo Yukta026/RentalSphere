@@ -20,15 +20,22 @@ const Navbar = () => {
   };
 
   const handlePMNavigate = () => {
-    if (auth.role === "PROPERTY MANAGER") {
+    if (auth.role === "PROPERTY_MANAGER") {
       navigate("/managerdashboard");
-    } else if (auth.role === "MANAGER-PENDING") {
-      navigate("/managerdashboard/pending");
     } else {
       navigate("/new-manager");
     }
   };
 
+  const handleTenantNavigate = () => {
+    if (auth.role === "TENANT") {
+      navigate(`/tenantdashboard`);
+    } else {
+      window.alert(
+        "You're not a tenant yet. Please apply to become one, thanks!"
+      );
+    }
+  };
   return (
     <header className="bg-black text-white py-4">
       <div className="container mx-auto">
@@ -77,9 +84,7 @@ const Navbar = () => {
 
                   <button
                     className="px-4 py-2 bg-gray-800 capitalize hover:bg-gray-600 text-white rounded-full font-semibold"
-                    onClick={() => {
-                      navigate(`/tenantdashboard`);
-                    }}
+                    onClick={handleTenantNavigate}
                   >
                     Tenant
                   </button>
