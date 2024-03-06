@@ -2,41 +2,54 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
   BedIcon,
-  CarIcon,
+  // CarIcon,
   BathIcon,
   CondoIcon,
   PartFurnishIcon,
   SqFtIcon,
   SqFtRateIcon,
 } from "../Utils/SVGObjs";
-import {sampleListingsData} from '../Utils/SampleData.jsx'
+import { sampleListingsData } from "../Utils/SampleData.jsx";
+import useAppContext from "../hooks/useAppContext.jsx";
+const LISTINGS_URL = import.meta.env.VITE_BACKEND_URL + "/property/";
 
 const Home = () => {
-  const [listings, setListings] = useState(sampleListingsData);
+  const [currListings, setCurrListings] = useState(sampleListingsData);
+  const { listings, setAllListings, isLoading, setIsLoading } = useAppContext();
   const navigate = useNavigate();
+  useEffect(() => {
+    const fetchListings = () => {
+      const fetchListings = async () => {
+        try {
+          const headers = {
+            "Content-Type": "application/json",
+          };
+          const response = await axios.get(LISTINGS_URL, { headers: headers });
+          if (response) {
+            console.log("All listings API Response: ", response.data);
+            setAllListings(response.data);
 
-
-  // useEffect(() => {
-  //   // Fetch data from endpoints
-  //   const fetchData = async () => {
-  //     try {
-  //       // Example: Fetch data from an API endpoint
-  //       const response = await fetch("https://api.example.com/listings");
-  //       const data = await response.json();
-  //       setListings(data);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []); // Empty dependency array ensures the effect runs only once
-
+            // setIsLoading(false);
+            // if (response.data.length === 0) {
+            //   setIsLoading(false);
+            // } else {
+            //   setData(response.data[0]);
+            // }
+          }
+        } catch (err) {
+          console.log(err.response);
+        }
+      };
+      // setIsLoading(true);
+      fetchListings();
+    };
+    fetchListings();
+  }, []);
 
   return (
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full m-6 p-10">
-        {listings.map((listing, index) => (
+        {currListings.map((listing, index) => (
           <div className="relative mx-auto w-full" key={index}>
             <Link
               to={`/home/${listing.id}`}
@@ -50,17 +63,14 @@ const Home = () => {
                     {/* <div className="absolute inset-0 bg-yellow-300 opacity-10"></div> ????? */}
                     {/* <div className="absolute inset-0" src="./src/assets/Img1.jpeg"></div> */}
 
-                    <img
-                      src={listing.imageURL}
-                      alt=""
-                      className=""
-                    />
+                    <img src={listing.imageURL} alt="" className="" />
                   </div>
 
                   <div className="absolute flex justify-center bottom-0 mb-3">
                     <div className="flex bg-white px-4 py-1 space-x-5 rounded-lg overflow-hidden shadow">
                       <p className="flex items-center font-medium text-gray-800">
-                        <BedIcon />{listing.numBedrooms}
+                        <BedIcon />
+                        {listing.numBedrooms}
                       </p>
                       {/* 
                     <p className="flex items-center font-medium text-gray-800">
@@ -68,7 +78,8 @@ const Home = () => {
                     </p> */}
 
                       <p className="flex items-center font-medium text-gray-800">
-                        <BathIcon />{listing.numBathrooms}
+                        <BathIcon />
+                        {listing.numBathrooms}
                       </p>
                     </div>
                   </div>
@@ -89,7 +100,6 @@ const Home = () => {
                     className="mt-2 text-sm text-gray-800 line-clamp-1"
                     title="New York, NY 10004, United States"
                   >
-                    
                     {listing.listingAddress}
                   </p>
                 </div>
@@ -120,7 +130,9 @@ const Home = () => {
                       <span className="absolute top-0 right-0 inline-block w-3 h-3 bg-primary-red rounded-full"></span>
                     </div>
 
-                    <p className="ml-2 text-gray-800 line-clamp-1">{listing.owner}</p>
+                    <p className="ml-2 text-gray-800 line-clamp-1">
+                      {listing.owner}
+                    </p>
                   </div>
 
                   <div className="flex justify-end">
