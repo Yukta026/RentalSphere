@@ -19,11 +19,9 @@ import com.rentalsphere.backend.Mappers.UserMapper;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.*;
 
-@CrossOrigin(origins = "http://127.0.0.1:5173")
 @Service
 @RequiredArgsConstructor
 public class AdminService implements IAdminService {
@@ -36,7 +34,7 @@ public class AdminService implements IAdminService {
     public PropertyManagerResponse acceptRequest(String email){
         Optional<User> user = userRepository.findByEmail(email);
 
-        if(user.isEmpty()){
+        if(!user.isPresent()){
             throw new UserNotFoundException("User does not exists.");
         }
 
@@ -105,7 +103,7 @@ public class AdminService implements IAdminService {
         List<User> users = userRepository.findAllById(ids);
         List<PropertyManagerDTO> propertyManagerDTOS = new ArrayList<>();
         for(User user: users){
-               propertyManagerDTOS.add(UserMapper.convertToPropertyManagerDTO(user, user.getProperties().getFirst()));
+               propertyManagerDTOS.add(UserMapper.convertToPropertyManagerDTO(user, user.getProperties().get(0)));
         }
 
         return PropertyManagerRequests.builder()
