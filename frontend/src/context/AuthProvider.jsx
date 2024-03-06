@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }) => {
   }, [auth]);
 
   useEffect(() => {
-    console.log("Auth change was made!!", auth);
+    console.log("Auth change was made!!", auth, auth.email, auth.role);
   }, [auth]);
 
   return (
