@@ -26,7 +26,13 @@ public class LoadUser {
             tenantRole.setName(Roles.TENANT);
             Role propertyManagerRole = new Role();
             propertyManagerRole.setName(Roles.PROPERTY_MANAGER);
+
+            if(roleRepository.findAll().size() != 0) {
+                return;
+            }
             roleRepository.saveAll(Arrays.asList(adminRole, userRole, tenantRole, propertyManagerRole));
+
+
             User admin = new User();
             admin.setFirstName("admin");
             admin.setLastName("admin");

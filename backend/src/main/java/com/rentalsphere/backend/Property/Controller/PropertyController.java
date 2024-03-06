@@ -2,6 +2,8 @@ package com.rentalsphere.backend.Property.Controller;
 
 import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.Property.Service.PropertyService;
+import com.rentalsphere.backend.RequestResponse.Property.GetAllPropertyResponse;
+import com.rentalsphere.backend.RequestResponse.Property.GetPropertyResponse;
 import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterRequest;
 import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterResponse;
 import jakarta.validation.Valid;
@@ -30,15 +32,12 @@ public class PropertyController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Property> getPropertyApplicationById(@PathVariable Long id) {
-        Optional<Property> property = propertyService.getPropertyApplicationById(id);
-        return property.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<GetPropertyResponse> getPropertyApplicationById(@PathVariable Long id) {
+        return new ResponseEntity<>(propertyService.getProperty(id), HttpStatus.OK);
     }
 
-    @GetMapping("/")
-    public ResponseEntity<List<Property>> getAllPropertyApplications() {
-        List<Property> properties = propertyService.getAllPropertyApplications();
-        return new ResponseEntity<>(properties, HttpStatus.OK);
+    @GetMapping
+    public ResponseEntity<GetAllPropertyResponse> getAllPropertyApplications() {
+        return new ResponseEntity<>(propertyService.getAllPropertyApplications(), HttpStatus.OK);
     }
 }
