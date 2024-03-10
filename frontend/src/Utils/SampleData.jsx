@@ -208,9 +208,9 @@ export const sampleListingsData = [
 export const sampleRequestData = [
   {
     id: "d5e3",
-    requestSubject: "Request 1",
-    requestType: "Water Issue",
-    requestMessage: "I'm having an issue with kicthen tap the hot water is comming."
+    requestSubject: "New Req",
+    requestType: "New Req type",
+    requestMessage: "New Req type Message New Req type Message"
   },
   {
     id: "caee",
@@ -224,4 +224,51 @@ export const sampleRequestData = [
     requestType: "Testst",
     requestMessage: "TeststTeststTeststTestst"
   }
-];
+]
+
+
+export const sampleDocumentData = [
+  {
+    id: "1",
+    documentName: "Document 1",
+    documentLink: "https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf",
+    createdDate: "22 Fab 2024"
+  },
+  {
+    id: "2",
+    documentName: "Document 2",
+    documentLink: "https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf",
+    createdDate: "22 Fab 2024"
+  },
+  {
+    id: "3",
+    documentName: "Document 3",
+    documentLink: "https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf",
+    createdDate: "22 Fab 2024"
+  },
+]
+
+
+export const samplePaymentData = [
+  {
+    id: "1",
+    invoiceNo:"dsf2313sdas",
+    note: "Maintenance",
+    amount: 45,
+    paymentDate: "24 March 2024"
+  },
+  {
+    id: "2",
+    invoiceNo:"dsf2313sdas",
+    note: "Maintenance",
+    amount: 45,
+    paymentDate: "24 March 2024"
+  },
+  {
+    id: "3",
+    invoiceNo:"dsf2313sdas",
+    note: "Maintenance",
+    amount: 45,
+    paymentDate: "24 March 2024"
+  },
+]

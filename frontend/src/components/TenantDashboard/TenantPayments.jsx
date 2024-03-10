@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { sampleListingsData } from "../../Utils/SampleData";
+import { sampleListingsData, samplePaymentData } from "../../Utils/SampleData";
 
 const TenantPayments = () => {
 
-  const [tenantPaymentData, setTenantPaymentData] = useState(sampleListingsData);
+  const [tenantPaymentData, setTenantPaymentData] = useState(samplePaymentData);
 
   return (
     <>
@@ -23,7 +23,7 @@ const TenantPayments = () => {
       </div>
 
       <div className="">
-        <div className="overflow-x-auto h-[400px]">
+        {/* <div className="overflow-x-auto h-[400px]">
           <table className="payment-table table table-xs table-pin-rows table-pin-cols">
             <thead className="text-[22px] capitalize py-2">
               <tr>
@@ -34,7 +34,7 @@ const TenantPayments = () => {
               </tr>
             </thead>
             <tbody >
-              {/* {
+              {
                 tenantPaymentData?.map((data) => (
                   <tr >
                     <td className="text-[20px] p-2">{data.id}</td>
@@ -43,7 +43,7 @@ const TenantPayments = () => {
                     <td className="text-[20px] p-2">{data.paymentFor}</td>
                   </tr>
                 ))
-              } */}
+              }
               <tr >
                 <td className="text-[20px] p-2">1</td>
                 <td className="text-[20px] p-2">24 march 2024</td>
@@ -70,7 +70,41 @@ const TenantPayments = () => {
               </tr>
             </tbody>
           </table>
-        </div>
+        </div> */}
+
+
+
+        <div className='hidden md:flex justify-between items-center mt-10'>
+
+          <table className='table-auto w-full h-full'>
+            <thead className='text-left text-gray-4 uppercase text-[14px] tracking-wider'>
+              <tr className='border-b-2 border-gray py-10'>
+                <th className='pb-5 px-3'>
+                  ID
+                </th>
+                <th className='pb-5 px-3'>Invoice ID</th>
+                <th className='pb-5 px-3'>Amount</th>
+                <th className='pb-5 px-3'>Date</th>
+                <th className='pb-5 px-3'>Note</th>
+              </tr>
+            </thead>
+            <tbody className='text-black font-gilroy-medium'>
+              {tenantPaymentData.map((data, index) => (
+                <tr key={index} className='border-b-2 border-gray py-10'>
+                  <td className='py-4 px-3'>
+                    {data.id}
+                  </td>
+                  
+                  <td className='py-4 px-3'>{data.invoiceNo}</td>
+                  <td className='py-4 px-3'>$ {data.amount}</td>
+                  <td className='py-4 px-3 '>{data.paymentDate}</td>
+                  <td className='py-4 px-3 '>{data.note}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          </div>
       </div>
     </>
   );

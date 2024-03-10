@@ -32,7 +32,7 @@ const TenantRequests = () => {
         <div>No Data Found</div>
       ) : (
         requestsData &&
-        requestsData.map((data) => (
+        requestsData.map((data, index) => (
           <>
             <div className="collapse bg-gray-200 my-4 drop-shadow-lg rounded-[8px]">
               <input type="checkbox" />
@@ -40,13 +40,13 @@ const TenantRequests = () => {
                 <div className="flex justify-between items-center">
                   <p className="text-[20px]">{data.requestSubject}</p>
                   <div className="bg-white rounded-full px-8 py-2">
-                    {data.requestType}
+                    type
                   </div>
                 </div>
               </div>
               <div className="collapse-content  bg-white">
                 <div className="flex justify-between items-center mt-4">
-                  <p className="text-[15px]">{data.requestMessage}</p>
+                  <p className="text-[20px]">{data.requestMessage}</p>
                 </div>
               </div>
             </div>
