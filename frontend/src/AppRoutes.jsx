@@ -34,6 +34,7 @@ import AdminDashboard from "./components/AdminDashboard/AdminDashboard.jsx";
 import ApprovedPMs from "./components/AdminDashboard/ApprovedPMs.jsx";
 import RequestDetails from "./components/AdminDashboard/RequestDetails.jsx";
 import PropertyDetails from "./components/PropertyDetails.jsx";
+import TenantAccount from "./components/TenantDashboard/TenantAccount.jsx";
 
 const AppRoutes = () => {
   return (
@@ -68,6 +69,7 @@ const AppRoutes = () => {
         <Route exact path="overview" element={<TenantOverview />} />
         <Route exact path="payments" element={<TenantPayments />} />
         <Route exact path="requests" element={<TenantRequests />} />
+        <Route exact path="account" element={<TenantAccount />} />
         <Route
           exact
           path="requests/new-request"

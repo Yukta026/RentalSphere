@@ -49,9 +49,9 @@ function TenantOverview() {
 
   return (
     <div>
-      <h1 className="font-bold text-[20px] mt-6">Dashboard</h1>
+      <h1 className="font-bold text-[20px]">Dashboard</h1>
 
-      <div className="my-6 border-l-4 border-green-700 w-11/12 py-11 flex justify-between items-center bg-white drop-shadow rounded-[8px] p-6">
+      <div className="my-8 border-l-4 border-green-700 w-11/12 py-11 flex justify-between items-center bg-white drop-shadow rounded-[8px] p-6">
         <div>
           <h3 className="font-medium text-[26px]">Your Current Balance</h3>
           <h3 className="font-extrabold text-[26px]">$ 0.00</h3>
