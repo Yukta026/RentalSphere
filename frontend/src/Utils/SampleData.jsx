@@ -204,3 +204,24 @@ export const sampleListingsData = [
   },
   
 ];
+
+export const sampleRequestData = [
+  {
+    id: "d5e3",
+    requestSubject: "Request 1",
+    requestType: "Water Issue",
+    requestMessage: "I'm having an issue with kicthen tap the hot water is comming."
+  },
+  {
+    id: "caee",
+    requestSubject: "Test 1",
+    requestType: "Test 1 type",
+    requestMessage: "Test 1 message Test 1 messageTest 1 messageTest 1 message"
+  },
+  {
+    id: "2fdd",
+    requestSubject: "Testst",
+    requestType: "Testst",
+    requestMessage: "TeststTeststTeststTestst"
+  }
+];
