@@ -4,102 +4,72 @@ import { useNavigate } from "react-router-dom";
 import { propManagersData } from "../../Utils/sampleDataHarsh.jsx";
 import useAuth from "../../hooks/useAuth.jsx";
 import useAppContext from "../../hooks/useAppContext.jsx";
+import LoadingSpinner from "../../assets/LoadingSpinner.jsx";
 const ALL_PMREQS_URL = import.meta.env.VITE_BACKEND_URL + "/admin/properties";
 const PMREQ_APPROVE_URL = import.meta.env.VITE_BACKEND_URL + "/admin/approve/";
 const PMREQ_REJECT_URL = import.meta.env.VITE_BACKEND_URL + "/admin/reject/";
 
 const AdminDashboard = () => {
   const { auth, setAuth } = useAuth();
-  const { allPMReqs, setAllPMReqs } = useAppContext();
+  const { allPMReqs, setAllPMReqs, isLoading, setIsLoading } = useAppContext();
   const navigate = useNavigate();
   const [propertyManager, setPropertyManager] = useState([]);
   const [showDash, setShowDash] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
 
   const isAuthEmpty =
     Object.keys(auth).length === 0 && auth.constructor === Object;
 
   useEffect(() => {
-    setPropertyManager(propManagersData);
-  }, []);
-
-  useEffect(() => {
-    if (isAuthEmpty) {
-      setShowDash(false);
+    if (auth && auth.role && auth.role !== "ADMIN") {
+      // setShowDash(false);
       navigate(`/home`, { replace: true });
       window.alert("You're not logged in. Please log in first.");
-    } else if (auth && auth.role && auth.role !== "ADMIN") {
-      setShowDash(false);
-      navigate(`/home`, { replace: true });
-      window.alert("You're not an admin");
     }
-  }, []);
+  }, [auth]);
 
   useEffect(() => {
-    const fetchPMReqs = () => {
-      const fetchPMReqs = async () => {
-        try {
-          // const headers = {
-          //   Authorization: `Bearer ${auth && auth.token}`,
-          // };
-          const response = await axios.get(
-            ALL_PMREQS_URL
-            // ,{
-            //   headers: headers,
-            // }
-          );
-          if (response) {
-            console.log("All PM Requests API Response: ", response.data);
-            setAllPMReqs(response.data.propertyManagerRequest);
-
-            // setIsLoading(false);
-            // if (response.data.length === 0) {
-            //   setIsLoading(false);
-            // } else {
-            //   setData(response.data[0]);
-            // }
-          }
-        } catch (err) {
-          console.log(err.response);
-        }
-      };
-      // setIsLoading(true);
-      fetchPMReqs();
-    };
     fetchPMReqs();
-  }, [navigate]);
+  }, [auth, navigate]);
+
+  const fetchPMReqs = async () => {
+    const headers = {
+      Authorization: `Bearer ${auth.token}`,
+    };
+    setIsLoading(true);
+    await axios
+      .get(ALL_PMREQS_URL, { headers })
+      .then((res) => {
+        setAllPMReqs(res.data.propertyManagerRequest);
+        console.log("Fetched PMReqs: ", res);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
+  };
 
   const handleApproveReq = async (email) => {
     const headers = {
       Authorization: `Bearer ${auth.token}`,
     };
-
-    try {
-      const response = await axios.post(PMREQ_APPROVE_URL + email, {
-        headers: headers,
-      });
-      if (response) {
-        console.log(response.data);
-      }
-    } catch (error) {
-      console.error("Error submitting approval: ", error);
-    }
+    // console.log(headers);
+    setIsLoading(true);
+    await axios
+      .post(PMREQ_APPROVE_URL + email, {}, { headers })
+      .then((res) => console.log("Data from handleApproveReq", res))
+      .catch((err) => console.log(err));
+    fetchPMReqs();
   };
 
   const handleRejectReq = async (email) => {
     const headers = {
       Authorization: `Bearer ${auth.token}`,
     };
-
-    try {
-      const response = await axios.post(PMREQ_REJECT_URL + email, {
-        headers: headers,
-      });
-      if (response) {
-        console.log(response.data);
-      }
-    } catch (error) {
-      console.error("Error submitting rejection: ", error);
-    }
+    setIsLoading(true);
+    await axios
+      .post(PMREQ_REJECT_URL + email, {}, { headers })
+      .then((res) => console.log("Data from handleRejectReq", res))
+      .catch((err) => console.log(err));
+    fetchPMReqs();
   };
 
   const handleViewDetails = async (id) => {
@@ -108,19 +78,23 @@ const AdminDashboard = () => {
 
   return (
     <>
-      <div className="container py-6 flex justify-between items-center">
-        <p className="text-2xl font-bold mb-4">AdminDashboard</p>
+      <div className="container flex items-center justify-between py-6">
+        <p className="mb-4 text-2xl font-bold">AdminDashboard</p>
         <div
-          className="bg-slate-500 text-white py-2 px-4 cursor-pointer text-md "
+          className="px-4 py-2 text-white cursor-pointer bg-slate-500 text-md "
           onClick={() => navigate("/approved-managers")}
         >
           Approved Property Managers
         </div>
       </div>
 
-      {showDash && (
+      {isLoading ? (
+        <div className="loadingCont flex justify-center items-center h-screen w-full">
+          <LoadingSpinner />
+        </div>
+      ) : (
         <div className="container mx-auto">
-          <h1 className="text-xl font-bold mb-4 mt-10">
+          <h1 className="mt-10 mb-4 text-xl font-bold">
             Property Manager Requests
           </h1>
           <table className="table mt-10">
@@ -138,50 +112,51 @@ const AdminDashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {propertyManager?.map((pmReq) => (
-                <tr key={pmReq.id}>
-                  {/* <td className="border px-4 py-2">{pmReq.id}</td> */}
-                  <td className="border px-4 py-2">{pmReq.firstName}</td>
-                  <td className="border px-4 py-2">{pmReq.lastName}</td>
-                  <td className="border px-4 py-2">{pmReq.email}</td>
-                  <td className="border px-4 py-2">{pmReq.phoneNumber}</td>
-                  <td className="border px-4 py-2">{pmReq.date}</td>
-                  <td className="border px-4 py-2">{pmReq.licenseNo}</td>
-                  {/* <td className="border px-4 py-2 gap-4">
+              {!isLoading &&
+                allPMReqs?.map((pmReq, index) => (
+                  <tr key={index}>
+                    {/* <td className="px-4 py-2 border">{pmReq.id}</td> */}
+                    <td className="px-4 py-2 border">{pmReq.firstName}</td>
+                    <td className="px-4 py-2 border">{pmReq.lastName}</td>
+                    <td className="px-4 py-2 border">{pmReq.email}</td>
+                    <td className="px-4 py-2 border">{pmReq.phoneNumber}</td>
+                    <td className="px-4 py-2 border">{pmReq.requestDate}</td>
+                    <td className="px-4 py-2 border">{pmReq.licenseNumber}</td>
+                    {/* <td className="gap-4 px-4 py-2 border">
                   <button
                     // onClick={() => viewDetails(pmReq.id)}
                     onClick={() =>
                       document.getElementById("my_modal_3").showModal()
                     }
-                    className="mr-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                    className="px-4 py-2 mr-2 font-bold text-white bg-green-500 rounded hover:bg-green-700"
                   >
                     View
                   </button>
                 </td> */}
-                  <td className="border px-4 py-2 gap-4 flex justify-around">
-                    <button
-                      onClick={() => handleApproveReq(pmReq.email)}
-                      className="mr-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                    >
-                      Approve
-                    </button>
-                    <button
-                      onClick={() => handleRejectReq(pmReq.email)}
-                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                    >
-                      Reject
-                    </button>
-                  </td>
-                  <td className="border px-4 py-2">
-                    <button
-                      onClick={() => handleViewDetails(pmReq.id)}
-                      className="mr-2 bg-black text-white font-bold py-2 px-4 rounded"
-                    >
-                      View
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                    <td className="flex justify-around gap-4 px-4 py-2 border">
+                      <button
+                        onClick={() => handleApproveReq(pmReq.email)}
+                        className="px-4 py-2 mr-2 font-bold text-white bg-green-500 rounded hover:bg-green-700"
+                      >
+                        Approve
+                      </button>
+                      <button
+                        onClick={() => handleRejectReq(pmReq.email)}
+                        className="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700"
+                      >
+                        Reject
+                      </button>
+                    </td>
+                    <td className="px-4 py-2 border">
+                      <button
+                        onClick={() => handleViewDetails(index)}
+                        className="px-4 py-2 mr-2 font-bold text-white bg-black rounded"
+                      >
+                        View
+                      </button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
@@ -189,11 +164,11 @@ const AdminDashboard = () => {
       {/* <dialog id="my_modal_3" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <form method="dialog">
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+            <button className="absolute btn btn-sm btn-circle btn-ghost right-2 top-2">
               ✕
             </button>
           </form>
-          <h3 className="font-bold text-lg mb-6"> Request Details</h3>
+          <h3 className="mb-6 text-lg font-bold"> Request Details</h3>
         </div>
       </dialog> */}
     </>
