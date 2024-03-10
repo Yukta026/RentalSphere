@@ -1,21 +1,12 @@
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
-const AppContext = createContext({});
+const AlertContext = createContext({});
 
-export const AppProvider = ({ children }) => {
-  //Global context states
-  const [isLoading, setIsLoading] = useState(false);
+export const AlertProvider = ({ children }) => {
   const [error, setError] = useState({});
   const [showAlert, setShowAlert] = useState(false);
   const [alertMode, setAlertMode] = useState("error");
   const [alertDesc, setAlertDesc] = useState("Internal Server Error");
-
-  // For Listings
-  const [listings, setListings] = useState([]);
-  const [singleListing, setSingleListing] = useState({});
-
-  // For Property Manager Requests for Admin
-  const [allPMReqs, setAllPMReqs] = useState([]);
 
   useEffect(() => {
     if (showAlert) {
@@ -41,10 +32,8 @@ export const AppProvider = ({ children }) => {
   }, [showAlert]);
 
   return (
-    <AppContext.Provider
+    <AlertContext.Provider
       value={{
-        isLoading,
-        setIsLoading,
         error,
         setError,
         showAlert,
@@ -53,17 +42,11 @@ export const AppProvider = ({ children }) => {
         setAlertMode,
         alertDesc,
         setAlertDesc,
-        listings,
-        setListings,
-        singleListing,
-        setSingleListing,
-        allPMReqs,
-        setAllPMReqs,
       }}
     >
       {children}
-    </AppContext.Provider>
+    </AlertContext.Provider>
   );
 };
 
-export default AppContext;
+export default AlertContext;
