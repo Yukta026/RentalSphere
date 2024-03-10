@@ -271,4 +271,4 @@ export const samplePaymentData = [
     amount: 45,
     paymentDate: "24 March 2024"
   },
-]
+];
