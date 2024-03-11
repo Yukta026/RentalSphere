@@ -38,6 +38,7 @@ public class TenantRegisterRequest {
 //    @Column(name = "PropertyApplicationID", nullable = false)
 //    private Property PropertyApplicationID;
 
+    private Long propertyApplicationID;
 
     @NotNull(message = "DesiredMoveInDate cannot be blank.")
     private Date desiredMoveInDate;
@@ -57,8 +58,8 @@ public class TenantRegisterRequest {
     @Positive(message = "LengthOfEmployment must be a positive number.")
     private Integer lengthOfEmployment;
 
-    @NotBlank(message = "ApplicationStatus cannot be blank.")
-    private String applicationStatus;
+//    @NotBlank(message = "ApplicationStatus cannot be blank.")
+//    private String applicationStatus;
 
     @NotNull(message = "CreationDate cannot be blank.")
     private Date creationDate;

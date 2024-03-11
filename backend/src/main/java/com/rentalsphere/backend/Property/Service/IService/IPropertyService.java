@@ -5,6 +5,7 @@ import com.rentalsphere.backend.RequestResponse.Property.GetAllPropertyResponse;
 import com.rentalsphere.backend.RequestResponse.Property.GetPropertyResponse;
 import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterRequest;
 import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterResponse;
+import com.rentalsphere.backend.RequestResponse.Tenant.TenantResponse;
 import jakarta.validation.Valid;
 
 import java.io.IOException;
@@ -18,5 +19,8 @@ public interface IPropertyService {
 
     public GetAllPropertyResponse getAllPropertyApplications();
 
-    public GetPropertyResponse getProperty(Long id);
+    public Optional<Property> getPropertyApplicationById(Long id);
+
+    public TenantResponse acceptTenantRequest(String email);
+    public TenantResponse rejectTenantRequest(String email);
 }
