@@ -255,20 +255,51 @@ export const samplePaymentData = [
     invoiceNo:"dsf2313sdas",
     note: "Maintenance",
     amount: 45,
-    paymentDate: "24 March 2024"
+    paymentDate: "24 March 2024",
+    paymentDueDate: "30 March 2024",
+    status:"open",
+    tenant:"John Doe"
   },
   {
     id: "2",
     invoiceNo:"dsf2313sdas",
     note: "Maintenance",
     amount: 45,
-    paymentDate: "24 March 2024"
+    paymentDate: "24 March 2024",
+    paymentDueDate: "30 March 2024",
+    status:"partial",
+    tenant:"John Doe"
   },
   {
     id: "3",
     invoiceNo:"dsf2313sdas",
     note: "Maintenance",
     amount: 45,
-    paymentDate: "24 March 2024"
+    paymentDate: "24 March 2024",
+    paymentDueDate: "30 March 2024",
+    status:"paid",
+    tenant:"John Doe"
+  },
+  {
+    id: "3",
+    invoiceNo:"dsf2313sdas",
+    note: "Maintenance",
+    amount: 45,
+    paymentDate: "24 March 2024",
+    paymentDueDate: "30 March 2024",
+    status:"overdue",
+    tenant:"John Doe"
   },
 ];
+
+export const sampleCommunityData = [
+  {
+    id: "a6f5",
+    name: "Second hand car for sale",
+    description: "Top condition ",
+    contactNumber: "09879154689",
+    address: "304. park view",
+    price: "60000",
+    image: "https://imgd-ct.aeplcdn.com/640X480/cw/ucp/stockApiImg/QM0B9FY_5632c10a393746479ed4bbbc8f61ea05_1_30554345.jpeg?q=80"
+  }
+]
