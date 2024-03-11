@@ -23,4 +23,7 @@ public class AnnouncementRegisterRequest {
 
     @NotNull(message = "AnnouncementDate cannot be blank.")
     private Date announcementDate;
+
+    public AnnouncementRegisterRequest(String title, String content) {
+    }
 }

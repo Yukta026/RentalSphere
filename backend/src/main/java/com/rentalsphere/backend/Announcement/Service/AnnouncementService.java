@@ -7,6 +7,9 @@ import com.rentalsphere.backend.RequestResponse.Announcement.AnnouncementRegiste
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,10 +31,13 @@ public class AnnouncementService implements IAnnouncementService {
 
     @Override
     public Announcement createAnnouncement(AnnouncementRegisterRequest request) {
+
+        Date currentDate = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
+
         Announcement announcement = Announcement.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
-                .announcementDate(request.getAnnouncementDate())
+                .announcementDate(currentDate)
                 .build();
         return announcementRepository.save(announcement);
     }
