@@ -31,14 +31,17 @@ import TenantNewPost from "./components/TenantDashboard/TenantNewPost.jsx";
 import TenantNewRequest from "./components/TenantDashboard/TenantNewRequest.jsx";
 
 import AdminDashboard from "./components/AdminDashboard/AdminDashboard.jsx";
-import PropertyManagers from "./components/AdminDashboard/PropertyManagers.jsx";
+import ApprovedPMs from "./components/AdminDashboard/ApprovedPMs.jsx";
 import RequestDetails from "./components/AdminDashboard/RequestDetails.jsx";
+import PropertyDetails from "./components/PropertyDetails.jsx";
+import TenantAccount from "./components/TenantDashboard/TenantAccount.jsx";
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route exact path="/" element={<Landing />} />
       <Route exact path="/home" element={<Home />} />
+      <Route exact path="/home/:id" element={<PropertyDetails />} />
       <Route path="*" element={<ErrorPage />} />
       {/*  */}
       {/* Authentication Routes */}
@@ -66,6 +69,7 @@ const AppRoutes = () => {
         <Route exact path="overview" element={<TenantOverview />} />
         <Route exact path="payments" element={<TenantPayments />} />
         <Route exact path="requests" element={<TenantRequests />} />
+        <Route exact path="account" element={<TenantAccount />} />
         <Route
           exact
           path="requests/new-request"
@@ -81,7 +85,7 @@ const AppRoutes = () => {
       {/*  */}
       {/* Admin Routes */}
       <Route exact path="/admin" element={<AdminDashboard />} />
-      <Route exact path="/approved-managers" element={<PropertyManagers />} />
+      <Route exact path="/approved-managers" element={<ApprovedPMs />} />
       <Route exact path="/admin/:id" element={<RequestDetails />} />
     </Routes>
   );

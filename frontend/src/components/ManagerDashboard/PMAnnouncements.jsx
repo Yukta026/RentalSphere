@@ -1,16 +1,30 @@
 import React, { useState } from "react";
 import { sampleAnnouncements } from "../../Utils/SampleData.jsx";
+import { FiEdit, FiTrash } from "react-icons/fi";
 
 const PMAnnouncements = () => {
   const [announcements, setAnnouncements] = useState(sampleAnnouncements);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [editMode, setEditMode] = useState(false);
+  const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // onSubmit({ title, content });
+    if (editMode) {
+      const updatedAnnouncements = announcements.map((announcement) =>
+        announcement.id === selectedAnnouncement.id
+          ? { ...announcement, title, content }
+          : announcement
+      );
+      setAnnouncements(updatedAnnouncements);
+    } else {
+      handleCreateAnnouncement({ title, content });
+    }
     setTitle("");
     setContent("");
+    setEditMode(false);
+    setSelectedAnnouncement(null);
   };
 
   const handleCreateAnnouncement = (newAnnouncement) => {
@@ -19,6 +33,21 @@ const PMAnnouncements = () => {
     const announcement = { ...newAnnouncement, id, date };
     setAnnouncements([announcement, ...announcements]);
     document.getElementById("my_modal_3").close();
+  };
+
+  const handleEditAnnouncement = (announcement) => {
+    setEditMode(true);
+    setSelectedAnnouncement(announcement);
+    setTitle(announcement.title);
+    setContent(announcement.content);
+    document.getElementById("my_modal_3").showModal();
+  };
+
+  const handleDeleteAnnouncement = (announcementId) => {
+    const updatedAnnouncements = announcements.filter(
+      (announcement) => announcement.id !== announcementId
+    );
+    setAnnouncements(updatedAnnouncements);
   };
 
   return (
@@ -35,10 +64,22 @@ const PMAnnouncements = () => {
 
       <div className="divide-y divide-gray-200 p-10">
         {announcements.map((announcement) => (
-          <div key={announcement.id} className="py-4">
+          <div key={announcement.id} className="py-4 relative">
             <h2 className="text-lg font-semibold">{announcement.title}</h2>
             <p className="text-sm text-gray-600">{announcement.content}</p>
             <p className="text-xs text-gray-400">{announcement.date}</p>
+            <button
+              className="absolute right-0 top-0 mr-2 mt-2 btn btn-sm btn-ghost btn-circle"
+              onClick={() => handleEditAnnouncement(announcement)}
+            >
+              <FiEdit />
+            </button>
+            <button
+              className="absolute right-8 top-0 mr-2 mt-2 btn btn-sm btn-ghost btn-circle text-red-500"
+              onClick={() => handleDeleteAnnouncement(announcement.id)}
+            >
+              <FiTrash />
+            </button>
           </div>
         ))}
       </div>
@@ -46,11 +87,22 @@ const PMAnnouncements = () => {
       <dialog id="my_modal_3" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <form method="dialog">
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+            <button
+              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+              onClick={() => {
+                setTitle("");
+                setContent("");
+                setEditMode(false);
+                setSelectedAnnouncement(null);
+                document.getElementById("my_modal_3").close();
+              }}
+            >
               ✕
             </button>
           </form>
-          <h3 className="font-bold text-lg mb-6">Create New Announcement</h3>
+          <h3 className="font-bold text-lg mb-6">
+            {editMode ? "Edit Announcement" : "Create New Announcement"}
+          </h3>
 
           <div className="modal-action flex flex-col justify-center ">
             <form method="dialog" onSubmit={handleSubmit}>
@@ -89,7 +141,7 @@ const PMAnnouncements = () => {
                 type="submit"
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               >
-                Create Announcement
+                {editMode ? "Update Announcement" : "Create Announcement"}
               </button>
             </form>
           </div>

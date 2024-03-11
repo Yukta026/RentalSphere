@@ -13,7 +13,7 @@ function PMDashboard() {
   const navigate = useNavigate();
   const location = useLocation();
   // const from = location.state?.from?.pathname || "/";
-  const { auth, setAuth } = useAuth(); // Get the auth object and the setAuth function
+  const { auth, setAuth } = useAuth();
 
   const handleNavigation = (componentName) => {
     if (auth.role !== "MANAGER-PENDING") {
@@ -23,21 +23,22 @@ function PMDashboard() {
     }
   };
 
-  useEffect(() => {
-    console.log(location);
-  }, [location]);
+  // useEffect(() => {
+  //   console.log(location);
+  // }, [location]);
+
+  // useEffect(() => {
+  //   if (auth.role === "PROPERTY_MANAGER") {
+  //     navigate(`/managerdashboard/overview`, {
+  //       replace: true,
+  //     });
+  //   }
+  // }, []);
 
   useEffect(() => {
-    // if (from) {
-    //   navigate(`/managerdashboard/pending`);
-    // } else {
-    if (auth.role === "PROPERTY MANAGER") {
-      navigate(`/managerdashboard/overview`, {
-        replace: true,
-      });
-    }
-
-    // }
+    navigate(`/managerdashboard/overview`, {
+      replace: true,
+    });
   }, []);
 
   const getIconComponent = (iconName) => {

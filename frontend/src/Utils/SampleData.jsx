@@ -143,3 +143,132 @@ export const sampleTenantReqs = [
     details: "Request details for Jane Smith",
   },
 ];
+
+export const sampleListingsData = [
+  {
+    id:1,
+    numBedrooms: "3",
+    numBathrooms: "3",
+    title: "Statue of Liberty",
+    address: "New York, NY 10004, United States",
+    listingType: "Condominium",
+    furnishType: "Partly Furnished",
+    area: "1,386 sq. ft.",
+    rate: "$1.98/sq.ft",
+    owner: "John Doe",
+    price: "3,200",
+    imageURL:
+      "https://cdn.pixabay.com/photo/2017/09/09/18/25/living-room-2732939_1280.jpg",
+  },
+  {
+    numBedrooms: "3",
+    numBathrooms: "3",
+    title: "Statue of Liberty",
+    address: "New York, NY 10004, United States",
+    listingType: "Condominium",
+    furnishType: "Partly Furnished",
+    area: "1,386 sq. ft.",
+    rate: "$1.98/sq.ft",
+    owner: "John Doe",
+    price: "3,200",
+    imageURL:
+      "https://cdn.pixabay.com/photo/2017/09/09/18/25/living-room-2732939_1280.jpg",
+  },
+  {
+    numBedrooms: "3",
+    numBathrooms: "3",
+    title: "Statue of Liberty",
+    address: "New York, NY 10004, United States",
+    listingType: "Condominium",
+    furnishType: "Partly Furnished",
+    area: "1,386 sq. ft.",
+    rate: "$1.98/sq.ft",
+    owner: "John Doe",
+    price: "3,200",
+    imageURL:
+      "https://cdn.pixabay.com/photo/2017/09/09/18/25/living-room-2732939_1280.jpg",
+  },
+  {
+    numBedrooms: "3",
+    numBathrooms: "3",
+    title: "Statue of Liberty",
+    address: "New York, NY 10004, United States",
+    listingType: "Condominium",
+    furnishType: "Partly Furnished",
+    area: "1,386 sq. ft.",
+    rate: "$1.98/sq.ft",
+    owner: "John Doe",
+    price: "3,200",
+    imageURL:
+      "https://cdn.pixabay.com/photo/2017/09/09/18/25/living-room-2732939_1280.jpg",
+  },
+  
+];
+
+export const sampleRequestData = [
+  {
+    id: "d5e3",
+    requestSubject: "New Req",
+    requestType: "New Req type",
+    requestMessage: "New Req type Message New Req type Message"
+  },
+  {
+    id: "caee",
+    requestSubject: "Test 1",
+    requestType: "Test 1 type",
+    requestMessage: "Test 1 message Test 1 messageTest 1 messageTest 1 message"
+  },
+  {
+    id: "2fdd",
+    requestSubject: "Testst",
+    requestType: "Testst",
+    requestMessage: "TeststTeststTeststTestst"
+  }
+]
+
+
+export const sampleDocumentData = [
+  {
+    id: "1",
+    documentName: "Document 1",
+    documentLink: "https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf",
+    createdDate: "22 Fab 2024"
+  },
+  {
+    id: "2",
+    documentName: "Document 2",
+    documentLink: "https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf",
+    createdDate: "22 Fab 2024"
+  },
+  {
+    id: "3",
+    documentName: "Document 3",
+    documentLink: "https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf",
+    createdDate: "22 Fab 2024"
+  },
+]
+
+
+export const samplePaymentData = [
+  {
+    id: "1",
+    invoiceNo:"dsf2313sdas",
+    note: "Maintenance",
+    amount: 45,
+    paymentDate: "24 March 2024"
+  },
+  {
+    id: "2",
+    invoiceNo:"dsf2313sdas",
+    note: "Maintenance",
+    amount: 45,
+    paymentDate: "24 March 2024"
+  },
+  {
+    id: "3",
+    invoiceNo:"dsf2313sdas",
+    note: "Maintenance",
+    amount: 45,
+    paymentDate: "24 March 2024"
+  },
+]

@@ -33,16 +33,13 @@ public class PropertyController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Property> getPropertyApplicationById(@PathVariable Long id) {
-        Optional<Property> property = propertyService.getPropertyApplicationById(id);
-        return property.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<GetPropertyResponse> getPropertyApplicationById(@PathVariable Long id) {
+        return new ResponseEntity<>(propertyService.getProperty(id), HttpStatus.OK);
     }
 
-    @GetMapping("/")
-    public ResponseEntity<List<Property>> getAllPropertyApplications() {
-        List<Property> properties = propertyService.getAllPropertyApplications();
-        return new ResponseEntity<>(properties, HttpStatus.OK);
+    @GetMapping
+    public ResponseEntity<GetAllPropertyResponse> getAllPropertyApplications() {
+        return new ResponseEntity<>(propertyService.getAllPropertyApplications(), HttpStatus.OK);
     }
 
     @PostMapping(path = "/approve/{email}")

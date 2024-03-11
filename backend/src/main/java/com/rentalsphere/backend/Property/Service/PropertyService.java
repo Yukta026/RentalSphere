@@ -5,6 +5,7 @@ import com.rentalsphere.backend.Enums.EmailType;
 import com.rentalsphere.backend.Enums.Roles;
 import com.rentalsphere.backend.Exception.User.UserAlreadyExistsException;
 import com.rentalsphere.backend.Exception.User.UserNotFoundException;
+import com.rentalsphere.backend.Mappers.PropertyMapper;
 import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.Property.Repository.PropertyRepository;
 import com.rentalsphere.backend.Property.Service.IService.IPropertyService;
@@ -23,7 +24,6 @@ import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.multipart.MultipartFile;
 import com.rentalsphere.backend.Role.Repository.RoleRepository;
 import com.rentalsphere.backend.Services.Email.EmailService;
@@ -34,7 +34,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-@CrossOrigin(origins = "http://127.0.0.1:5173")
 @Service
 @RequiredArgsConstructor
 public class PropertyService implements IPropertyService {
@@ -52,9 +51,11 @@ public class PropertyService implements IPropertyService {
     public PropertyRegisterResponse savePropertyApplication(PropertyRegisterRequest propertyrequest) throws IOException, ParseException{
         Optional<User> user = userRepository.findByEmail(propertyrequest.getEmail());
 
-        if(!user.isPresent()){
+        if(!user.isPresent()) {
             throw new UserNotFoundException("User does not exists.");
         }
+
+        String message = "Request made to the Admin.";
 
         Property property = Property.builder()
                 .propertyManager(user.get())
@@ -73,6 +74,12 @@ public class PropertyService implements IPropertyService {
                 .creationDate(new Date())
                 .applicationStatus(ApplicationStatus.PENDING)
                 .build();
+
+        if(user.get().getRoles().stream().anyMatch(role -> role.getName().equals(Roles.PROPERTY_MANAGER))){
+            property.setApplicationStatus(ApplicationStatus.APPROVED);
+            message = "Property added.";
+        }
+
         property = propertyRepository.save(property);
 
         List<PropertyImages> uploadedImages = new ArrayList<>();
@@ -83,19 +90,32 @@ public class PropertyService implements IPropertyService {
 
         return PropertyRegisterResponse.builder()
                 .isSuccess(true)
-                .message("Request made to the Admin")
+                .message(message)
                 .timeStamp(new Date())
                 .build();
     }
 
     @Override
-    public List<Property> getAllPropertyApplications() {
-        return propertyRepository.findAll();
+    public GetAllPropertyResponse getAllPropertyApplications() {
+        List<Property> properties = propertyRepository.findAllByApplicationStatus(ApplicationStatus.APPROVED);
+        return GetAllPropertyResponse.builder()
+                .isSuccess(true)
+                .properties(PropertyMapper.convertToPropertiesDTO(properties))
+                .timeStamp(new Date())
+                .build();
     }
 
     @Override
-    public Optional<Property> getPropertyApplicationById(Long id) {
-        return propertyRepository.findById(id);
+    public GetPropertyResponse getProperty(Long id) {
+        Optional<Property> property = propertyRepository.findById(id);
+        if(property.isEmpty()){
+            throw new PropertyNotFoundException("Property with this id does not exists.");
+        }
+        return GetPropertyResponse.builder()
+                .isSuccess(true)
+                .property(PropertyMapper.convertToPropertyDTO(property.get()))
+                .timeStamp(new Date())
+                .build();
     }
 
     @Override
