@@ -3,13 +3,14 @@ package com.rentalsphere.backend.Property.Service;
 import com.rentalsphere.backend.Enums.ApplicationStatus;
 import com.rentalsphere.backend.Enums.EmailType;
 import com.rentalsphere.backend.Enums.Roles;
-import com.rentalsphere.backend.Exception.User.UserAlreadyExistsException;
+import com.rentalsphere.backend.Exception.Property.PropertyNotFoundException;
 import com.rentalsphere.backend.Exception.User.UserNotFoundException;
 import com.rentalsphere.backend.Mappers.PropertyMapper;
 import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.Property.Repository.PropertyRepository;
 import com.rentalsphere.backend.Property.Service.IService.IPropertyService;
-import com.rentalsphere.backend.RequestResponse.Admin.PropertyManagerResponse;
+import com.rentalsphere.backend.RequestResponse.Property.GetAllPropertyResponse;
+import com.rentalsphere.backend.RequestResponse.Property.GetPropertyResponse;
 import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterRequest;
 import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterResponse;
 import com.rentalsphere.backend.RequestResponse.Tenant.TenantResponse;
@@ -27,7 +28,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.rentalsphere.backend.Role.Repository.RoleRepository;
 import com.rentalsphere.backend.Services.Email.EmailService;
-import com.rentalsphere.backend.Enums.ApplicationStatus;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -108,7 +108,7 @@ public class PropertyService implements IPropertyService {
     @Override
     public GetPropertyResponse getProperty(Long id) {
         Optional<Property> property = propertyRepository.findById(id);
-        if(property.isEmpty()){
+        if(!property.isPresent()){
             throw new PropertyNotFoundException("Property with this id does not exists.");
         }
         return GetPropertyResponse.builder()
