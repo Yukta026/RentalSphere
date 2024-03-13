@@ -12,6 +12,7 @@ const TenantNewPost = () => {
     contactNumber: "",
     address: "",
     price: "",
+    email:"",
     image: null,
   });
 
@@ -96,6 +97,20 @@ const TenantNewPost = () => {
             onChange={(e) => handleInputChange(e)}
             placeholder="Contact Number"
             name="contactNumber"
+            className="input appearance-none input-bordered w-full "
+          />
+        </div>
+
+        <div className="flex flex-col gap-2 mt-4">
+          <label htmlFor="contactNumber" className="font-medium text-[16px]">
+            Email
+          </label>
+          <input
+            type="text"
+            value={postData.contactNumber}
+            onChange={(e) => handleInputChange(e)}
+            placeholder="Email"
+            name="email"
             className="input appearance-none input-bordered w-full "
           />
         </div>

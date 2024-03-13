@@ -36,7 +36,7 @@ const TenantCommunity = () => {
           {productsData &&
             productsData.map((data, index) => (
               <>
-              {/* <Link className="w-[25%] mt-6 card card-compact bg-base-100 shadow-xl" to={"/managerdashboard/rentmanagement"}> */}
+              <Link className="w-[25%] mt-6 card card-compact bg-base-100 shadow-xl" to={`/tenantdashboard/community/${data.id}`}>
                 <div className="">
                  
                     <img
@@ -58,7 +58,7 @@ const TenantCommunity = () => {
                     </div>
                   </div>
                 </div>
-              {/* </Link> */}
+              </Link>
               </>
             ))}
         </div>
