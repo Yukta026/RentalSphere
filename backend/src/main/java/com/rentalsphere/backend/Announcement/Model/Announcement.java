@@ -23,7 +23,7 @@ public class Announcement {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "property_id", referencedColumnName = "propertyApplicationID")
+    @JoinColumn(name = "property_id", referencedColumnName = "PropertyApplicationID")
     private Property property;
 
     @Column(name = "title")
