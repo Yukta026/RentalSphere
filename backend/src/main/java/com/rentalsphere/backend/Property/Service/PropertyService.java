@@ -37,6 +37,7 @@ public class PropertyService implements IPropertyService {
     private final CloudinaryService cloudinaryService;
     private final PropertyImagesRepository propertyImagesRepository;
 
+
     @Override
     public PropertyRegisterResponse savePropertyApplication(PropertyRegisterRequest propertyrequest) throws IOException, ParseException{
         Optional<User> user = userRepository.findByEmail(propertyrequest.getEmail());
