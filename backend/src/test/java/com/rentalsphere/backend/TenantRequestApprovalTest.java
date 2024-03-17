@@ -5,18 +5,21 @@ import com.rentalsphere.backend.Exception.User.UserNotFoundException;
 import com.rentalsphere.backend.Property.Service.PropertyService;
 import com.rentalsphere.backend.RequestResponse.Tenant.TenantResponse;
 import com.rentalsphere.backend.Services.Email.EmailService;
+import com.rentalsphere.backend.Tenant.Model.Tenant;
+import com.rentalsphere.backend.Tenant.Repository.TenantRepository;
 import com.rentalsphere.backend.User.Model.User;
 import com.rentalsphere.backend.User.Repository.UserRepository;
 import com.rentalsphere.backend.Role.Model.Role;
 import com.rentalsphere.backend.Role.Repository.RoleRepository;
 import jakarta.mail.MessagingException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -29,54 +32,71 @@ public class TenantRequestApprovalTest {
 
     @Mock
     private RoleRepository roleRepository;
+    @Mock
+    private TenantRepository tenantRepository;
 
     @Mock
     private EmailService emailService;
+    @Mock
+    private User user;
+    private Tenant tenant;
+    private Role userRole;
+    private Role tenantRole;
 
     @InjectMocks
     private PropertyService propertyService;
 
-//    @Test
-//    public void testAcceptTenantRequest() throws MessagingException {
-//
-//        String email = "abc@gmail.com";
-//        User user = new User();
-//        user.setEmail(email);
-//
-//
-//        Role tenantRole = new Role();
-//        tenantRole.setName(Roles.USER);
-//        roleRepository.save(tenantRole);
-//
-//
-//        when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
-//
-//
-//        when(roleRepository.findByName(Roles.TENANT)).thenReturn(tenantRole);
-//
-//
-//        TenantResponse response = propertyService.acceptTenantRequest(email);
-//
-//
-//        verify(userRepository, times(1)).findByEmail(email);
-//
-//
-//        verify(roleRepository, times(1)).findByName(Roles.TENANT);
-//
-//        assertTrue(response.isSuccess());
-//        assertEquals("Request Accepted", response.getMessage());
-//        assertNotNull(response.getTimeStamp());
-//
-//
-//        verify(emailService, times(1)).sendEmailTemplate(
-//                any(),
-//                eq(email),
-//                eq("Request Accepted"),
-//                any(),
-//                eq("Congratulations, your request to become a tenant has been accepted by the property manager."),
-//                any()
-//        );
-//    }
+    @BeforeEach
+    void init(){
+        userRole = new Role(UUID.randomUUID(), Roles.USER, new ArrayList<>(Arrays.asList(user)));
+        tenantRole = new Role(UUID.randomUUID(), Roles.TENANT, null);
+//        user = User.builder()
+//                .email("some@gmail.com")
+//                .firstName("user")
+//                .lastName("user")
+//                .password("password")
+//                .roles(List.of(userRole))
+//                .build();
+        tenant = new Tenant();
+    }
+
+    @Test
+    public void testAcceptTenantRequest() throws MessagingException {
+
+        // Mocking UserRepository behavior
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user));
+
+        when(tenantRepository.findByUserAndApplicationStatus(any(User.class), any(ApplicationStatus.class))).thenReturn(tenant);
+
+        // Mocking RoleRepository behavior
+        when(user.getRoles()).thenReturn(new ArrayList<>(Arrays.asList(userRole)));
+        when(roleRepository.findByName(any(Roles.class))).thenReturn(tenantRole);
+
+        // Calling the method under test
+        TenantResponse response = propertyService.acceptTenantRequest(anyString());
+
+        // Verifying UserRepository interactions
+        verify(userRepository, times(1)).findByEmail(anyString());
+
+        // Verifying RoleRepository interactions
+        verify(roleRepository, times(1)).findByName(Roles.TENANT);
+
+        // Verifying TenantResponse content
+        assertTrue(response.isSuccess());
+        assertEquals("Request Accepted", response.getMessage());
+        assertNotNull(response.getTimeStamp());
+
+        // Verifying email service interaction
+        verify(emailService, times(1)).sendEmailTemplate(
+                any(),
+                eq(anyString()),
+                eq("Request Accepted"),
+                any(),
+                eq("Congratulations, your request to become a tenant has been accepted by the property manager."),
+                any()
+        );
+    }
+
 
     @Test
     public void testAcceptTenantRequest_UserNotFound() {
