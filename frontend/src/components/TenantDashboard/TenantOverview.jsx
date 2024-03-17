@@ -3,11 +3,12 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 // import NewRequest from '../components/new-request/NewRequest';
 import Axios from "axios";
 import { FiTool } from "react-icons/fi";
+import { sampleRequestData } from "../../Utils/SampleData";
 
 function TenantOverview() {
   const navigate = useNavigate();
 
-  const [requestsData, setRequestsData] = useState();
+  const [requestsData, setRequestsData] = useState(sampleRequestData);
   const [announcementsData, setAnnouncementsData] = useState([
     {
       id: "d6e3",
@@ -113,6 +114,71 @@ function TenantOverview() {
                   </div>
                 </div>
               ))}
+          </div>
+        </div>
+      </div>
+
+
+      <div className="flex justify-between gap-6">
+        <div className="w-[50%] bg-white drop-shadow rounded-[8px] p-6 flex flex-col justify-between">
+          <div className="">
+            {/* <h3 className="font-semibold text-[18px]">Lease information</h3> */}
+            <div className="bg-white drop-shadow-md border mt-6 border-gray-300 p-4">
+            <h6 className="font-semibold text-[20px] text-gray-600">Lease Information</h6>
+
+            <p className="mt-4 text-[18px]">Account number</p>
+            <p className="text-[16px]">FDF525252FF</p>
+
+            <p className="mt-4 text-[18px]">Address</p>
+            <p className="text-[16px]">7 street line road, Boston MA 202020, United State </p>
+
+            <div className="flex gap-10 items-center">
+              <div className="w-[40%]">
+                <p className="mt-4 text-[18px]">Start date</p>
+                <p className="text-[16px]">April 2023</p>
+              </div>
+
+              <div className="w-[40%]">
+                <p className="mt-4 text-[18px]">End date</p>
+                <p className="text-[16px]">March 2024</p>
+              </div>
+            </div>
+
+            <div className="flex gap-10 items-center">
+              <div className="w-[40%]">
+                <p className="mt-4 text-[18px]">Rent</p>
+                <p className="text-[16px]">$ 1000</p>
+              </div>
+
+              <div className="w-[40%]">
+                <p className="mt-4 text-[18px]">Maintenance </p>
+                <p className="text-[16px]">$ 200</p>
+              </div>
+            </div>
+
+            <div>
+              <p className="mt-4 text-[18px]">Deposite </p>
+              <p className="text-[16px]">$ 1000</p>
+            </div>
+
+            </div>
+          </div>
+
+         
+        </div>
+
+        <div className="w-[50%] bg-white drop-shadow rounded-[8px] p-6">
+          <div className="">
+            <div className="bg-white drop-shadow-md border mt-6 border-gray-300 p-4">
+            <h6 className="font-semibold text-[20px] text-gray-600">Contact Information</h6>
+
+            <p className="mt-4 text-[18px]">Contact number</p>
+            <p className="text-[16px]">+1 555 555 1234</p>
+
+            <p className="mt-4 text-[18px]">Email</p>
+            <p className="text-[16px]">jsmith@gmail.com</p>
+
+            </div>
           </div>
         </div>
       </div>

@@ -107,7 +107,7 @@ const TenantNewPost = () => {
           </label>
           <input
             type="text"
-            value={postData.contactNumber}
+            value={postData.email}
             onChange={(e) => handleInputChange(e)}
             placeholder="Email"
             name="email"

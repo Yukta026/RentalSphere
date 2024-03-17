@@ -14,13 +14,15 @@ import { GiWashingMachine } from "react-icons/gi";
 import { IoSnow } from "react-icons/io5";
 import { PiPottedPlant } from "react-icons/pi";
 import { LuCigarette } from "react-icons/lu";
-import { useParams } from 'react-router-dom';
+import { useNavigate, useNavigation, useParams } from 'react-router-dom';
 import { sampleListingsData } from '../Utils/SampleData';
 
 
 const PropertyDetails = () => {
 
     const { id } = useParams()
+
+    const navigate = useNavigate();
 
     const data = sampleListingsData.find((obj) => obj.id == id)
     console.log(data, "data")
@@ -44,7 +46,10 @@ const PropertyDetails = () => {
                         <div className='bg-white p-4 border border-gray-300 drop-shadow-sm'>
                             <h6 className='text-center font-bold '>Request a viewing</h6>
                             <p className='text-center mt-4 text-gray-600'>Check out the rental property in person! Schedule time with the landlord for a viewing.</p>
-                            <button className='bg-[#373373] w-full rounded-[4px] py-2 text-white font-semibold mt-6'>Request a viewing</button>
+                            {/* <div className='text-center'>
+                                <button onClick={()=>navigate(`/home/${id}/tenant-new-property-application`)} className='bg-[#373373] w-1/2  rounded-[4px] py-2 text-white font-semibold mt-6'>Apply</button>
+                            </div> */}
+                            {/* <button className='bg-[#373373] w-full rounded-[4px] py-2 text-white font-semibold mt-6'>Request a viewing</button> */}
                         </div>
 
                         <div className='bg-white p-4 border border-gray-300 mt-6 drop-shadow-sm'>
@@ -52,9 +57,7 @@ const PropertyDetails = () => {
                             <button className='bg-[#373373] w-full rounded-[4px] py-2 text-white font-semibold mt-6'>Send message</button>
                         </div>
 
-                        <div className='text-center'>
-                            <button className='bg-[#373373] w-1/2  rounded-[4px] py-2 text-white font-semibold mt-6'>Apply</button>
-                        </div>
+                        
                     </div>
                 </div>
 
