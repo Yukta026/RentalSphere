@@ -1,11 +1,14 @@
 package com.rentalsphere.backend.Marketplace.Service;
 
 import com.rentalsphere.backend.Enums.ApplicationStatus;
+import com.rentalsphere.backend.Enums.AvailabilityStatus;
+import com.rentalsphere.backend.Exception.Post.PostNotFoundException;
 import com.rentalsphere.backend.Exception.Tenant.TenantNotFoundException;
 import com.rentalsphere.backend.Marketplace.Model.Post;
 import com.rentalsphere.backend.Marketplace.Repository.PostRepository;
 import com.rentalsphere.backend.RequestResponse.Post.CreatePostRequest;
 import com.rentalsphere.backend.RequestResponse.Post.PostResponse;
+import com.rentalsphere.backend.RequestResponse.Post.UpdatePostRequest;
 import com.rentalsphere.backend.Services.Cloudinary.CloudinaryService;
 import com.rentalsphere.backend.Tenant.Model.Tenant;
 import com.rentalsphere.backend.Tenant.Repository.TenantRepository;
@@ -19,7 +22,6 @@ import org.springframework.mock.web.MockMultipartFile;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -43,6 +45,7 @@ public class PostServiceTest {
     @Mock
     private MockMultipartFile file;
     private CreatePostRequest createPostRequest;
+    private UpdatePostRequest updatePostRequest;
     private Map<String, String> map;
 
     @BeforeEach
@@ -64,6 +67,7 @@ public class PostServiceTest {
                 .build();
         map = Map.of("url", "some url");
         createPostRequest = new CreatePostRequest("patel@gmail.com", "title", "description", 2000.00, file);
+        updatePostRequest = new UpdatePostRequest(1L, "new title", "new description", 1500.00, file, AvailabilityStatus.SOLD);
     }
 
     @Test
@@ -79,11 +83,48 @@ public class PostServiceTest {
     }
 
     @Test
-    void testCreatePostTenanatNotFoundException(){
+    void testCreatePostTenantNotFoundException(){
         when(tenantRepository.findByEmailAddressAndApplicationStatus(anyString(), any(ApplicationStatus.class))).thenReturn(Optional.empty());
 
         assertThrows(TenantNotFoundException.class, ()->{
            postService.createPost(createPostRequest);
+        });
+    }
+
+    @Test
+    void testUpdatePost() throws IOException {
+        when(postRepository.findById(updatePostRequest.getId())).thenReturn(Optional.of(post));
+
+        PostResponse postResponse = postService.updatePost(updatePostRequest);
+
+        assertTrue(postResponse.isSuccess());
+    }
+
+    @Test
+    void testUpdatePostPostNotFoundException(){
+        when(postRepository.findById(updatePostRequest.getId())).thenReturn(Optional.empty());
+
+        assertThrows(PostNotFoundException.class, ()->{
+            postService.updatePost(updatePostRequest);
+        });
+    }
+
+    @Test
+    void testDeletePost(){
+        when(postRepository.findById(anyLong())).thenReturn(Optional.of(post));
+
+        PostResponse response = postService.deletePost(anyLong());
+
+        verify(postRepository).deleteById(anyLong());
+        assertTrue(response.isSuccess());
+    }
+
+    @Test
+    void testDeletePostPostNotFoundException(){
+        when(postRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThrows(PostNotFoundException.class, ()->{
+            postService.deletePost(anyLong());
         });
     }
 }
