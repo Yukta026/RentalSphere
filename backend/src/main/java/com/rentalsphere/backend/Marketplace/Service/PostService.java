@@ -2,6 +2,7 @@ package com.rentalsphere.backend.Marketplace.Service;
 
 import com.rentalsphere.backend.Enums.ApplicationStatus;
 import com.rentalsphere.backend.Enums.AvailabilityStatus;
+import com.rentalsphere.backend.Exception.Post.PostNotFoundException;
 import com.rentalsphere.backend.Exception.Tenant.TenantNotFoundException;
 import com.rentalsphere.backend.Exception.User.UserNotFoundException;
 import com.rentalsphere.backend.Marketplace.Model.Post;
@@ -27,7 +28,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PostService implements IPostService {
     private final PostRepository postRepository;
-    private final UserRepository userRepository;
     private final TenantRepository tenantRepository;
     private final ICloudinaryService cloudinaryService;
 
@@ -59,12 +59,40 @@ public class PostService implements IPostService {
     }
 
     @Override
-    public PostResponse updatePost(UpdatePostRequest request) {
-        return null;
+    public PostResponse updatePost(UpdatePostRequest request) throws IOException {
+        Optional<Post> post = postRepository.findById(request.getId());
+
+        if(!post.isPresent()){
+            throw new PostNotFoundException("no such post exists");
+        }
+
+        post.get().setTitle(request.getTitle());
+        post.get().setDescription(request.getDescription());
+        post.get().setPrice(request.getPrice());
+        post.get().setAvailabilityStatus(request.getAvailabilityStatus());
+        if(request.getUpdatedImage() != null){
+            Map image = cloudinaryService.upload(request.getUpdatedImage());
+            post.get().setImageUrl((String) image.get("url"));
+        }
+        return PostResponse.builder()
+                .isSuccess(true)
+                .message("Post updated.")
+                .timeStamp(new Date())
+                .build();
     }
 
     @Override
     public PostResponse deletePost(Long id) {
-        return null;
+        Optional<Post> post = postRepository.findById(id);
+        if(!post.isPresent()){
+            throw new PostNotFoundException("no such post exists.");
+        }
+
+        postRepository.deleteById(id);
+        return PostResponse.builder()
+                .isSuccess(true)
+                .message("Post deleted.")
+                .timeStamp(new Date())
+                .build();
     }
 }

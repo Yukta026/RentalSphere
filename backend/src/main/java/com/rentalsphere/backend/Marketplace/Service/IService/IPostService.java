@@ -8,6 +8,6 @@ import java.io.IOException;
 
 public interface IPostService {
     public PostResponse createPost(CreatePostRequest request) throws IOException;
-    public PostResponse updatePost(UpdatePostRequest request);
+    public PostResponse updatePost(UpdatePostRequest request) throws IOException;
     public PostResponse deletePost(Long id);
 }
