@@ -248,13 +248,40 @@ export const sampleDocumentData = [
   },
 ]
 
+export const sampleLeaseData = [
+  {
+    id: "1",
+    documentName: "Document 1",
+    documentLink: "https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf",
+    startDate: "22 Fab 2024",
+    endDate: "22 Jan 2025",
+    monthRent:1200,
+  },
+  {
+    id: "2",
+    documentName: "Document 2",
+    documentLink: "https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf",
+    startDate: "22 Fab 2024",
+    endDate: "22 Jan 2025",
+    monthRent:1200,
+  },
+  {
+    id: "3",
+    documentName: "Document 3",
+    documentLink: "https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf",
+    startDate: "22 Fab 2024",
+    endDate: "22 Jan 2025",
+    monthRent:1200,
+  },
+]
+
 
 export const samplePaymentData = [
   {
     id: "1",
     invoiceNo:"dsf2313sdas",
     note: "Maintenance",
-    amount: 45,
+    amount: 2500,
     paymentDate: "24 March 2024",
     paymentDueDate: "30 March 2024",
     status:"open",
@@ -264,7 +291,7 @@ export const samplePaymentData = [
     id: "2",
     invoiceNo:"dsf2313sdas",
     note: "Maintenance",
-    amount: 45,
+    amount: 2500,
     paymentDate: "24 March 2024",
     paymentDueDate: "30 March 2024",
     status:"partial",
@@ -274,7 +301,7 @@ export const samplePaymentData = [
     id: "3",
     invoiceNo:"dsf2313sdas",
     note: "Maintenance",
-    amount: 45,
+    amount: 2500,
     paymentDate: "24 March 2024",
     paymentDueDate: "30 March 2024",
     status:"paid",
@@ -284,7 +311,7 @@ export const samplePaymentData = [
     id: "3",
     invoiceNo:"dsf2313sdas",
     note: "Maintenance",
-    amount: 45,
+    amount: 2500,
     paymentDate: "24 March 2024",
     paymentDueDate: "30 March 2024",
     status:"overdue",
@@ -298,6 +325,7 @@ export const sampleCommunityData = [
     name: "Second hand car for sale",
     description: "Top condition ",
     contactNumber: "09879154689",
+    email:"jsmith@gmail.com",
     address: "304. park view",
     price: "60000",
     image: "https://imgd-ct.aeplcdn.com/640X480/cw/ucp/stockApiImg/QM0B9FY_5632c10a393746479ed4bbbc8f61ea05_1_30554345.jpeg?q=80"
