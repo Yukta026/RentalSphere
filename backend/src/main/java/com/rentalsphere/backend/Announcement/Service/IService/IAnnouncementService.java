@@ -17,4 +17,5 @@ public interface IAnnouncementService {
     void deleteAnnouncement(Long id);
 
     Announcement updateAnnouncement(Long id, Announcement newAnnouncement);
+    List<Announcement> getAnnouncementsByPropertyId(Long propertyId);
 }

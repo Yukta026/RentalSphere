@@ -3,6 +3,7 @@ package com.rentalsphere.backend.Announcement.Service;
 import com.rentalsphere.backend.Announcement.Model.Announcement;
 import com.rentalsphere.backend.Announcement.Repository.AnnouncementRepository;
 import com.rentalsphere.backend.Announcement.Service.IService.IAnnouncementService;
+import com.rentalsphere.backend.Exception.Property.PropertyNotFoundException;
 import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.Property.Repository.PropertyRepository;
 import com.rentalsphere.backend.RequestResponse.Announcement.AnnouncementRegisterRequest;
@@ -83,7 +84,13 @@ public class AnnouncementService implements IAnnouncementService {
         }
     }
 
+    @Override
     public List<Announcement> getAnnouncementsByPropertyId(Long propertyId) {
-        return announcementRepository.findByPropertyId(propertyId);
+        Optional<Property> property = propertyRepository.findById(propertyId);
+        if(property.isEmpty()){
+            throw new PropertyNotFoundException("Property with this id does not exists.");
+        }
+
+        return announcementRepository.findByProperty(property.get());
     }
 }
