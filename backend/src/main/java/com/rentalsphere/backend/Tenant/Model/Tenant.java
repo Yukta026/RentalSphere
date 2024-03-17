@@ -2,6 +2,7 @@ package com.rentalsphere.backend.Tenant.Model;
 
 import com.rentalsphere.backend.Enums.ApplicationStatus;
 import com.rentalsphere.backend.Lease.Model.Lease;
+import com.rentalsphere.backend.Marketplace.Model.Post;
 import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.User.Model.User;
 import jakarta.persistence.*;
@@ -89,4 +90,7 @@ public class Tenant {
 
     @OneToMany(mappedBy = "tenant")
     private List<Lease> leaseList;
+
+    @OneToMany(mappedBy = "tenant")
+    private List<Post> posts;
 }
