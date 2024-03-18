@@ -1,14 +1,14 @@
 package com.rentalsphere.backend.Marketplace.Service;
 
+import com.rentalsphere.backend.DTOs.PostDTO;
 import com.rentalsphere.backend.Enums.ApplicationStatus;
 import com.rentalsphere.backend.Enums.AvailabilityStatus;
 import com.rentalsphere.backend.Exception.Post.PostNotFoundException;
 import com.rentalsphere.backend.Exception.Tenant.TenantNotFoundException;
+import com.rentalsphere.backend.Mappers.PostMapper;
 import com.rentalsphere.backend.Marketplace.Model.Post;
 import com.rentalsphere.backend.Marketplace.Repository.PostRepository;
-import com.rentalsphere.backend.RequestResponse.Post.CreatePostRequest;
-import com.rentalsphere.backend.RequestResponse.Post.PostResponse;
-import com.rentalsphere.backend.RequestResponse.Post.UpdatePostRequest;
+import com.rentalsphere.backend.RequestResponse.Post.*;
 import com.rentalsphere.backend.Services.Cloudinary.CloudinaryService;
 import com.rentalsphere.backend.Tenant.Model.Tenant;
 import com.rentalsphere.backend.Tenant.Repository.TenantRepository;
@@ -17,11 +17,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -44,6 +46,12 @@ public class PostServiceTest {
     private Post post;
     @Mock
     private MockMultipartFile file;
+    @Mock
+    private PostDTO postDTO;
+    @Mock
+    private List<PostDTO> postDTOs;
+    @Mock
+    private GetPostResponse getPostResponse;
     private CreatePostRequest createPostRequest;
     private UpdatePostRequest updatePostRequest;
     private Map<String, String> map;
@@ -89,6 +97,42 @@ public class PostServiceTest {
         assertThrows(TenantNotFoundException.class, ()->{
            postService.createPost(createPostRequest);
         });
+    }
+
+    @Test
+    void testGetPostById(){
+        GetPostResponse response;
+        mock(PostMapper.class);
+
+        when(postRepository.findById(anyLong())).thenReturn(Optional.of(post));
+        try(MockedStatic<PostMapper> postMapper = mockStatic(PostMapper.class)){
+            postMapper.when(()->PostMapper.convertToPostDTO(any(Post.class))).thenReturn(postDTO);
+            response = postService.getPostById(anyLong());
+        }
+
+        assertTrue(response.isSuccess());
+    }
+
+    @Test
+    void testGetPostByIdPostNotFoundException(){
+        when(postRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThrows(PostNotFoundException.class, ()->{
+           postService.getPostById(anyLong());
+        });
+    }
+
+    @Test
+    void testGetAllPosts(){
+        GetAllPostResponse response;
+        when(postRepository.findAll()).thenReturn(List.of(post));
+
+        try(MockedStatic<PostMapper> postMapper = mockStatic(PostMapper.class)){
+            postMapper.when(()->PostMapper.convertToPostDTOs(anyList())).thenReturn(postDTOs);
+            response = postService.getAllPosts();
+        }
+
+        assertTrue(response.isSuccess());
     }
 
     @Test

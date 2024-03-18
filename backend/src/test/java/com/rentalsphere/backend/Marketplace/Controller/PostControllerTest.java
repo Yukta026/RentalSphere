@@ -1,9 +1,8 @@
 package com.rentalsphere.backend.Marketplace.Controller;
 
+import com.rentalsphere.backend.DTOs.PostDTO;
 import com.rentalsphere.backend.Marketplace.Service.PostService;
-import com.rentalsphere.backend.RequestResponse.Post.CreatePostRequest;
-import com.rentalsphere.backend.RequestResponse.Post.PostResponse;
-import com.rentalsphere.backend.RequestResponse.Post.UpdatePostRequest;
+import com.rentalsphere.backend.RequestResponse.Post.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -30,11 +30,14 @@ public class PostControllerTest {
     private CreatePostRequest createPostRequest;
     @Mock
     private UpdatePostRequest updatePostRequest;
+    @Mock
+    private PostDTO post;
     private PostResponse postResponse;
+    private GetAllPostResponse getAllPostResponse;
+    private GetPostResponse getPostResponse;
 
     @BeforeEach
     void init(){
-
     }
 
     @Test
@@ -50,6 +53,36 @@ public class PostControllerTest {
         when(postService.createPost(createPostRequest)).thenReturn(postResponse);
 
         assertEquals(responseEntity, postController.createPost(createPostRequest));
+    }
+
+    @Test
+    void testGetPostById(){
+        getPostResponse = GetPostResponse.builder()
+                .isSuccess(true)
+                .post(post)
+                .timeStamp(new Date())
+                .build();
+
+        ResponseEntity<?> responseEntity = new ResponseEntity<>(getPostResponse, HttpStatus.OK);
+
+        when(postService.getPostById(anyLong())).thenReturn(getPostResponse);
+
+        assertEquals(responseEntity, postController.getPostById(anyLong()));
+    }
+
+    @Test
+    void testGetAllPosts(){
+        getAllPostResponse = GetAllPostResponse.builder()
+                .isSuccess(true)
+                .posts(List.of(post))
+                .timeStamp(new Date())
+                .build();
+
+        ResponseEntity<?> responseEntity = new ResponseEntity<>(getAllPostResponse, HttpStatus.OK);
+
+        when(postService.getAllPosts()).thenReturn(getAllPostResponse);
+
+        assertEquals(responseEntity, postController.getAllPosts());
     }
 
     @Test
