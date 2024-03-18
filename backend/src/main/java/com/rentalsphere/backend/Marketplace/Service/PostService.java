@@ -1,16 +1,16 @@
 package com.rentalsphere.backend.Marketplace.Service;
 
+import com.rentalsphere.backend.DTOs.PostDTO;
 import com.rentalsphere.backend.Enums.ApplicationStatus;
 import com.rentalsphere.backend.Enums.AvailabilityStatus;
 import com.rentalsphere.backend.Exception.Post.PostNotFoundException;
 import com.rentalsphere.backend.Exception.Tenant.TenantNotFoundException;
 import com.rentalsphere.backend.Exception.User.UserNotFoundException;
+import com.rentalsphere.backend.Mappers.PostMapper;
 import com.rentalsphere.backend.Marketplace.Model.Post;
 import com.rentalsphere.backend.Marketplace.Repository.PostRepository;
 import com.rentalsphere.backend.Marketplace.Service.IService.IPostService;
-import com.rentalsphere.backend.RequestResponse.Post.CreatePostRequest;
-import com.rentalsphere.backend.RequestResponse.Post.PostResponse;
-import com.rentalsphere.backend.RequestResponse.Post.UpdatePostRequest;
+import com.rentalsphere.backend.RequestResponse.Post.*;
 import com.rentalsphere.backend.Services.Cloudinary.IService.ICloudinaryService;
 import com.rentalsphere.backend.Tenant.Model.Tenant;
 import com.rentalsphere.backend.Tenant.Repository.TenantRepository;
@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -54,6 +55,36 @@ public class PostService implements IPostService {
         return PostResponse.builder()
                 .isSuccess(true)
                 .message("Post created.")
+                .timeStamp(new Date())
+                .build();
+    }
+
+    @Override
+    public GetPostResponse getPostById(Long id) {
+        Optional<Post> post = postRepository.findById(id);
+
+        if(!post.isPresent()){
+            throw new PostNotFoundException("no such post exists.");
+        }
+
+        PostDTO postDTO = PostMapper.convertToPostDTO(post.get());
+
+        return GetPostResponse.builder()
+                .isSuccess(true)
+                .post(postDTO)
+                .timeStamp(new Date())
+                .build();
+    }
+
+    @Override
+    public GetAllPostResponse getAllPosts() {
+        List<Post> posts = postRepository.findAll();
+
+        List<PostDTO> postDTOs = PostMapper.convertToPostDTOs(posts);
+
+        return GetAllPostResponse.builder()
+                .isSuccess(true)
+                .posts(postDTOs)
                 .timeStamp(new Date())
                 .build();
     }
