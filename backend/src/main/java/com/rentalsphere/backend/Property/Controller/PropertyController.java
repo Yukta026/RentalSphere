@@ -1,20 +1,17 @@
 package com.rentalsphere.backend.Property.Controller;
 
-import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.Property.Service.PropertyService;
 import com.rentalsphere.backend.RequestResponse.Property.GetAllPropertyResponse;
 import com.rentalsphere.backend.RequestResponse.Property.GetPropertyResponse;
 import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterRequest;
 import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterResponse;
+import com.rentalsphere.backend.RequestResponse.Tenant.TenantResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -39,5 +36,15 @@ public class PropertyController {
     @GetMapping
     public ResponseEntity<GetAllPropertyResponse> getAllPropertyApplications() {
         return new ResponseEntity<>(propertyService.getAllPropertyApplications(), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/approve/{email}")
+    public ResponseEntity<TenantResponse> acceptTenantRequest(@PathVariable String email){
+        return new ResponseEntity<>(propertyService.acceptTenantRequest(email), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/reject/{email}")
+    public ResponseEntity<TenantResponse> rejectTenantRequest(@PathVariable String email){
+        return new ResponseEntity<>(propertyService.rejectTenantRequest(email), HttpStatus.OK);
     }
 }

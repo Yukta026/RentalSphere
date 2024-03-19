@@ -27,8 +27,8 @@ const PropertyDetails = () => {
 
     return (
         <div className='w-full p-10'>
-            <div className='flex gap-6 ml-12'>
-                <div className='w-[40%]'>
+            <div className='flex justify-center gap-6 ml-12'>
+                <div className='w-[48%]'>
                     <CarouselSlider>
                         <div className='h-full w-full'>
                             <img className='object-cover' src="https://media.designcafe.com/wp-content/uploads/2023/01/31151510/contemporary-interior-design-ideas-for-your-home.jpg" />
@@ -58,17 +58,12 @@ const PropertyDetails = () => {
                     </div>
                 </div>
 
-                <div className='w-[40%] justify-center'>
-                    {/* ### DESCRIPTION START ### */}
-                    <div className='bg-white  p-4 border border-gray-300 drop-shadow-sm'>
-                        <h6 className='text-[20px] text-[#373373]'>Description</h6>
-                        <p className='mt-4 '>One bedroom in a 5 bedroom house in Clayton Park close to all amenities, bus route . Everything included including a shared kitchen living room and dining room . Each bedroom will have their own individual mini fridge and microwave .Cable and internet</p>
-                    </div>
-                    {/* ### DESCRIPTION END ### */}
+                <div className='w-[48%] justify-center'>
+                    
 
 
                     {/* ### TITLE BOX DIV START### */}
-                    < div className='bg-white p-4 border border-gray-300  drop-shadow-sm  mt-6' >
+                    < div className='bg-white p-4 border border-gray-300  drop-shadow-sm ' >
                         <div className='flex justify-between gap-6'>
                             <h2 className='text-[20px] font-bold text-gray-800'>Gorgeous 3 BDR Unit with Lovely Backyard Centrally Located</h2>
 
@@ -100,6 +95,14 @@ const PropertyDetails = () => {
                         </div>
                     </div >
                     {/* ### TITLE BOX DIV END### */}
+
+
+                    {/* ### DESCRIPTION START ### */}
+                    <div className='bg-white  p-4 border border-gray-300 drop-shadow-sm  mt-6'>
+                        <h6 className='text-[20px] text-[#373373]'>Description</h6>
+                        <p className='mt-4 '>One bedroom in a 5 bedroom house in Clayton Park close to all amenities, bus route . Everything included including a shared kitchen living room and dining room . Each bedroom will have their own individual mini fridge and microwave .Cable and internet</p>
+                    </div>
+                    {/* ### DESCRIPTION END ### */}
 
 
                     {/* ### OVERVIEW 2 BOX LAYOUT START ### */}

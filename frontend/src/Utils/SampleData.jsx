@@ -204,3 +204,102 @@ export const sampleListingsData = [
   },
   
 ];
+
+export const sampleRequestData = [
+  {
+    id: "d5e3",
+    requestSubject: "New Req",
+    requestType: "New Req type",
+    requestMessage: "New Req type Message New Req type Message"
+  },
+  {
+    id: "caee",
+    requestSubject: "Test 1",
+    requestType: "Test 1 type",
+    requestMessage: "Test 1 message Test 1 messageTest 1 messageTest 1 message"
+  },
+  {
+    id: "2fdd",
+    requestSubject: "Testst",
+    requestType: "Testst",
+    requestMessage: "TeststTeststTeststTestst"
+  }
+]
+
+
+export const sampleDocumentData = [
+  {
+    id: "1",
+    documentName: "Document 1",
+    documentLink: "https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf",
+    createdDate: "22 Fab 2024"
+  },
+  {
+    id: "2",
+    documentName: "Document 2",
+    documentLink: "https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf",
+    createdDate: "22 Fab 2024"
+  },
+  {
+    id: "3",
+    documentName: "Document 3",
+    documentLink: "https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf",
+    createdDate: "22 Fab 2024"
+  },
+]
+
+
+export const samplePaymentData = [
+  {
+    id: "1",
+    invoiceNo:"dsf2313sdas",
+    note: "Maintenance",
+    amount: 45,
+    paymentDate: "24 March 2024",
+    paymentDueDate: "30 March 2024",
+    status:"open",
+    tenant:"John Doe"
+  },
+  {
+    id: "2",
+    invoiceNo:"dsf2313sdas",
+    note: "Maintenance",
+    amount: 45,
+    paymentDate: "24 March 2024",
+    paymentDueDate: "30 March 2024",
+    status:"partial",
+    tenant:"John Doe"
+  },
+  {
+    id: "3",
+    invoiceNo:"dsf2313sdas",
+    note: "Maintenance",
+    amount: 45,
+    paymentDate: "24 March 2024",
+    paymentDueDate: "30 March 2024",
+    status:"paid",
+    tenant:"John Doe"
+  },
+  {
+    id: "3",
+    invoiceNo:"dsf2313sdas",
+    note: "Maintenance",
+    amount: 45,
+    paymentDate: "24 March 2024",
+    paymentDueDate: "30 March 2024",
+    status:"overdue",
+    tenant:"John Doe"
+  },
+];
+
+export const sampleCommunityData = [
+  {
+    id: "a6f5",
+    name: "Second hand car for sale",
+    description: "Top condition ",
+    contactNumber: "09879154689",
+    address: "304. park view",
+    price: "60000",
+    image: "https://imgd-ct.aeplcdn.com/640X480/cw/ucp/stockApiImg/QM0B9FY_5632c10a393746479ed4bbbc8f61ea05_1_30554345.jpeg?q=80"
+  }
+]

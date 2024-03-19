@@ -1,20 +1,21 @@
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { sampleCommunityData } from "../../Utils/SampleData";
 
 const TenantCommunity = () => {
   const navigate = useNavigate();
 
-  const [productsData, setProductsData] = useState();
+  const [productsData, setProductsData] = useState(sampleCommunityData);
 
-  useEffect(() => {
-    loadRequests();
-  }, []);
+  // useEffect(() => {
+  //   loadRequests();
+  // }, []);
 
-  const loadRequests = async () => {
-    const result = await Axios.get("http://localhost:8000/products");
-    setProductsData(result.data);
-  };
+  // const loadRequests = async () => {
+  //   const result = await Axios.get("http://localhost:8000/products");
+  //   setProductsData(result.data);
+  // };
 
   return (
     <>
@@ -28,21 +29,21 @@ const TenantCommunity = () => {
         </button>
       </div>
 
-      {productsData?.length === 0 ? (
+      {productsData?.length == 0 ? (
         <div>No Data Found</div>
       ) : (
         <div className="flex flex-wrap gap-6">
           {productsData &&
             productsData.map((data, index) => (
               <>
-                <div className="w-[25%] mt-6 card card-compact bg-base-100 shadow-xl">
-                  <figure>
+              {/* <Link className="w-[25%] mt-6 card card-compact bg-base-100 shadow-xl" to={"/managerdashboard/rentmanagement"}> */}
+                <div className="">
+                 
                     <img
                       className="h-[200px] w-full object-cover "
                       src={data?.image}
                       alt="Shoes"
                     />
-                  </figure>
                   <div className="card-body">
                     <h2 className="card-title">{data.name}</h2>
                     <p>{data.description}</p>
@@ -57,6 +58,7 @@ const TenantCommunity = () => {
                     </div>
                   </div>
                 </div>
+              {/* </Link> */}
               </>
             ))}
         </div>

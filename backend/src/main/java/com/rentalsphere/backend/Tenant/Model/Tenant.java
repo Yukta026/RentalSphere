@@ -1,5 +1,7 @@
 package com.rentalsphere.backend.Tenant.Model;
 
+import com.rentalsphere.backend.Enums.ApplicationStatus;
+import com.rentalsphere.backend.Lease.Model.Lease;
 import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.User.Model.User;
 import jakarta.persistence.*;
@@ -9,6 +11,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Builder
@@ -20,9 +23,9 @@ import java.util.UUID;
 public class Tenant {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TenantID")
-    private UUID tenantID;
+    private Long tenantID;
 
     @ManyToOne
     @JoinColumn(name = "userID", referencedColumnName = "id")
@@ -71,11 +74,19 @@ public class Tenant {
     @Column(name = "LengthOfEmployment", nullable = false)
     private Integer lengthOfEmployment;
 
-    @NotBlank(message = "ApplicationStatus cannot be blank.")
+//    @NotBlank(message = "ApplicationStatus cannot be blank.")
     @Column(name = "ApplicationStatus", nullable = false)
-    private String applicationStatus;
+    @Enumerated(EnumType.STRING)
+    private ApplicationStatus applicationStatus;
 
     @NotNull(message = "CreationDate cannot be blank.")
     @Column(name = "CreationDate", nullable = false)
     private Date creationDate;
+
+    @ManyToOne
+    @JoinColumn(name = "property_id", referencedColumnName = "PropertyApplicationID") // This is the foreign key column in PropertyApplications table
+    private Property property;
+
+    @OneToMany(mappedBy = "tenant")
+    private List<Lease> leaseList;
 }

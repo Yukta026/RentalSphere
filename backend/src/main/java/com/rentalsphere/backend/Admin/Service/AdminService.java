@@ -69,7 +69,7 @@ public class AdminService implements IAdminService {
     public PropertyManagerResponse rejectRequest(String email) {
         Optional<User> user = userRepository.findByEmail(email);
 
-        if(user.isEmpty()){
+        if(!user.isPresent()){
             throw new UserNotFoundException("User does not exists.");
         }
 

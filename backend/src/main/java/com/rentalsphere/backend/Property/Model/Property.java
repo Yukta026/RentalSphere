@@ -1,15 +1,15 @@
-    package com.rentalsphere.backend.Property.Model;
-    import com.fasterxml.jackson.annotation.JsonFormat;
-    import com.rentalsphere.backend.Enums.ApplicationStatus;
-    import com.rentalsphere.backend.User.Model.User;
-    import com.rentalsphere.backend.Utils.PropertyImages.Model.PropertyImages;
-    import jakarta.persistence.*;
-    import jakarta.validation.constraints.*;
-    import lombok.AllArgsConstructor;
-    import lombok.Builder;
-    import lombok.Data;
-    import lombok.NoArgsConstructor;
-    import org.springframework.format.annotation.DateTimeFormat;
+package com.rentalsphere.backend.Property.Model;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.rentalsphere.backend.Enums.ApplicationStatus;
+import com.rentalsphere.backend.Lease.Model.Lease;
+import com.rentalsphere.backend.User.Model.User;
+import com.rentalsphere.backend.Utils.PropertyImages.Model.PropertyImages;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
     import java.util.Date;
     import java.util.List;
@@ -130,8 +130,10 @@
         @OneToMany(mappedBy = "property")
         private List<PropertyImages> propertyImages;
 
-        @Override
-        public String toString(){
-            return "";
-        }
+    @OneToMany(mappedBy = "property")
+    private List<Lease> leaseList;
+
+    @Override
+    public String toString(){
+        return "";
     }

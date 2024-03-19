@@ -5,6 +5,8 @@ import Axios from "axios";
 import { FiFileText, FiGlobe, FiHome, FiTool, FiUsers } from "react-icons/fi";
 import { BsCreditCard } from "react-icons/bs";
 import { HiOutlineSpeakerphone } from "react-icons/hi";
+import { LuContact } from "react-icons/lu";
+
 
 const TenantDashboard = () => {
   const navigate = useNavigate();
@@ -16,10 +18,10 @@ const TenantDashboard = () => {
 
   return (
     <div className="flex min-h-screen">
-      <div className="mr-12">
+      <div className="p-6 drop-shadow-lg bg-white">
         <NavLink
           to="/tenantdashboard/overview"
-          className={`flex items-center gap-4 my-4 mt-6 cursor-pointer hover:bg-gray-200 px-4 rounded-[6px] py-2 ${({
+          className={`flex items-center gap-4 mb-4 cursor-pointer hover:bg-gray-200 px-4 rounded-[6px] py-2 ${({
             isActive,
           }) => (isActive ? "active" : "inactive")}`}
         >
@@ -83,7 +85,7 @@ const TenantDashboard = () => {
           }) => (isActive ? "active" : "inactive")}`}
         >
           <span className="text-[20px]">
-            <FiUsers />
+            <LuContact  />
           </span>{" "}
           Contacts
         </NavLink>
@@ -99,9 +101,21 @@ const TenantDashboard = () => {
           </span>{" "}
           Community
         </NavLink>
+
+        <NavLink
+          to="/tenantdashboard/account"
+          className={`flex items-center gap-4 my-4 cursor-pointer hover:bg-gray-200 px-4 rounded-[6px] py-2 ${({
+            isActive,
+          }) => (isActive ? "active" : "inactive")}`}
+        >
+          <span className="text-[20px]">
+            <FiUsers />
+          </span>{" "}
+          Account
+        </NavLink>
       </div>
 
-      <div className="w-full">
+      <div className="w-full p-6">
         <Outlet />
       </div>
     </div>
