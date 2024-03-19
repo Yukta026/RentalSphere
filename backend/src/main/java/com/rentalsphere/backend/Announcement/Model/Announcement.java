@@ -1,6 +1,7 @@
 // PMAnnouncement.java
 package com.rentalsphere.backend.Announcement.Model;
 
+import com.rentalsphere.backend.Property.Model.Property;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,10 @@ public class Announcement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "property_id", referencedColumnName = "PropertyApplicationID")
+    private Property property;
+
     @Column(name = "title")
     private String title;
 
@@ -30,4 +35,7 @@ public class Announcement {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "announcement_date")
     private Date announcementDate;
+
+    public Announcement(long l, String title, String content, Date date) {
+    }
 }

@@ -47,4 +47,10 @@ public class AnnouncementController {
         announcementService.deleteAnnouncement(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/property/{propertyId}")
+    public ResponseEntity<List<Announcement>> getAnnouncementsByPropertyId(@PathVariable Long propertyId) {
+        List<Announcement> announcements = announcementService.getAnnouncementsByPropertyId(propertyId);
+        return ResponseEntity.ok(announcements);
+    }
 }

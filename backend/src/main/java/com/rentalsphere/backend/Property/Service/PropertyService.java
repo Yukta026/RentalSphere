@@ -47,6 +47,7 @@ public class PropertyService implements IPropertyService {
     private final RoleRepository roleRepository;
     private final EmailService emailService;
 
+
     @Override
     public PropertyRegisterResponse savePropertyApplication(PropertyRegisterRequest propertyrequest) throws IOException, ParseException{
         Optional<User> user = userRepository.findByEmail(propertyrequest.getEmail());

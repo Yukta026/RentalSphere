@@ -24,6 +24,9 @@ public class AnnouncementRegisterRequest {
     @NotNull(message = "AnnouncementDate cannot be blank.")
     private Date announcementDate;
 
+    @NotNull(message = "Property ID cannot be blank.")
+    private Long propertyId;
+
     public AnnouncementRegisterRequest(String title, String content) {
     }
 }

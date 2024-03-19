@@ -3,7 +3,9 @@ package com.rentalsphere.backend.AnnouncementTests;
 import com.rentalsphere.backend.Announcement.Model.Announcement;
 import com.rentalsphere.backend.Announcement.Repository.AnnouncementRepository;
 import com.rentalsphere.backend.Announcement.Service.AnnouncementService;
+import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.RequestResponse.Announcement.AnnouncementRegisterRequest;
+import com.rentalsphere.backend.Property.Repository.PropertyRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,8 +21,13 @@ class AnnouncementTests {
     @Mock
     private AnnouncementRepository announcementRepository;
 
+    @Mock
+    private PropertyRepository propertyRepository;
+
     @InjectMocks
     private AnnouncementService announcementService;
+
+
 
     @BeforeEach
     void setUp() {
@@ -73,9 +80,14 @@ class AnnouncementTests {
     void testCreateAnnouncement() {
         // Mock input data
         AnnouncementRegisterRequest request = new AnnouncementRegisterRequest("Title", "Content");
+        request.setPropertyId(1L); // Set property ID
 
         // Mock repository behavior
+        Property property = new Property();
+        property.setPropertyApplicationID(1L); // Set property ID
         Announcement savedAnnouncement = new Announcement(1L, "Title", "Content", new Date());
+        savedAnnouncement.setProperty(property);
+        when(propertyRepository.findById(anyLong())).thenReturn(Optional.of(property)); // Mock property repository
         when(announcementRepository.save(any(Announcement.class))).thenReturn(savedAnnouncement);
 
         // Call the service method
@@ -85,9 +97,11 @@ class AnnouncementTests {
         verify(announcementRepository).save(any(Announcement.class));
 
         // Assert the result
-        assertNotNull(result);
         assertEquals(savedAnnouncement, result);
     }
+
+    // Remaining test cases unchanged
+
 
     @Test
     void testDeleteAnnouncement() {
@@ -107,9 +121,13 @@ class AnnouncementTests {
         Long announcementId = 1L;
         Announcement existingAnnouncement = new Announcement(announcementId, "Title", "Content", new Date());
         Announcement newAnnouncement = new Announcement(announcementId, "Updated Title", "Updated Content", new Date());
+        Property property = new Property();
+        property.setPropertyApplicationID(1L); // Set property ID for new announcement
+        newAnnouncement.setProperty(property); // Set property for new announcement
 
         // Mock repository behavior
         when(announcementRepository.findById(announcementId)).thenReturn(Optional.of(existingAnnouncement));
+        when(propertyRepository.findById(anyLong())).thenReturn(Optional.of(property)); // Mock property repository
         when(announcementRepository.save(any(Announcement.class))).thenReturn(newAnnouncement);
 
         // Call the service method
@@ -121,9 +139,7 @@ class AnnouncementTests {
         verify(announcementRepository).save(any(Announcement.class));
 
         // Assert the result
-        assertNotNull(result);
         assertEquals(newAnnouncement, result);
-
-
     }
+
 }
