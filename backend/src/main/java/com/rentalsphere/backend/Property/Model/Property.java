@@ -29,29 +29,30 @@ import lombok.NoArgsConstructor;
         private Long propertyApplicationID;
 
         @ManyToOne
-        @JoinColumn(name = "manager_id", referencedColumnName = "id") // This is the foreign key column in PropertyApplications table
+        @JoinColumn(name = "manager_id", referencedColumnName = "id")
+        // This is the foreign key column in PropertyApplications table
         private User propertyManager;
 
         //    @Column(name = "CompanyName")
-    //    private String companyName;
-    //
+        //    private String companyName;
+        //
         @NotBlank(message = "Email address cannot be blank.")
         @Pattern(regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$", message = "Valid email required.")
         @Column(name = "EmailAddress", nullable = false, unique = true)
         private String emailAddress;
         //
-    //    @NotBlank(message = "Country Code cannot be blank.")
-    //    @Column(name = "CountryCode", nullable = false)
-    //    private String countryCode;
-    //
+        //    @NotBlank(message = "Country Code cannot be blank.")
+        //    @Column(name = "CountryCode", nullable = false)
+        //    private String countryCode;
+        //
         @NotBlank(message = "Phone number cannot be blank.")
         @Column(name = "PhoneNumber", nullable = false)
         private String phoneNumber;
         //
-    //    @NotBlank(message = "Property type cannot be blank.")
-    //    @Column(name = "PropertyType", nullable = false)
-    //    private String propertyType;
-    //
+        //    @NotBlank(message = "Property type cannot be blank.")
+        //    @Column(name = "PropertyType", nullable = false)
+        //    private String propertyType;
+        //
         @NotBlank(message = "Property address cannot be blank.")
         @Column(name = "PropertyAddress", nullable = false)
         private String propertyAddress;
@@ -73,9 +74,9 @@ import lombok.NoArgsConstructor;
         @Column(name = "MonthlyRent", nullable = false)
         private Double monthlyRent;
         //
-    //    @Column(name = "LeaseTerms", nullable = false)
-    //    private String leaseTerms;
-    //
+        //    @Column(name = "LeaseTerms", nullable = false)
+        //    private String leaseTerms;
+        //
         @NotNull(message = "Available move-in date cannot be null.")
         @Column(name = "AvailableMoveInDate", nullable = false)
         private Date availableMoveInDate;
@@ -90,30 +91,30 @@ import lombok.NoArgsConstructor;
         @Column(name = "NumBathrooms", nullable = false)
         private Integer numBathrooms;
         //
-    //    @Column(name = "Amenities")
-    //    private String amenities;
-    //
+        //    @Column(name = "Amenities")
+        //    private String amenities;
+        //
         @Column(name = "PropertyDescription", columnDefinition = "TEXT")
         private String propertyDescription;
-    //
-    //    @Column(name = "SpecialRequirements", columnDefinition = "TEXT")
-    //    private String specialRequirements;
-    //
-    //    @NotNull(message = "Communication consent cannot be null.")
-    //    @Column(name = "CommunicationConsent", nullable = false)
-    //    private Boolean communicationConsent;
-    //
-    //    @NotNull(message = "Email contact cannot be null.")
-    //    @Column(name = "EmailContact", nullable = false)
-    //    private Boolean emailContact;
-    //
-    //    @NotNull(message = "Phone contact cannot be null.")
-    //    @Column(name = "PhoneContact", nullable = false)
-    //    private Boolean phoneContact;
-    //
-    //    @NotNull(message = "Consent given cannot be null.")
-    //    @Column(name = "ConsentGiven", nullable = false)
-    //    private Boolean consentGiven;
+        //
+        //    @Column(name = "SpecialRequirements", columnDefinition = "TEXT")
+        //    private String specialRequirements;
+        //
+        //    @NotNull(message = "Communication consent cannot be null.")
+        //    @Column(name = "CommunicationConsent", nullable = false)
+        //    private Boolean communicationConsent;
+        //
+        //    @NotNull(message = "Email contact cannot be null.")
+        //    @Column(name = "EmailContact", nullable = false)
+        //    private Boolean emailContact;
+        //
+        //    @NotNull(message = "Phone contact cannot be null.")
+        //    @Column(name = "PhoneContact", nullable = false)
+        //    private Boolean phoneContact;
+        //
+        //    @NotNull(message = "Consent given cannot be null.")
+        //    @Column(name = "ConsentGiven", nullable = false)
+        //    private Boolean consentGiven;
 
         //    @NotBlank(message = "Application status cannot be blank.")
         @Column(name = "ApplicationStatus", nullable = false)
@@ -130,10 +131,11 @@ import lombok.NoArgsConstructor;
         @OneToMany(mappedBy = "property")
         private List<PropertyImages> propertyImages;
 
-    @OneToMany(mappedBy = "property")
-    private List<Lease> leaseList;
+        @OneToMany(mappedBy = "property")
+        private List<Lease> leaseList;
 
-    @Override
-    public String toString(){
-        return "";
+        @Override
+        public String toString() {
+            return "";
+        }
     }
