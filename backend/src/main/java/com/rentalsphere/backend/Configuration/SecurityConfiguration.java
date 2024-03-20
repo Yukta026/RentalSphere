@@ -27,6 +27,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth->auth
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/api/v1/admin/**").hasRole(Roles.ADMIN.name())
+                        .requestMatchers("/api/v1/marketplace/post/**").hasRole(Roles.TENANT.name())
                         .anyRequest()
                         .authenticated()
                 )
