@@ -1,17 +1,28 @@
 import { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
-import { sampleDocumentData, samplePaymentData } from "../../Utils/SampleData";
 import { MdFileDownload, MdOutlineDelete } from "react-icons/md";
+import { Link, useNavigate } from "react-router-dom";
+import { sampleLeaseData } from "../../Utils/SampleData";
 
 export default function PMLeaseManage() {
+
+  const navigate = useNavigate();
 
   const [selectedOption, setSelectedOption] = useState('');
 
   return (
     <div>
-    <h1 className="text-2xl font-bold mb-10">
-      Lease Management
-    </h1>
+
+      <div className="flex justify-between mb-10 items-center p-4">
+        <h1 className="text-2xl font-bold">Lease Management</h1>
+        <Link
+          to="/managerdashboard/add-new-lease"
+          className="btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Add New Lease
+        </Link>
+      </div>
+    
 
    
       <div className='relative'>
@@ -40,11 +51,10 @@ export default function PMLeaseManage() {
         <table className='table-auto w-full h-full'>
           <thead className='text-left text-gray-4 uppercase text-[14px] tracking-wider'>
             <tr className='border-b-2 border-gray py-10'>
-              <th className='pb-5 px-3'>
-                ID
-              </th>
               <th className='pb-5 px-3'>Document name</th>
-              <th className='pb-5 px-3'>Created date</th>
+              <th className='pb-5 px-3'>Start date</th>
+              <th className='pb-5 px-3'>End date</th>
+              <th className='pb-5 px-3'>Month rent</th>
               <th className='pb-5 px-3 text-center'>
                 {/* <MdFileDownload  className="text-green-900 text-center text-[20px]"/> */}
                 Download
@@ -56,15 +66,13 @@ export default function PMLeaseManage() {
             </tr>
           </thead>
           <tbody className='text-black font-gilroy-medium'>
-            {sampleDocumentData.map((data, index) => (
+            {sampleLeaseData.map((data, index) => (
                <tr key={index} className='border-b-2 border-gray py-10'>
-                <td className='py-4 px-3'>
-                   {data.id}
-                </td>
-                
-                
+
                 <td className='py-4 px-3'>{data.documentName}</td>
-                <td className='py-4 px-3'>{data.createdDate}</td>
+                <td className='py-4 px-3'>{data.startDate}</td>
+                <td className='py-4 px-3'>{data.endDate}</td>
+                <td className='py-4 px-3 text-center'>{data.monthRent}</td>
                 <td className='py-4 px-3 '>
                   <a className="flex justify-center" href={data.documentLink} target="_blank" download="">
                     <MdFileDownload  className="text-green-900 text-center text-[20px]"/></a>

@@ -35,6 +35,9 @@ import ApprovedPMs from "./components/AdminDashboard/ApprovedPMs.jsx";
 import RequestDetails from "./components/AdminDashboard/RequestDetails.jsx";
 import PropertyDetails from "./components/PropertyDetails.jsx";
 import TenantAccount from "./components/TenantDashboard/TenantAccount.jsx";
+// import TenantNewPropertyApplication from "./components/TenantDashboard/TenantNewPropertyApplication.jsx";
+import CommunityPostDetails from "./components/TenantDashboard/CommunityPostDetails.jsx";
+import AddLease from "./components/ManagerDashboard/AddLease.jsx";
 
 const AppRoutes = () => {
   return (
@@ -58,6 +61,7 @@ const AppRoutes = () => {
         <Route exact path="tenantapprovals" element={<PMTenantApprovals />} />
         <Route exact path="rentmanagement" element={<PMRentManage />} />
         <Route exact path="leasemanagement" element={<PMLeaseManage />} />
+        <Route exact path="add-new-lease" element={<AddLease />} />
         <Route exact path="violationlog" element={<PMViolationLog />} />
         <Route exact path="servicerequests" element={<PMServiceReqs />} />
         <Route exact path="pending" element={<PMPendingApproval />} />
@@ -79,7 +83,9 @@ const AppRoutes = () => {
         <Route exact path="documents" element={<TenantDocuments />} />
         <Route exact path="contacts" element={<TenantContacts />} />
         <Route exact path="community" element={<TenantCommunity />} />
-        <Route exact path="community/new-post" element={<TenantNewPost />} />
+          <Route exact path="community/:id" element={<CommunityPostDetails />} />
+          <Route exact path="community/new-post" element={<TenantNewPost />} />
+        
         new-post
       </Route>
       {/*  */}
