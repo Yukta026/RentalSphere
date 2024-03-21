@@ -3,9 +3,14 @@ package com.rentalsphere.backend.AnnouncementTests;
 import com.rentalsphere.backend.Announcement.Model.Announcement;
 import com.rentalsphere.backend.Announcement.Repository.AnnouncementRepository;
 import com.rentalsphere.backend.Announcement.Service.AnnouncementService;
+import com.rentalsphere.backend.Enums.ApplicationStatus;
+import com.rentalsphere.backend.Exception.Property.PropertyNotFoundException;
+import com.rentalsphere.backend.Exception.User.UserNotFoundException;
 import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.RequestResponse.Announcement.AnnouncementRegisterRequest;
 import com.rentalsphere.backend.Property.Repository.PropertyRepository;
+import com.rentalsphere.backend.Tenant.Model.Tenant;
+import com.rentalsphere.backend.Tenant.Repository.TenantRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -23,6 +28,12 @@ class AnnouncementTests {
 
     @Mock
     private PropertyRepository propertyRepository;
+    @Mock
+    private TenantRepository tenantRepository;
+    @Mock
+    private Tenant tenant;
+    @Mock
+    private Property property;
 
     @InjectMocks
     private AnnouncementService announcementService;
@@ -140,6 +151,41 @@ class AnnouncementTests {
 
         // Assert the result
         assertEquals(newAnnouncement, result);
+    }
+
+    @Test
+    void testGetAnnouncementForTenant(){
+        Announcement announcement1 = new Announcement(1L, "Title 1", "Content 1", new Date());
+        Announcement announcement2 = new Announcement(2L, "Title 2", "Content 2", new Date());
+
+        when(tenantRepository.findByEmailAddressAndApplicationStatus(anyString(), any(ApplicationStatus.class))).thenReturn(Optional.of(tenant));
+        when(tenant.getProperty()).thenReturn(property);
+        when(propertyRepository.findById(anyLong())).thenReturn(Optional.of(property));
+        when(announcementRepository.findByProperty(property)).thenReturn(List.of(announcement1, announcement2));
+
+        List<Announcement> announcements = announcementService.getAnnouncementForTenant("test@gmail.com");
+
+        assertEquals(announcements, List.of(announcement1,announcement2));
+    }
+
+    @Test
+    void testGetAnnouncementForTenatUserNotFoundException(){
+        when(tenantRepository.findByEmailAddressAndApplicationStatus(anyString(), any(ApplicationStatus.class))).thenReturn(Optional.empty());
+
+        assertThrows(UserNotFoundException.class, ()->{
+           announcementService.getAnnouncementForTenant("test@gmail.com");
+        });
+    }
+
+    @Test
+    void testGetAnnouncementForTenatPropertyNotFoundException(){
+        when(tenantRepository.findByEmailAddressAndApplicationStatus(anyString(), any(ApplicationStatus.class))).thenReturn(Optional.of(tenant));
+        when(tenant.getProperty()).thenReturn(property);
+        when(propertyRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThrows(PropertyNotFoundException.class, ()->{
+           announcementService.getAnnouncementForTenant("test@gmail.com");
+        });
     }
 
 }
