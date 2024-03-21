@@ -13,11 +13,12 @@ import { sampleListingsData } from "../Utils/SampleData.jsx";
 import useAppContext from "../hooks/useAppContext.jsx";
 import useAuth from "../hooks/useAuth.jsx";
 import axios from "axios";
-const LISTINGS_URL = import.meta.env.VITE_BACKEND_URL + "/property/";
+const LISTINGS_URL = "http://localhost:8080/api/v1/property";
 
 const Home = () => {
-  const [currListings, setCurrListings] = useState(sampleListingsData);
-  const { listings, setAllListings } = useAppContext();
+  // const [currListings, setCurrListings] = useState(sampleListingsData);
+  const { listings, setListings, singleListing, setSingleListing } =
+    useAppContext();
   const navigate = useNavigate();
   const { auth } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
@@ -28,59 +29,30 @@ const Home = () => {
     };
     setIsLoading(true);
     await axios
-      .get("http://localhost:8080/api/v1/property", { headers })
-      .then((res) => setCurrListings(res.data.properties))
+      .get(LISTINGS_URL, { headers })
+      .then((res) => setListings(res.data.properties))
       .catch((err) => console.log(err))
       .finally(() => setIsLoading(false));
   };
 
   useEffect(() => {
-    // const fetchListings = () => {
-    //   const fetchListings = async () => {
-    //     try {
-    //       const headers = {
-    //         "Content-Type": "application/json",
-    //       };
-    //       const response = await axios.get(
-    //         "http://localhost:8080/api/v1/property",
-    //         { headers: headers }
-    //       );
-    //       if (response) {
-    //         console.log("All listings API Response: ", response.data);
-    //         setAllListings(response.data);
-    //         // setIsLoading(false);
-    //         // if (response.data.length === 0) {
-    //         //   setIsLoading(false);
-    //         // } else {
-    //         //   setData(response.data[0]);
-    //         // }
-    //       }
-    //     } catch (err) {
-    //       console.log(err.response);
-    //     }
-    //   };
-    //   // setIsLoading(true);
-    //   fetchListings();
-    // };
-    // fetchListings();
     fetchListings();
-  }, []);
-
-  // if (isLoading) {
-  //   return <div>Loading...</div>;
-  // }
+  }, [auth, navigate]);
 
   return (
     <div>
       <div className="grid w-full grid-cols-1 gap-4 p-10 m-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {!isLoading &&
-          currListings?.map((listing, index) => (
+          listings?.map((listing, index) => (
             <div className="relative w-full mx-auto" key={index}>
               <Link
                 to={`/home/${listing.propertyId}`}
                 // target="_blank"
                 // to={{ pathname: `/home/${listing.id}`, state: { from: listing } }}
                 className="relative inline-block w-full transition-transform duration-300 ease-in-out transform hover:-translate-y-2"
+                onClick={() => {
+                  setSingleListing(listing);
+                }}
               >
                 <div className="p-4 bg-white rounded-lg shadow">
                   <div className="relative flex justify-center overflow-hidden rounded-lg h-52">
@@ -125,7 +97,7 @@ const Home = () => {
                       className="mt-2 text-sm text-gray-800 line-clamp-1"
                       title="New York, NY 10004, United States"
                     >
-                      {listing.listingAddress}
+                      {sampleListingsData[listing.propertyId - 1].address}
                     </p>
                   </div>
 
@@ -133,18 +105,20 @@ const Home = () => {
                     <p className="inline-flex flex-col text-gray-800 xl:flex-row xl:items-center">
                       <CondoIcon />
                       <span className="mt-2 xl:mt-0">
-                        {listing.listingType}
+                        {sampleListingsData[listing.propertyId - 1].listingType}
                       </span>
                     </p>
                     <p className="inline-flex flex-col text-gray-800 xl:flex-row xl:items-center">
                       <PartFurnishIcon />
                       <span className="mt-2 xl:mt-0">
-                        {listing.furnishType}
+                        {sampleListingsData[listing.propertyId - 1].furnishType}
                       </span>
                     </p>
                     <p className="inline-flex flex-col text-gray-800 xl:flex-row xl:items-center">
                       <SqFtIcon />
-                      <span className="mt-2 xl:mt-0">{listing.area}</span>
+                      <span className="mt-2 xl:mt-0">
+                        {sampleListingsData[listing.propertyId - 1].area}
+                      </span>
                     </p>
                     <p className="inline-flex flex-col text-gray-800 xl:flex-row xl:items-center">
                       <SqFtRateIcon />
@@ -162,14 +136,14 @@ const Home = () => {
                       </div>
 
                       <p className="ml-2 text-gray-800 line-clamp-1">
-                        {listing.owner}
+                        {listing.contactEmail}
                       </p>
                     </div>
 
                     <div className="flex justify-end">
                       <p className="inline-block font-semibold leading-tight text-primary whitespace-nowrap rounded-xl">
                         <span className="text-sm uppercase">$</span>
-                        <span className="text-lg">{listing.price}</span>/m
+                        <span className="text-lg">{listing.monthlyRent}</span>/m
                       </p>
                     </div>
                   </div>
