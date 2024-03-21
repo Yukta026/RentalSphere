@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import useAppContext from "../hooks/useAppContext.jsx";
+import useAuth from "../hooks/useAuth.jsx";
+import { toast, Bounce } from "react-toastify";
 import {
   BedIcon,
   // CarIcon,
@@ -10,9 +14,7 @@ import {
   SqFtRateIcon,
 } from "../Utils/SVGObjs";
 import { sampleListingsData } from "../Utils/SampleData.jsx";
-import useAppContext from "../hooks/useAppContext.jsx";
-import useAuth from "../hooks/useAuth.jsx";
-import axios from "axios";
+
 const LISTINGS_URL = "http://localhost:8080/api/v1/property";
 
 const Home = () => {
@@ -36,7 +38,22 @@ const Home = () => {
   };
 
   useEffect(() => {
-    fetchListings();
+    if (!auth.email) {
+      toast.error("Please Login first", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+      navigate("/login");
+    } else {
+      fetchListings();
+    }
   }, [auth, navigate]);
 
   return (
