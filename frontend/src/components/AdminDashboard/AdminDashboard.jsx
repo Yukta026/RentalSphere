@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { propManagersData } from "../../Utils/sampleDataHarsh.jsx";
 import useAuth from "../../hooks/useAuth.jsx";
 import useAppContext from "../../hooks/useAppContext.jsx";
+import { toast, Bounce } from "react-toastify";
 import LoadingSpinner from "../../assets/LoadingSpinner.jsx";
 const ALL_PMREQS_URL = import.meta.env.VITE_BACKEND_URL + "/admin/properties";
 const PMREQ_APPROVE_URL = import.meta.env.VITE_BACKEND_URL + "/admin/approve/";
@@ -24,9 +25,20 @@ const AdminDashboard = () => {
     if (auth && auth.role && auth.role !== "ADMIN") {
       // setShowDash(false);
       navigate(`/home`, { replace: true });
-      window.alert("You're not logged in. Please log in first.");
+      // window.alert("You're not logged in. Please log in first.");
+      toast.error("You're not logged in. Please log in first.", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
     }
-  }, [auth]);
+  }, [auth, navigate]);
 
   useEffect(() => {
     fetchPMReqs();
