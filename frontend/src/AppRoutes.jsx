@@ -38,6 +38,7 @@ import TenantAccount from "./components/TenantDashboard/TenantAccount.jsx";
 // import TenantNewPropertyApplication from "./components/TenantDashboard/TenantNewPropertyApplication.jsx";
 import CommunityPostDetails from "./components/TenantDashboard/CommunityPostDetails.jsx";
 import AddLease from "./components/ManagerDashboard/AddLease.jsx";
+import NewTenantApp from "./components/NewTenantApp.jsx";
 
 const AppRoutes = () => {
   return (
@@ -45,6 +46,7 @@ const AppRoutes = () => {
       <Route exact path="/" element={<Landing />} />
       <Route exact path="/home" element={<Home />} />
       <Route exact path="/home/:id" element={<PropertyDetails />} />
+      <Route exact path="/home/:id/apply" element={<NewTenantApp />} />
       <Route path="*" element={<ErrorPage />} />
       {/*  */}
       {/* Authentication Routes */}
@@ -83,9 +85,8 @@ const AppRoutes = () => {
         <Route exact path="documents" element={<TenantDocuments />} />
         <Route exact path="contacts" element={<TenantContacts />} />
         <Route exact path="community" element={<TenantCommunity />} />
-          <Route exact path="community/:id" element={<CommunityPostDetails />} />
-          <Route exact path="community/new-post" element={<TenantNewPost />} />
-        
+        <Route exact path="community/:id" element={<CommunityPostDetails />} />
+        <Route exact path="community/new-post" element={<TenantNewPost />} />
         new-post
       </Route>
       {/*  */}
