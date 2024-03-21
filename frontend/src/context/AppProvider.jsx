@@ -17,28 +17,28 @@ export const AppProvider = ({ children }) => {
   // For Property Manager Requests for Admin
   const [allPMReqs, setAllPMReqs] = useState([]);
 
-  useEffect(() => {
-    if (showAlert) {
-      // Set a timeout to hide the toast after 3 seconds
-      const timeoutId = setTimeout(() => {
-        setShowAlert(false);
-        console.log("showAlert offed", showAlert);
-      }, 3000);
+  // useEffect(() => {
+  //   if (showAlert) {
+  //     // Set a timeout to hide the toast after 3 seconds
+  //     const timeoutId = setTimeout(() => {
+  //       setShowAlert(false);
+  //       console.log("showAlert offed", showAlert);
+  //     }, 3000);
 
-      // // Clean up the timeout if the component unmounts or showAlert changes
-      return () => clearTimeout(timeoutId);
-    }
-  }, [showAlert]);
+  //     // // Clean up the timeout if the component unmounts or showAlert changes
+  //     return () => clearTimeout(timeoutId);
+  //   }
+  // }, [showAlert]);
 
-  useEffect(() => {
-    setShowAlert(true);
-  }, []);
+  // useEffect(() => {
+  //   setShowAlert(true);
+  // }, []);
 
-  useEffect(() => {
-    if (showAlert) {
-      console.log("showAlert updated", showAlert);
-    }
-  }, [showAlert]);
+  // useEffect(() => {
+  //   if (showAlert) {
+  //     console.log("showAlert updated", showAlert);
+  //   }
+  // }, [showAlert]);
 
   return (
     <AppContext.Provider

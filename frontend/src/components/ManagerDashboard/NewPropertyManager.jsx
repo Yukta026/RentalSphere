@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
 import useAuth from "../../hooks/useAuth.jsx";
-const NEW_PM_URL = import.meta.env.VITE_BACKEND_URL + "/property/register";
+const NEW_PM_URL = "http://localhost:8080/api/v1/property/register";
+import { toast, Bounce } from "react-toastify";
 
 const testFormValues = {
   // email: "",
@@ -90,6 +91,17 @@ const NewPropertyManager = () => {
     console.log(formData);
 
     await axios.post(NEW_PM_URL, formDataToSend, { headers });
+    toast.success("Request made to the Admin", {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
     setFormData(initialValues);
     setFiles([]);
     moveInDateRef.current.value = "";

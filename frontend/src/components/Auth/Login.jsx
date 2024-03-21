@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import Axios from "axios";
+import axios from "axios";
 import useAuth from "../../hooks/useAuth.jsx";
 import LoadingSpinner from "../../assets/LoadingSpinner.jsx";
-const LOGIN_URL = import.meta.env.VITE_BACKEND_URL + "/auth/login";
+const LOGIN_URL = " http://localhost:8080/api/v1/auth/login";
+import { toast, Bounce } from "react-toastify";
 import { httpPost } from "../../Utils/HttpRequest.jsx"; // Import the httpRequest module
 
 export default function Login() {
-  Axios.defaults.withCredentials = true;
+  axios.defaults.withCredentials = true;
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
@@ -68,7 +69,7 @@ export default function Login() {
       navigate("/home", { replace: true });
     } else {
     }
-  }, [auth]);
+  }, [auth, navigate]);
 
   const validateInputs = () => {
     let isValid = true;
@@ -100,45 +101,139 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!validateInputs()) {
       return;
     }
     setIsLoading(true);
     setErrMsg("");
+    const headers = {
+      "Content-Type": "application/json",
+    };
 
     try {
-      const response = await httpPost(
+      const response = await axios.post(
         LOGIN_URL,
         { email: userEmail, password: pwd },
-        { "Content-Type": "application/json" }
+        { headers }
       );
-      setIsLoading(false);
+      setAuth({
+        email: response.data.email,
+        token: response.data.token,
+        role: response.data.roles[1]
+          ? response.data.roles[1]
+          : response.data.roles[0],
+      });
 
-      if (!response.success) {
-        setErrMsg("Invalid username or password");
-      } else {
-        console.log(response);
-        setAuth({
-          email: response.email,
-          token: response.token,
-          role: response.roles[1] ? response.roles[1] : response.roles[0],
-        });
-      }
+      toast.success("Login Successful!", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
     } catch (error) {
-      setIsLoading(false);
       console.log(error);
-      if (!error?.response) {
-        console.log(error);
+
+      if (!error.response) {
         setErrMsg("No Server Response");
-      } else if (error.response?.status === 409) {
+      } else if (error.response.status === 409) {
         setErrMsg("Missing Username or Password");
-      } else if (error.response?.status === 401) {
+      } else if (error.response.status === 401) {
         setErrMsg("Unauthorized");
       } else {
         setErrMsg("Login Failed");
+        toast.error("Login Failed", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
       }
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (!validateInputs()) {
+  //     return;
+  //   }
+  //   setIsLoading(true);
+  //   setErrMsg("");
+  //   const headers = {
+  //     "Content-Type": "application/json",
+  //   };
+  //   await axios
+  //     .post(LOGIN_URL, { email: userEmail, password: pwd }, { headers })
+  //     .then((res) => {
+  //       console.log(res);
+  //       setAuth({
+  //         email: res.email,
+  //         token: res.token,
+  //         role: res.roles[0],
+  //       });
+  //       toast.success("Login Successful!", {
+  //         position: "top-center",
+  //         autoClose: 1000,
+  //         hideProgressBar: false,
+  //         closeOnClick: true,
+  //         pauseOnHover: true,
+  //         draggable: true,
+  //         progress: undefined,
+  //         theme: "light",
+  //         transition: Bounce,
+  //       });
+  //       // if (res.success) {
+  //       //   console.log(res);
+  //       //   setAuth({
+  //       //     email: response.email,
+  //       //     token: response.token,
+  //       //     role: response.roles[1] ? response.roles[1] : response.roles[0],
+  //       //   });
+  //       //   toast.success("Login Successful!", {
+  //       //     position: "top-center",
+  //       //     autoClose: 1000,
+  //       //     hideProgressBar: false,
+  //       //     closeOnClick: true,
+  //       //     pauseOnHover: true,
+  //       //     draggable: true,
+  //       //     progress: undefined,
+  //       //     theme: "light",
+  //       //     transition: Bounce,
+  //       //   });
+  //       // } else {
+  //       //   setErrMsg("Invalid username or password");
+  //       // }
+  //     })
+  //     .catch((error) => {
+  //       setIsLoading(false);
+  //       console.log(error);
+  //       if (!error?.response) {
+  //         console.log(error);
+  //         setErrMsg("No Server Response");
+  //       } else if (error.response?.status === 409) {
+  //         setErrMsg("Missing Username or Password");
+  //       } else if (error.response?.status === 401) {
+  //         setErrMsg("Unauthorized");
+  //       } else {
+  //         setErrMsg("Login Failed");
+  //       }
+  //     })
+  //     .finally(() => {
+  //       setIsLoading(false);
+  //     });
+  // };
 
   const handleForgotPassword = () => {
     // Navigate to the password recovery route

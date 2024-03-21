@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import useAuth from "../../hooks/useAuth.jsx";
+import axios from "axios";
+import { toast, Bounce } from "react-toastify";
 
 export default function PMNewProperty() {
   const { auth } = useAuth();
@@ -17,14 +19,15 @@ export default function PMNewProperty() {
     zipCode: "",
     licenseNumber: "",
     phoneNumber: "",
-    date: "",
     availableMoveInDate: "",
     images: [],
   });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const updatedValue =
+      e.target.type === "date" ? new Date(value).toISOString() : value;
+    setFormData({ ...formData, [name]: updatedValue });
   };
 
   useEffect(() => {
@@ -33,6 +36,7 @@ export default function PMNewProperty() {
 
   const handleFileChange = (e) => {
     const files = e.target.files;
+    console.log(typeof files);
     const updatedImages = [];
     if (files) {
       for (let i = 0; i < files.length; i++) {
@@ -48,44 +52,112 @@ export default function PMNewProperty() {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    console.log("jhgjhgjhggjhgjhgg");
+    // e.preventDefault();
+    const localToken = window.localStorage.getItem("token");
+    console.log("hereeeee", localToken);
+    console.log("hhjhjhjhjhjhjhjh");
     if (auth && auth.email) {
       setFormData({ ...formData, email: auth.email });
-      console.log(formData);
+      console.log("hgfhgfjhgfjhgfjhf");
     }
 
-    // try {
-    //   await Axios.post(
-    //     "http://localhost:8000/property-managers",
-    //     formDataToSend
-    //   );
-    //   alert("Form submitted successfully!");
-    //   setFormData({
-    //     email: "",
-    //     propertyDescription: "",
-    //     monthlyRent: "",
-    //     numBathrooms: "",
-    //     numBedrooms: "",
-    //     propertyAddress: "",
-    //     city: "",
-    //     country: "",
-    //     state: "",
-    //     zipCode: "",
-    //     licenseNumber: "",
-    //     phoneNumber: "",
-    //     date: "",
-    //     availableMoveInDate: "",
-    //     images: [],
-    //   });
-    // } catch (error) {
-    //   console.error("Error submitting form:", error);
-    // }
+    const form = new FormData();
+    for (const key in formData) {
+      if (formData.hasOwnProperty(key)) {
+        if (key === "images") {
+          for (const file of formData[key]) {
+            form.append(key, file);
+          }
+        } else {
+          form.append(key, formData[key]);
+        }
+      }
+    }
+
+    // const headers = {
+    //   'Authorization': "Bearer " + auth.token,
+    // };
+
+    // const headers = {
+    //   'Content-Type': 'multipart/form-data',
+    //   'Authorization': 'Bearer ' + auth.token,
+    // };
+
+    // console.log(headers);
+    // const headers = new Headers();
+    // headers.append('Content-Type', 'multipart/form-data')
+    // headers.append('Authorization', `'Bearer ${auth.token}` )
+
+    const config = {
+      headers: { Authorization: `Bearer ${auth.token}` },
+    };
+    console.log(JSON.stringify(config));
+    const customAxios = axios.create({
+      headers: {
+        Authorization: "Bearer " + auth.token,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    try {
+      const response = await customAxios.post(
+        "http://localhost:8080/property/register",
+        formData
+      );
+
+      // const response = httpPost("http://localhost:8080/property/register", form, {'Content-Type': 'multipart/form-data',
+      // 'Authorization': 'Bearer ' + auth.token, });
+
+      console.log(response);
+      // alert("Form submitted successfully!");
+      toast.success("Application submitted", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+      setFormData({
+        email: "",
+        propertyDescription: "",
+        monthlyRent: "",
+        numBathrooms: "",
+        numBedrooms: "",
+        propertyAddress: "",
+        city: "",
+        country: "",
+        state: "",
+        zipCode: "",
+        licenseNumber: "",
+        phoneNumber: "",
+        date: "",
+        availableMoveInDate: "",
+        images: [],
+      });
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast.error("Error: Submit failure", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+    }
   };
   return (
     <form
       className="min-h-screen p-6 bg-gray-100 flex items-center justify-center"
-      onSubmit={(e) => handleSubmit(e)}
+      // onSubmit={handleSubmit}
     >
       {/* <div className="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6"> */}
       <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
@@ -112,10 +184,10 @@ export default function PMNewProperty() {
               />
             </div>
             <div className="mt-4 md:col-span-1">
-              <label htmlFor="bathrooms">No. of Bathrooms</label>
+              <label htmlFor="numBathrooms">No. of Bathrooms</label>
               <input
                 type="text"
-                name="bathrooms"
+                name="numBathrooms"
                 className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                 value={formData.numBathrooms}
                 onChange={(e) => handleInputChange(e)}
@@ -123,20 +195,20 @@ export default function PMNewProperty() {
             </div>
 
             <div className="mt-4 md:col-span-1">
-              <label htmlFor="bedrooms">No. of Bedrooms</label>
+              <label htmlFor="numBedrooms">No. of Bedrooms</label>
               <input
                 type="text"
-                name="bedrooms"
+                name="numBedrooms"
                 className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                 value={formData.numBedrooms}
                 onChange={(e) => handleInputChange(e)}
               />
             </div>
             <div className="mt-4 md:col-span-3">
-              <label htmlFor="address">Address/Street</label>
+              <label htmlFor="propertyAddress">Address/Street</label>
               <input
                 type="text"
-                name="address"
+                name="propertyAddress"
                 className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                 value={formData.propertyAddress}
                 onChange={(e) => handleInputChange(e)}
@@ -181,11 +253,11 @@ export default function PMNewProperty() {
             </div>
 
             <div className="mt-4 md:col-span-1">
-              <label htmlFor="zipcode">Zipcode</label>
+              <label htmlFor="zipCode">Zipcode</label>
               <input
                 type="text"
-                name="zipcode"
-                id="zipcode"
+                name="zipCode"
+                id="zipCode"
                 className="transition-all flex items-center h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                 value={formData.zipCode}
                 onChange={(e) => handleInputChange(e)}
@@ -203,7 +275,7 @@ export default function PMNewProperty() {
             </div>
 
             <div className="mt-4 md:col-span-2">
-              <label htmlFor="PhoneNumber">Phone Number</label>
+              <label htmlFor="phoneNumber">Phone Number</label>
               <input
                 type="text"
                 name="phoneNumber"
@@ -228,12 +300,12 @@ export default function PMNewProperty() {
             {/* New fields */}
 
             <div className="mt-4 md:col-span-2">
-              <label htmlFor="moveInDate">Move In Date</label>
+              <label htmlFor="availableMoveInDate">Move In Date</label>
               <input
                 type="date"
-                name="moveInDate"
+                name="availableMoveInDate"
                 className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                value={formData.availableMoveInDate}
+                // value={formData.availableMoveInDate}
                 onChange={(e) => handleInputChange(e)}
               />
             </div>
@@ -288,6 +360,7 @@ export default function PMNewProperty() {
                 <button
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                   type="submit"
+                  onClick={handleSubmit}
                 >
                   Submit
                 </button>

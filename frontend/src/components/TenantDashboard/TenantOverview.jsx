@@ -4,6 +4,10 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { FiTool } from "react-icons/fi";
 import { sampleRequestData } from "../../Utils/SampleData";
+import { loadStripe } from "@stripe/stripe-js";
+const stripePromise = loadStripe(
+  "pk_test_51OwYqn03v7HMsTm7prkFCVoQJ5Wx7fSwROpUjiJC7poWI61Ti6VYo4B0DNnzl8hHlsw89n8nNVldg7Kl6dcYyVay00auB7yPv7"
+);
 
 function TenantOverview() {
   const navigate = useNavigate();
@@ -48,6 +52,27 @@ function TenantOverview() {
 
   console.log(requestsData, "requestsData");
 
+  const handlePayment = async () => {
+    try {
+      // Call your backend to create a checkout session
+      const { data } = await Axios.post(
+        "http://localhost:8000/create-checkout-session"
+      );
+
+      // When the checkout session is created, redirect to Stripe's hosted checkout page
+      const stripe = await stripePromise;
+      const { error } = await stripe.redirectToCheckout({
+        sessionId: data.sessionId,
+      });
+
+      if (error) {
+        console.log(error.message);
+      }
+    } catch (error) {
+      console.error("Error processing the payment", error);
+    }
+  };
+
   return (
     <div>
       <h1 className="font-bold text-[20px]">Dashboard</h1>
@@ -59,7 +84,10 @@ function TenantOverview() {
         </div>
 
         <div>
-          <button className="bg-green-700 text-white tracking-wider rounded-full px-10 py-4">
+          <button
+            onClick={handlePayment}
+            className="bg-green-700 text-white tracking-wider rounded-full px-10 py-4"
+          >
             Make payment
           </button>
         </div>
@@ -70,7 +98,7 @@ function TenantOverview() {
           <div className="">
             <h3 className="font-semibold text-[18px]">Open request</h3>
             {requestsData &&
-              requestsData.map((data) => (
+              requestsData.map((data, index) => (
                 <div className="mt-6 flex items-center gap-4">
                   <div className="border-2 border-green-700 bg-green-100 text-green-700 text-[22px] p-3 rounded-[8px]">
                     <FiTool />
@@ -99,8 +127,8 @@ function TenantOverview() {
           <div className="">
             <h3 className="font-semibold text-[18px]">New Announcements</h3>
             {announcementsData &&
-              announcementsData.map((data) => (
-                <div className="mt-6 flex items-center gap-4">
+              announcementsData.map((data, index) => (
+                <div className="mt-6 flex items-center gap-4" key={index}>
                   <div className="border-2 border-green-700 bg-green-100 text-green-700 text-[22px] p-3 rounded-[8px]">
                     <FiTool />
                   </div>
@@ -118,66 +146,67 @@ function TenantOverview() {
         </div>
       </div>
 
-
       <div className="flex justify-between gap-6">
         <div className="w-[50%] bg-white drop-shadow rounded-[8px]  flex flex-col justify-between">
           <div className="">
             {/* <h3 className="font-semibold text-[18px]">Lease information</h3> */}
-            <div className="bg-white drop-shadow-md border  border-gray-300 p-4">
-            <h6 className="font-semibold text-[20px] text-gray-600">Lease Information</h6>
+            <div className="bg-white drop-shadow-md border mt-6 border-gray-300 p-4">
+              <h6 className="font-semibold text-[20px] text-gray-600">
+                Lease Information
+              </h6>
 
-            <p className="mt-4 text-[18px]">Account number</p>
-            <p className="text-[16px]">FDF525252FF</p>
+              <p className="mt-4 text-[18px]">Account number</p>
+              <p className="text-[16px]">FDF525252FF</p>
 
-            <p className="mt-4 text-[18px]">Address</p>
-            <p className="text-[16px]">7 street line road, Boston MA 202020, United State </p>
+              <p className="mt-4 text-[18px]">Address</p>
+              <p className="text-[16px]">
+                7 street line road, Boston MA 202020, United State{" "}
+              </p>
 
-            <div className="flex gap-10 items-center">
-              <div className="w-[40%]">
-                <p className="mt-4 text-[18px]">Start date</p>
-                <p className="text-[16px]">April 2023</p>
+              <div className="flex gap-10 items-center">
+                <div className="w-[40%]">
+                  <p className="mt-4 text-[18px]">Start date</p>
+                  <p className="text-[16px]">April 2023</p>
+                </div>
+
+                <div className="w-[40%]">
+                  <p className="mt-4 text-[18px]">End date</p>
+                  <p className="text-[16px]">March 2024</p>
+                </div>
               </div>
 
-              <div className="w-[40%]">
-                <p className="mt-4 text-[18px]">End date</p>
-                <p className="text-[16px]">March 2024</p>
-              </div>
-            </div>
+              <div className="flex gap-10 items-center">
+                <div className="w-[40%]">
+                  <p className="mt-4 text-[18px]">Rent</p>
+                  <p className="text-[16px]">$ 1000</p>
+                </div>
 
-            <div className="flex gap-10 items-center">
-              <div className="w-[40%]">
-                <p className="mt-4 text-[18px]">Rent</p>
+                <div className="w-[40%]">
+                  <p className="mt-4 text-[18px]">Maintenance </p>
+                  <p className="text-[16px]">$ 200</p>
+                </div>
+              </div>
+
+              <div>
+                <p className="mt-4 text-[18px]">Deposite </p>
                 <p className="text-[16px]">$ 1000</p>
               </div>
-
-              <div className="w-[40%]">
-                <p className="mt-4 text-[18px]">Maintenance </p>
-                <p className="text-[16px]">$ 200</p>
-              </div>
-            </div>
-
-            <div>
-              <p className="mt-4 text-[18px]">Deposite </p>
-              <p className="text-[16px]">$ 1000</p>
-            </div>
-
             </div>
           </div>
-
-         
         </div>
 
         <div className="w-[50%] bg-white drop-shadow rounded-[8px]">
           <div className="">
-            <div className="bg-white drop-shadow-md border border-gray-300 p-4">
-            <h6 className="font-semibold text-[20px] text-gray-600">Contact Information</h6>
+            <div className="bg-white drop-shadow-md border mt-6 border-gray-300 p-4">
+              <h6 className="font-semibold text-[20px] text-gray-600">
+                Contact Information
+              </h6>
 
-            <p className="mt-4 text-[18px]">Contact number</p>
-            <p className="text-[16px]">+1 555 555 1234</p>
+              <p className="mt-4 text-[18px]">Contact number</p>
+              <p className="text-[16px]">+1 555 555 1234</p>
 
-            <p className="mt-4 text-[18px]">Email</p>
-            <p className="text-[16px]">jsmith@gmail.com</p>
-
+              <p className="mt-4 text-[18px]">Email</p>
+              <p className="text-[16px]">jsmith@gmail.com</p>
             </div>
           </div>
         </div>
