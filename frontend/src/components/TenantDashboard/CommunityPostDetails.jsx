@@ -13,12 +13,12 @@ const CommunityPostDetails = () => {
 
   return (
    <>
-    <div className='flex gap-10 '>
+    <div className='flex gap-10 mx-auto justify-center mt-10'>
         <div className='w-[40%]'>
             <img className='object-cover' src={data.image} />
         </div>
 
-        <div>
+        <div className='w-[40%]'>
             <div>
                 <h2 className='font-bold text-[22px]'>{data.name}</h2>
                 <p>{data.description}</p>
@@ -45,7 +45,7 @@ const CommunityPostDetails = () => {
                 <p className='font-bold text-[22px]'>$ {data.price}</p>
             </div>
             
-            <Link className="mt-6 card bg-green-700 text-white py-2 text-center font-semibold capitalize rounded-md" to={`mailto:test@gmail.com`}>
+            <Link className="mt-6 w-[50%] card bg-green-700 text-white py-2 text-center font-semibold capitalize rounded-md" to={`mailto:${data.email}`}>
                 Send Enquiry
             </Link>
         </div>

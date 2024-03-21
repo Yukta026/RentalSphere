@@ -21,15 +21,17 @@ const AddLease = () => {
         <h1 className="text-2xl font-bold">Add New Lease</h1>
         <div>
             
-
-
-            <div className="grid grid-cols-1 gap-4 text-sm gap-y-2 lg:grid-cols-3 mt-6">
+          <div className="grid items-center grid-cols-1 gap-4 text-sm gap-y-2 lg:grid-cols-3 mt-6">
             <div className="text-gray-600">
-              <p className="text-lg font-bold">Hello there</p>
-              <p>All fields mandatory*</p>
+              {/* <p className="text-lg font-bold">Hello there</p>
+              <p>All fields mandatory*</p> */}
+
+              <div>
+                <img src="/img/house-document-contract-7780840-6184494.webp" alt="lease-img" />
+              </div>
             </div>
 
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-2 drop-shadow-md border border-gray-300 p-6">
               <div className="grid grid-cols-1 gap-4 text-sm gap-y-2 md:grid-cols-6">
 
               <div className="flex flex-col gap-2 md:col-span-6">
@@ -68,8 +70,8 @@ const AddLease = () => {
                         type="text"
                         name="monthRent"
                         className="w-full h-10 px-4 mt-1 border rounded bg-gray-50"
-                        value={formData.monthRent}
-                        onChange={(e) => handleInputChange(e)}
+                        // value={formData.monthRent}
+                        // onChange={(e) => handleInputChange(e)}
                     />
                     </div>
 
