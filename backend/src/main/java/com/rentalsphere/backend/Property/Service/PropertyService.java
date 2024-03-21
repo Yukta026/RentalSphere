@@ -1,18 +1,17 @@
 package com.rentalsphere.backend.Property.Service;
 
+import com.rentalsphere.backend.DTOs.TenantApplyDTO;
 import com.rentalsphere.backend.Enums.ApplicationStatus;
 import com.rentalsphere.backend.Enums.EmailType;
 import com.rentalsphere.backend.Enums.Roles;
 import com.rentalsphere.backend.Exception.Property.PropertyNotFoundException;
 import com.rentalsphere.backend.Exception.User.UserNotFoundException;
 import com.rentalsphere.backend.Mappers.PropertyMapper;
+import com.rentalsphere.backend.Mappers.TenantMapper;
 import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.Property.Repository.PropertyRepository;
 import com.rentalsphere.backend.Property.Service.IService.IPropertyService;
-import com.rentalsphere.backend.RequestResponse.Property.GetAllPropertyResponse;
-import com.rentalsphere.backend.RequestResponse.Property.GetPropertyResponse;
-import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterRequest;
-import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterResponse;
+import com.rentalsphere.backend.RequestResponse.Property.*;
 import com.rentalsphere.backend.RequestResponse.Tenant.TenantResponse;
 import com.rentalsphere.backend.Services.Cloudinary.CloudinaryService;
 import com.rentalsphere.backend.Tenant.Model.Tenant;
@@ -119,6 +118,22 @@ public class PropertyService implements IPropertyService {
     }
 
     @Override
+    public GetTenantResponse getTenantApplicationById(Long id) {
+        Optional<Property> property = propertyRepository.findById(id);
+        if(!property.isPresent()){
+            throw new PropertyNotFoundException("Property with this id does not exists.");
+        }
+        List<Tenant> tenants = tenantRepository.findAllByProperty(property.get());
+        List<TenantApplyDTO> tenantApplyDTO = TenantMapper.convertToTenantListDTO(tenants);
+        return GetTenantResponse.builder()
+                .isSuccess(true)
+                .tenant(tenantApplyDTO)
+                .timeStamp(new Date())
+                .build();
+
+    }
+
+    @Override
     public TenantResponse acceptTenantRequest(String email) {
         // Fetching given email from userRepository
         Optional<User> user = userRepository.findByEmail(email);
@@ -128,15 +143,15 @@ public class PropertyService implements IPropertyService {
             throw new UserNotFoundException("User does not exists.");
         }
 
-        // Adding role of tenant to user
-        user.get().getRoles().add(roleRepository.findByName(Roles.TENANT));
-        userRepository.save(user.get());
-
         // Changing ApplicationStatus from PENDING to APPROVAL.
         Tenant tenant = tenantRepository.findByUserAndApplicationStatus(user.get(), ApplicationStatus.PENDING);
         if(tenant == null){
             throw new UserNotFoundException("User does not exists");
         }
+        // Adding role of tenant to user
+        user.get().getRoles().add(roleRepository.findByName(Roles.TENANT));
+        userRepository.save(user.get());
+
         tenant.setApplicationStatus(ApplicationStatus.APPROVED);
         tenantRepository.save(tenant);
 
@@ -184,4 +199,6 @@ public class PropertyService implements IPropertyService {
                 .timeStamp(new Date())
                 .build();
     }
+
+
 }

@@ -14,5 +14,6 @@ import java.util.UUID;
 public interface TenantRepository extends JpaRepository<Tenant, Long> {
     // This interface extends JpaRepository to inherit basic CRUD operations for Tenant entity.
     Tenant findByUserAndApplicationStatus(User user, ApplicationStatus applicationStatus);
+    List<Tenant> findAllByProperty(Property property);
     List<Tenant> findAllByApplicationStatus(ApplicationStatus applicationStatus);
 }

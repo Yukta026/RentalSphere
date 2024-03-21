@@ -1,10 +1,7 @@
 package com.rentalsphere.backend.Property.Controller;
 
 import com.rentalsphere.backend.Property.Service.PropertyService;
-import com.rentalsphere.backend.RequestResponse.Property.GetAllPropertyResponse;
-import com.rentalsphere.backend.RequestResponse.Property.GetPropertyResponse;
-import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterRequest;
-import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterResponse;
+import com.rentalsphere.backend.RequestResponse.Property.*;
 import com.rentalsphere.backend.RequestResponse.Tenant.TenantResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +33,12 @@ public class PropertyController {
     @GetMapping
     public ResponseEntity<GetAllPropertyResponse> getAllPropertyApplications() {
         return new ResponseEntity<>(propertyService.getAllPropertyApplications(), HttpStatus.OK);
+    }
+
+
+    @GetMapping("/tenantappli/{id}")
+    public ResponseEntity<GetTenantResponse> getTenantApplicationById(@PathVariable Long id){
+        return new ResponseEntity<>(propertyService.getTenantApplicationById(id), HttpStatus.OK);
     }
 
     @PostMapping(path = "/approve/{email}")
