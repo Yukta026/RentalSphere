@@ -133,13 +133,17 @@ export const tenantApprovalsData = [
 
 export const sampleTenantReqs = [
   {
-    id: 1,
-    name: "John Doe",
+    tenantID: 1,
+    firstName: "John",
+    lastName: "Doe",
+    email: "johndoe@gmail.com",
     details: "Request details for John Doe",
   },
   {
-    id: 2,
-    name: "Jane Smith",
+    tenantID: 2,
+    firstName: "Jane",
+    lastName: "Smith",
+    email: "janesmith@gmail.com",
     details: "Request details for Jane Smith",
   },
 ];
