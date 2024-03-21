@@ -90,6 +90,17 @@ const NewPropertyManager = () => {
     console.log(formData);
 
     await axios.post(NEW_PM_URL, formDataToSend, { headers });
+    toast.success("Request made to the Admin", {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
     setFormData(initialValues);
     setFiles([]);
     moveInDateRef.current.value = "";

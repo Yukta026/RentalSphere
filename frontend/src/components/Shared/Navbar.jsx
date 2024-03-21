@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { toast, Bounce } from "react-toastify";
 import useAuth from "../../hooks/useAuth.jsx"; // Import the useAuth hook
 
 const Navbar = () => {
@@ -15,6 +16,17 @@ const Navbar = () => {
     localStorage.removeItem("email");
     localStorage.removeItem("token");
     localStorage.removeItem("role");
+    toast.success("Logout Successful!", {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
     // Redirect to the homepage
     navigate("/");
   };
