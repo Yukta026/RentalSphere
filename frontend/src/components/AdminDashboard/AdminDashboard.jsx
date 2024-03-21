@@ -6,9 +6,9 @@ import useAuth from "../../hooks/useAuth.jsx";
 import useAppContext from "../../hooks/useAppContext.jsx";
 import { toast, Bounce } from "react-toastify";
 import LoadingSpinner from "../../assets/LoadingSpinner.jsx";
-const ALL_PMREQS_URL = import.meta.env.VITE_BACKEND_URL + "/admin/properties";
-const PMREQ_APPROVE_URL = import.meta.env.VITE_BACKEND_URL + "/admin/approve/";
-const PMREQ_REJECT_URL = import.meta.env.VITE_BACKEND_URL + "/admin/reject/";
+const ALL_PMREQS_URL = "http://localhost:8080/api/v1/admin/properties";
+const PMREQ_APPROVE_URL = "http://localhost:8080/api/v1/admin/approve/";
+const PMREQ_REJECT_URL = "http://localhost:8080/api/v1/admin/reject/";
 
 const AdminDashboard = () => {
   const { auth, setAuth } = useAuth();
@@ -69,6 +69,17 @@ const AdminDashboard = () => {
       .post(PMREQ_APPROVE_URL + email, {}, { headers })
       .then((res) => console.log("Data from handleApproveReq", res))
       .catch((err) => console.log(err));
+    toast.success("Request Approved", {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
     fetchPMReqs();
   };
 
@@ -81,6 +92,17 @@ const AdminDashboard = () => {
       .post(PMREQ_REJECT_URL + email, {}, { headers })
       .then((res) => console.log("Data from handleRejectReq", res))
       .catch((err) => console.log(err));
+    toast.success("Request Rejected", {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
     fetchPMReqs();
   };
 

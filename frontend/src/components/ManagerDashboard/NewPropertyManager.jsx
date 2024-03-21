@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
 import useAuth from "../../hooks/useAuth.jsx";
-const NEW_PM_URL = import.meta.env.VITE_BACKEND_URL + "/property/register";
+const NEW_PM_URL = "http://localhost:8080/api/v1/property/register";
+import { toast, Bounce } from "react-toastify";
 
 const testFormValues = {
   // email: "",
