@@ -123,7 +123,7 @@ function TenantOverview() {
           </button>
         </div>
 
-        <div className="w-[50%] h-[300px] overflow-auto bg-white drop-shadow rounded-[8px] p-6">
+        <div className="w-[50%] h-[300px] overflow-auto bg-white drop-shadow rounded-[8px] p-6 mb-10">
           <div className="">
             <h3 className="font-semibold text-[18px]">New Announcements</h3>
             {announcementsData &&
@@ -147,7 +147,7 @@ function TenantOverview() {
       </div>
 
       <div className="flex justify-between gap-6">
-        <div className="w-[50%] bg-white drop-shadow rounded-[8px] p-6 flex flex-col justify-between">
+        <div className="w-[50%] bg-white drop-shadow rounded-[8px]  flex flex-col justify-between">
           <div className="">
             {/* <h3 className="font-semibold text-[18px]">Lease information</h3> */}
             <div className="bg-white drop-shadow-md border mt-6 border-gray-300 p-4">
@@ -195,7 +195,7 @@ function TenantOverview() {
           </div>
         </div>
 
-        <div className="w-[50%] bg-white drop-shadow rounded-[8px] p-6">
+        <div className="w-[50%] bg-white drop-shadow rounded-[8px]">
           <div className="">
             <div className="bg-white drop-shadow-md border mt-6 border-gray-300 p-4">
               <h6 className="font-semibold text-[20px] text-gray-600">

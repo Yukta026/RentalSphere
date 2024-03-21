@@ -39,6 +39,7 @@ import TenantAccount from "./components/TenantDashboard/TenantAccount.jsx";
 import CommunityPostDetails from "./components/TenantDashboard/CommunityPostDetails.jsx";
 import AddLease from "./components/ManagerDashboard/AddLease.jsx";
 import NewTenantApp from "./components/NewTenantApp.jsx";
+import AddViolationLog from "./components/ManagerDashboard/AddViolationLog.jsx";
 
 const AppRoutes = () => {
   return (
@@ -65,6 +66,7 @@ const AppRoutes = () => {
         <Route exact path="leasemanagement" element={<PMLeaseManage />} />
         <Route exact path="add-new-lease" element={<AddLease />} />
         <Route exact path="violationlog" element={<PMViolationLog />} />
+        <Route exact path="add-violationlog" element={<AddViolationLog />} />
         <Route exact path="servicerequests" element={<PMServiceReqs />} />
         <Route exact path="pending" element={<PMPendingApproval />} />
         <Route exact path="newproperty" element={<PMNewProperty />} />
