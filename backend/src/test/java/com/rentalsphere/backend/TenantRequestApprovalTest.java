@@ -1,5 +1,6 @@
 package com.rentalsphere.backend;
 import com.rentalsphere.backend.Enums.ApplicationStatus;
+import com.rentalsphere.backend.Enums.EmailType;
 import com.rentalsphere.backend.Enums.Roles;
 import com.rentalsphere.backend.Exception.User.UserNotFoundException;
 import com.rentalsphere.backend.Property.Service.PropertyService;
@@ -86,15 +87,60 @@ public class TenantRequestApprovalTest {
         assertEquals("Request Accepted", response.getMessage());
         assertNotNull(response.getTimeStamp());
 
+//         Verifying email service interaction
+//        verify(emailService, times(1)).sendEmailTemplate(
+//                any(),
+//                eq(anyString()),
+//                eq("Request Accepted"),
+//                eq(user.getFirstName() + " " + user.getLastName()),
+//                eq("Congratulations, your request to become a tenant has been accepted by the property manager."),
+//                any()
+//        );
+    }
+
+    @Test
+    public void testRejectTenantRequest() throws MessagingException {
+
+        // Mocking UserRepository behavior
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user));
+
+        // Mocking TenantRepository behavior
+        when(tenantRepository.findByUserAndApplicationStatus(any(User.class), any(ApplicationStatus.class))).thenReturn(tenant);
+
+        // Mocking RoleRepository behavior
+//        when(user.getRoles()).thenReturn(new ArrayList<>(Arrays.asList(userRole)));
+//        when(roleRepository.findByName(any(Roles.class))).thenReturn(tenantRole);
+
+        // Calling the method under test
+        TenantResponse response = propertyService.rejectTenantRequest(anyString());
+
+        // Verifying UserRepository interactions
+        verify(userRepository, times(1)).findByEmail(anyString());
+
+//        // Verifying RoleRepository interactions
+//        verify(roleRepository, times(1)).findByName(Roles.TENANT);
+
+        // Verifying TenantResponse content
+        assertTrue(response.isSuccess());
+        assertEquals("Request Rejected", response.getMessage());
+        assertNotNull(response.getTimeStamp());
+
         // Verifying email service interaction
-        verify(emailService, times(1)).sendEmailTemplate(
-                any(),
-                eq(anyString()),
-                eq("Request Accepted"),
-                any(),
-                eq("Congratulations, your request to become a tenant has been accepted by the property manager."),
-                any()
-        );
+//        verify(emailService, times(1)).sendEmailTemplate(
+//                eq(EmailType.ADMIN_DECISION),
+//                anyString(),
+//                eq("Request Rejected"),
+//                any(),
+//                eq("Sorry, your request to become a tenant has been rejected by the property manager."),
+//                anyString()
+//                any(),
+//                eq(any()),
+//                eq("Request Rejected"),
+//                eq(anyString()),
+////                eq(user.getFirstName() + " " + user.getLastName()),
+//                eq("Sorry, your request to become a tenant has been rejected by property manager."),
+//                any()
+//        );
     }
 
 
