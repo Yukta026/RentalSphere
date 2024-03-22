@@ -54,4 +54,9 @@ public class AnnouncementController {
         List<Announcement> announcements = announcementService.getAnnouncementsByPropertyId(propertyId);
         return ResponseEntity.ok(announcements);
     }
+
+    @GetMapping("/tenant/{email}")
+    public ResponseEntity<List<Announcement>> getAnnouncementForTenant(@PathVariable String email){
+        return new ResponseEntity<>(announcementService.getAnnouncementForTenant(email), HttpStatus.OK);
+    }
 }
