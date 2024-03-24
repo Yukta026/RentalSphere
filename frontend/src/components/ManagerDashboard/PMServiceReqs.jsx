@@ -15,18 +15,21 @@ export default function PMServiceReqs() {
     id: "d5e3",
     requestSubject: "New Req",
     requestType: "New Req type",
+    date:'24 Feb 2024',
     requestMessage: "New Req type Message New Req type Message"
   },
   {
     id: "caee",
     requestSubject: "Test 1",
     requestType: "Test 1 type",
+    date:'24 Feb 2024',
     requestMessage: "Test 1 message Test 1 messageTest 1 messageTest 1 message"
   },
   {
     id: "2fdd",
     requestSubject: "Testst",
     requestType: "Testst",
+    date:'24 Feb 2024',
     requestMessage: "TeststTeststTeststTestst"
   }]
 
@@ -43,6 +46,12 @@ export default function PMServiceReqs() {
       name: "Done",
       items: []
     }
+  };
+
+  const columnMappingBgColour = {
+    "In progress":'text-yellow-800 bg-yellow-200' ,
+    Done: 'text-green-800 bg-green-200',
+    Requests: 'text-blue-800 bg-blue-200',
   };
 
   const onDragEnd = (result, columns, setColumns) => {
@@ -87,20 +96,20 @@ export default function PMServiceReqs() {
 
   return (
     <div className="w-full">
-      <h1 className="text-2xl font-bold mb-10 text-center">Service Request</h1>
-      <div className="flex justify-start h-full">
+      {/* <h1 className="text-2xl font-bold mb-10">Service Request</h1> */}
+      <div className="flex justify-center h-full">
         <DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
           {Object.entries(columns).map(([columnId, column], index) => {
             return (
               <div className="flex flex-col" key={index}>
-                <h2 className="pl-3 font-bold">{column.name}</h2>
-                <div className="m-2 bg-gray-300 h-[460px] w-60 rounded-md overflow-auto">
+                <div className="m-2 bg-gray-200 h-[860px] w-80 rounded-md overflow-auto">
+                  <h2 className={`pl-3 text-[22px] font-bold py-4 ${columnMappingBgColour[column.name]}`}>{column.name}</h2>
                   <Droppable droppableId={columnId} key={columnId}>
                     {(provided, snapshot) => (
                       <div
                         {...provided.droppableProps}
                         ref={provided.innerRef}
-                        className={`p-4  w-250 min-h-500 ${snapshot.isDraggingOver ? 'bg-lightblue' : 'bg-lightgrey'}`}
+                        className={`p-4 w-250 min-h-500 ${snapshot.isDraggingOver ? 'bg-lightblue' : 'bg-lightgrey'}`}
                       >
                         {column.items.map((item, index) => {
                           return ((
@@ -110,15 +119,19 @@ export default function PMServiceReqs() {
                                   ref={provided.innerRef}
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
-                                  className={`select-none p-4 mb-2 min-h-50 ${snapshot.isDragging ? 'bg-white' : 'bg-white'} rounded-md ${provided.draggableProps.style}`}
+                                  className={`select-none p-4 mb-2 min-h-50 ${snapshot.isDragging ? 'bg-white' : columnMappingBgColour[column.name]} rounded-md ${provided.draggableProps.style}`}
                                 >
                                   <div className=''>
-                                    <h6 className='text-[18px]'>{item.requestSubject}</h6>
+                                    <h6 className='text-[18px] font-semibold'>{item.requestSubject}</h6>
     
-                                    <p className='text-[14px] text-gray-400'>{item.requestMessage}</p>
-    
-                                    <p className='text-[12px] mt-8 rounded-full px-6 py-1 inline-block text-white bg-blue-500'>{item.requestType}</p>
-                                  </div> 
+                                    <p className='text-[14px]'>{item.requestMessage}</p>
+
+
+                                    <div className='flex gap-4 mt-4'>
+                                      <p className='text-[12px] font-semibold bg-white rounded-full py-1 px-2'>{item.date}</p>
+                                      <p className='text-[12px] font-semibold rounded-full px-6 py-1 text-white bg-blue-500'>{item.requestType}</p>
+                                    </div>
+                                  </div>
                                 </div>
                               )}
                             </Draggable>

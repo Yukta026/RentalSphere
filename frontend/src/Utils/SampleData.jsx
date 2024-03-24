@@ -210,53 +210,56 @@ export const sampleRequestData = [
     id: "d5e3",
     requestSubject: "New Req",
     requestType: "New Req type",
+    date:"24 Feb 2024",
     requestMessage: "New Req type Message New Req type Message"
   },
   {
     id: "caee",
     requestSubject: "Test 1",
     requestType: "Test 1 type",
+    date:"24 Feb 2024",
     requestMessage: "Test 1 message Test 1 messageTest 1 messageTest 1 message"
   },
   {
     id: "2fdd",
     requestSubject: "Testst",
     requestType: "Testst",
+    date:"24 Feb 2024",
     requestMessage: "TeststTeststTeststTestst"
   }
 ]
 
 export const sampleViolationLogData = [
   {
-    title: "title lorem",
+    title: "Title lorem",
     description: "1 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the",
     monetary: "200",
     personalComment: "Lorem Ipsum is simply",
     damageIntensity: "Moderate"
   },
   {
-    title: "title lorem",
+    title: "Title lorem",
     description: "2 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the",
     monetary: "200",
     personalComment: "Lorem Ipsum is simply",
     damageIntensity: "Minor"
   },
   {
-    title: "title lorem",
+    title: "Title lorem",
     description: "3 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the",
     monetary: "200",
     personalComment: "Lorem Ipsum is simply",
     damageIntensity: "Severe"
   },
   {
-    title: "title lorem",
+    title: "Title lorem",
     description: "4 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the",
     monetary: "200",
     personalComment: "Lorem Ipsum is simply",
     damageIntensity: "Moderate"
   },
   {
-    title: "title lorem",
+    title: "Title lorem",
     description: "4 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the",
     monetary: "200",
     personalComment: "Lorem Ipsum is simply",

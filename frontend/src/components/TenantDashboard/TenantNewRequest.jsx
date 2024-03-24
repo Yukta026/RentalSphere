@@ -71,6 +71,20 @@ const TenantNewRequest = () => {
 
         <div className="flex flex-col gap-2 mt-4">
           <label htmlFor="" className="font-medium text-[16px]">
+            Request date
+          </label>
+          <input
+            type="date"
+            value={requestData.requestType}
+            onChange={(e) => handleInputChange(e)}
+            placeholder="date"
+            name="date"
+            className="input input-bordered w-full "
+          />
+        </div>
+
+        <div className="flex flex-col gap-2 mt-4">
+          <label htmlFor="" className="font-medium text-[16px]">
             Request message
           </label>
           <textarea

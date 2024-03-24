@@ -62,7 +62,7 @@ export default function RentManage() {
                   <tr key={index} className='border-b-2 border-gray py-10'>
                     <td className={`py-4 px-3 text-center capitalize`}>
                       <p className={`${statusClassMapping[data.status]} rounded-full`}>{data.status}</p>
-                      </td>
+                    </td>
                     <td className='py-4 px-3 text-center'>{data.invoiceNo}</td>
                     <td className='py-4 px-3 text-center'>{data.tenant}</td>
                     <td className='py-4 px-3 text-center'>$ {data.amount}</td>
