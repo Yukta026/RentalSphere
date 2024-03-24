@@ -2,13 +2,6 @@ import React, { useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 export default function PMServiceReqs() {
-  const taskss = [
-    { id: "1", content: "Request 1" },
-    { id: "2", content: "Request 2" },
-    { id: "3", content: "Request 3" },
-    { id: "4", content: "Request 4" },
-    { id: "5", content: "Request 5" }
-  ];
 
   const tasks = [
   {
@@ -92,7 +85,7 @@ export default function PMServiceReqs() {
   };
 
   const [columns, setColumns] = useState(taskStatus);
-  
+  const [modelData, setModelData] = useState();
 
   return (
     <div className="w-full">
@@ -111,6 +104,7 @@ export default function PMServiceReqs() {
                         ref={provided.innerRef}
                         className={`p-4 w-250 min-h-500 ${snapshot.isDraggingOver ? 'bg-lightblue' : 'bg-lightgrey'}`}
                       >
+                     
                         {column.items.map((item, index) => {
                           return ((
                             <Draggable key={item.id} draggableId={item.id} index={index} >
@@ -121,10 +115,16 @@ export default function PMServiceReqs() {
                                   {...provided.dragHandleProps}
                                   className={`select-none p-4 mb-2 min-h-50 ${snapshot.isDragging ? 'bg-white' : columnMappingBgColour[column.name]} rounded-md ${provided.draggableProps.style}`}
                                 >
-                                  <div className=''>
+                                  <div className='cursor-pointer' 
+                                  // onClick={()=>openModel(item)}
+                                  onClick={() => {
+                                    setModelData(item)
+                                    document.getElementById("my_modal_3").showModal()
+                                  }}
+                                  >
                                     <h6 className='text-[18px] font-semibold'>{item.requestSubject}</h6>
     
-                                    <p className='text-[14px]'>{item.requestMessage}</p>
+                                    {/* <p className='text-[14px]'>{item.requestMessage}</p> */}
 
 
                                     <div className='flex gap-4 mt-4'>
@@ -148,6 +148,34 @@ export default function PMServiceReqs() {
           }  )}
         </DragDropContext>
       </div>
+
+      <dialog id="my_modal_3" className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
+          <form method="dialog">
+            <button
+              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+              onClick={() => {
+                document.getElementById("my_modal_3").close();
+              }}
+            >
+              ✕
+            </button>
+          </form>
+          <h3 className="font-bold text-lg mb-6">
+            Service Request
+          </h3>
+
+          <div className="modal-action flex flex-col justify-center ">
+            <h6 className='text-md ml-2 font-semibold'>{modelData?.requestSubject}</h6>
+            <p className='text-[14px] mt-2'>{modelData?.requestMessage}</p>
+            <div className='flex gap-4 mt-4'>
+              <p className='text-[12px] font-semibold rounded-full text-white bg-blue-500 py-1 px-2'>{modelData?.date}</p>
+              <p className='text-[12px] font-semibold rounded-full px-6 py-1 text-white bg-blue-500'>{modelData?.requestType}</p>
+            </div>
+            
+          </div>
+        </div>
+      </dialog>
     </div>
   );
 }
