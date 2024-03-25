@@ -1,7 +1,7 @@
 stages:
   - build
-  # - test
-  # - quality
+  - test
+  - quality
   - publish
   - deploy
 
@@ -30,6 +30,32 @@ build-frontend:
   artifacts:
     paths:
       - $FRONTEND_ARTIFACT
+
+backend_test:
+  image: maven:latest
+  stage: test
+  tags:
+    - rentalsphere
+  script:
+    - cd backend
+    - echo "Running tests..."
+    - mvn test
+    - echo "Backend Tests Complete"
+
+code_quality:
+  image: openjdk:17
+  stage: quality
+  tags:
+    - rentalsphere
+  script:
+    - cd backend
+    - rm -rf code_smells
+    - mkdir code_smells
+    - java -jar DesigniteJava.jar -i . -o code_smells
+  artifacts:
+    paths:
+      - backend/code_smells/*.csv
+    expire_in: 1 week
 
 publish:
   image: docker:latest
