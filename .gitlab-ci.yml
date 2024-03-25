@@ -31,9 +31,9 @@ build-frontend:
     paths:
       - $FRONTEND_ARTIFACT
 
-backend_test:
+test:
   image: maven:latest
-  stage: test
+  stage: backend_test
   tags:
     - rentalsphere
   script:
@@ -42,9 +42,9 @@ backend_test:
     - mvn test
     - echo "Backend Tests Complete"
 
-code_quality:
+quality:
   image: openjdk:17
-  stage: quality
+  stage: code_quality
   tags:
     - rentalsphere
   script:
