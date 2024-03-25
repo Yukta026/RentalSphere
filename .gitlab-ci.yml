@@ -1,7 +1,7 @@
 stages:
   - build
-  - test
-  - quality
+  - backend_test
+  - code_quality
   - publish
   - deploy
 
