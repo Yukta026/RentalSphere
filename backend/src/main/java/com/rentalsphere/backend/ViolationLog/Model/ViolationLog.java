@@ -1,6 +1,8 @@
 package com.rentalsphere.backend.ViolationLog.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rentalsphere.backend.Property.Model.Property;
+import com.rentalsphere.backend.Tenant.Model.Tenant;
 import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -19,9 +21,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Entity
 @Table(name = "ViolationLog")
-public class
-
-ViolationLog {
+public class ViolationLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,6 +48,12 @@ ViolationLog {
     @Column(name = "monetary_damage")
     private Double monetaryDamage;
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "tenant_id", referencedColumnName = "TenantID")
+    private Tenant tenant;
+
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "property_id", referencedColumnName = "PropertyApplicationID")
     private Property property;
