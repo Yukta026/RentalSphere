@@ -3,6 +3,8 @@ package com.rentalsphere.backend.Tenant.Controller;
 import com.rentalsphere.backend.DTOs.TenantDTO;
 import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterRequest;
 import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterResponse;
+import com.rentalsphere.backend.RequestResponse.Tenant.GetAllTenantResponse;
+import com.rentalsphere.backend.RequestResponse.Tenant.GetTenantResponse;
 import com.rentalsphere.backend.RequestResponse.Tenant.TenantRegisterRequest;
 import com.rentalsphere.backend.RequestResponse.Tenant.TenantResponse;
 import com.rentalsphere.backend.Tenant.Model.Tenant;

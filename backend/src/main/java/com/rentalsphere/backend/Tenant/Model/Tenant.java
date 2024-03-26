@@ -6,6 +6,7 @@ import com.rentalsphere.backend.Lease.Model.Lease;
 import com.rentalsphere.backend.Marketplace.Model.Post;
 import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.User.Model.User;
+import com.rentalsphere.backend.ViolationLog.Model.ViolationLog;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -98,4 +99,7 @@ public class Tenant {
     @JsonIgnore
     @OneToMany(mappedBy = "tenant")
     private List<Post> posts;
+
+    @OneToMany(mappedBy = "tenant")
+    private List<ViolationLog> violationLogs;
 }

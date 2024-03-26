@@ -30,4 +30,5 @@ public class ViolationLogRegisterRequest {
     private Double monetaryDamage;
 
     private Long propertyId;
+    private Long tenantId;
 }

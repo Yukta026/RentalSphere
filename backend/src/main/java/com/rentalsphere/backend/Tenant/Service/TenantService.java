@@ -1,6 +1,7 @@
 package com.rentalsphere.backend.Tenant.Service;
 
 import com.rentalsphere.backend.DTOs.TenantDTO;
+import com.rentalsphere.backend.DTOs.TenantDTO;
 import com.rentalsphere.backend.Enums.ApplicationStatus;
 import com.rentalsphere.backend.Exception.Property.PropertyNotFoundException;
 import com.rentalsphere.backend.Exception.Tenant.TenantNotFoundException;
@@ -9,6 +10,8 @@ import com.rentalsphere.backend.Mappers.TenantMapper;
 import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.Property.Repository.PropertyRepository;
 import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterResponse;
+import com.rentalsphere.backend.RequestResponse.Tenant.GetAllTenantResponse;
+import com.rentalsphere.backend.RequestResponse.Tenant.GetTenantResponse;
 import com.rentalsphere.backend.RequestResponse.Tenant.TenantRegisterRequest;
 import com.rentalsphere.backend.RequestResponse.Tenant.TenantResponse;
 import com.rentalsphere.backend.Tenant.Model.Tenant;
@@ -46,7 +49,6 @@ public class TenantService implements ITenantService {
             throw new UserNotFoundException("User does not exists.");
         }
 
-        // Assuming there is a mapper method to convert TenantRegisterRequest to Tenant entity
         Tenant tenant = Tenant.builder()
                 .emailAddress(tenantRequest.getEmailAddress())
                 .phoneNumber(tenantRequest.getPhoneNumber())

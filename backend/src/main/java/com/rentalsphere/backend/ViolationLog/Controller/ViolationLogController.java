@@ -56,4 +56,9 @@ public class ViolationLogController {
         List<ViolationLog> violationLogs = violationLogService.getAllViolationLogsByPropertyId(propertyId);
         return ResponseEntity.ok(violationLogs);
     }
+
+    @GetMapping("/tenant/{email}")
+    public ResponseEntity<List<ViolationLog>> getAllViolationLogForTenant(@PathVariable String email){
+        return new ResponseEntity<>(violationLogService.getAllViolationLogForTenant(email), HttpStatus.OK);
+    }
 }
