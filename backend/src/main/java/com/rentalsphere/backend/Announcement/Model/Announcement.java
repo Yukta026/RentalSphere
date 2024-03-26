@@ -1,6 +1,7 @@
 // PMAnnouncement.java
 package com.rentalsphere.backend.Announcement.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rentalsphere.backend.Property.Model.Property;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
@@ -22,6 +23,7 @@ public class Announcement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "property_id", referencedColumnName = "PropertyApplicationID")
     private Property property;

@@ -2,6 +2,7 @@ package com.rentalsphere.backend.Property.Repository;
 
 import com.rentalsphere.backend.Enums.ApplicationStatus;
 import com.rentalsphere.backend.Property.Model.Property;
+import com.rentalsphere.backend.Tenant.Model.Tenant;
 import com.rentalsphere.backend.User.Model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
