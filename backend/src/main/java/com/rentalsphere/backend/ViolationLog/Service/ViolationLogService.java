@@ -1,7 +1,9 @@
 package com.rentalsphere.backend.ViolationLog.Service;
 
 
+import com.rentalsphere.backend.Enums.ApplicationStatus;
 import com.rentalsphere.backend.Exception.Property.PropertyNotFoundException;
+import com.rentalsphere.backend.Exception.Tenant.TenantNotFoundException;
 import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.Property.Repository.PropertyRepository;
 import com.rentalsphere.backend.RequestResponse.Lease.LeaseResponse;
@@ -9,6 +11,8 @@ import com.rentalsphere.backend.RequestResponse.ViolationLog.UpdateViolationLogR
 import com.rentalsphere.backend.RequestResponse.ViolationLog.UpdateViolationLogResponse;
 import com.rentalsphere.backend.RequestResponse.ViolationLog.ViolationLogRegisterRequest;
 import com.rentalsphere.backend.RequestResponse.ViolationLog.ViolationLogRegisterResponse;
+import com.rentalsphere.backend.Tenant.Model.Tenant;
+import com.rentalsphere.backend.Tenant.Repository.TenantRepository;
 import com.rentalsphere.backend.ViolationLog.Model.ViolationLog;
 import com.rentalsphere.backend.ViolationLog.Repository.ViolationLogRepository;
 import com.rentalsphere.backend.ViolationLog.Service.IService.IViolationLogService;
@@ -27,6 +31,7 @@ public class ViolationLogService implements IViolationLogService {
 
     private final ViolationLogRepository violationLogRepository;
     private final PropertyRepository propertyRepository;
+    private final TenantRepository tenantRepository;
 
     @Override
     public List<ViolationLog> getAllViolationLogs() {
@@ -42,10 +47,14 @@ public class ViolationLogService implements IViolationLogService {
     public ViolationLogRegisterResponse createViolationLog(ViolationLogRegisterRequest request) {
 
         Optional<Property> property = propertyRepository.findById(request.getPropertyId());
+        Optional<Tenant> tenant = tenantRepository.findById(request.getTenantId());
         Date currentDate = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
 
         if(!property.isPresent()){
             throw new PropertyNotFoundException("No such property exists");
+        }
+        if(!tenant.isPresent()){
+            throw new TenantNotFoundException("No such tenant exists");
         }
        // Create a new ViolationLog object from the request
         ViolationLog violationLog = ViolationLog.builder()
@@ -56,6 +65,7 @@ public class ViolationLogService implements IViolationLogService {
                 .intensity(request.getIntensity())
                 .monetaryDamage(request.getMonetaryDamage())
                 .property(property.get())
+                .tenant(tenant.get())
                 .build();
 
         violationLogRepository.save(violationLog);
@@ -108,5 +118,18 @@ public class ViolationLogService implements IViolationLogService {
         }
 
         return violationLogRepository.findAllByProperty(property.get());
+    }
+
+    @Override
+    public List<ViolationLog> getAllViolationLogForTenant(String email){
+        Optional<Tenant> tenant = tenantRepository.findByEmailAddressAndApplicationStatus(email, ApplicationStatus.APPROVED);
+
+        if(!tenant.isPresent()){
+            throw new TenantNotFoundException("No such tenant exists.");
+        }
+
+        List<ViolationLog> violationLogs = violationLogRepository.findByTenant(tenant.get());
+
+        return violationLogs;
     }
 }

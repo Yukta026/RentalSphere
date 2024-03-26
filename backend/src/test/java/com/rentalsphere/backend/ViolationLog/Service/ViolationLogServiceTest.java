@@ -1,20 +1,26 @@
 package com.rentalsphere.backend.ViolationLog.Service;
 
 
+import com.rentalsphere.backend.Enums.ApplicationStatus;
 import com.rentalsphere.backend.Exception.Property.PropertyNotFoundException;
+import com.rentalsphere.backend.Exception.Tenant.TenantNotFoundException;
 import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.Property.Repository.PropertyRepository;
 import com.rentalsphere.backend.RequestResponse.ViolationLog.UpdateViolationLogRequest;
 import com.rentalsphere.backend.RequestResponse.ViolationLog.UpdateViolationLogResponse;
 import com.rentalsphere.backend.RequestResponse.ViolationLog.ViolationLogRegisterRequest;
 import com.rentalsphere.backend.RequestResponse.ViolationLog.ViolationLogRegisterResponse;
+import com.rentalsphere.backend.Tenant.Model.Tenant;
+import com.rentalsphere.backend.Tenant.Repository.TenantRepository;
 import com.rentalsphere.backend.ViolationLog.Model.ViolationLog;
 import com.rentalsphere.backend.ViolationLog.Repository.ViolationLogRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -30,6 +36,10 @@ class ViolationLogServiceTest {
 
     @Mock
     private PropertyRepository propertyRepository;
+    @Mock
+    private TenantRepository tenantRepository;
+    @Mock
+    private Tenant tenant;
 
     @InjectMocks
     private ViolationLogService violationLogService;
@@ -75,10 +85,16 @@ class ViolationLogServiceTest {
         Property property = new Property();
         property.setPropertyApplicationID(propertyId);
 
+        Long tenantId = 1L;
+        Tenant tenant = new Tenant();
+        tenant.setTenantID(tenantId);
+
         ViolationLogRegisterRequest request = new ViolationLogRegisterRequest();
         request.setPropertyId(propertyId);
+        request.setTenantId(tenantId);
 
         when(propertyRepository.findById(propertyId)).thenReturn(Optional.of(property));
+        when(tenantRepository.findById(tenantId)).thenReturn(Optional.of(tenant));
         when(violationLogRepository.save(any(ViolationLog.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         // Execute
@@ -185,5 +201,42 @@ class ViolationLogServiceTest {
         // Verify
         assertThrows(PropertyNotFoundException.class, () -> violationLogService.getAllViolationLogsByPropertyId(propertyId));
         verify(violationLogRepository, never()).findAllByProperty(any());
+    }
+
+    @Test
+    void testGetAllViolationForTenant() {
+        ViolationLog violationLog1 = ViolationLog.builder()
+                .title("title1")
+                .description("description1")
+                .date(new Date())
+                .personalComments("comment1")
+                .intensity("intensity1")
+                .monetaryDamage(2500.00)
+                .build();
+
+        ViolationLog violationLog2 = ViolationLog.builder()
+                .title("title2")
+                .description("description2")
+                .date(new Date())
+                .personalComments("comment2")
+                .intensity("intensity2")
+                .monetaryDamage(2500.00)
+                .build();
+
+        when(tenantRepository.findByEmailAddressAndApplicationStatus(anyString(), any(ApplicationStatus.class))).thenReturn(Optional.ofNullable(tenant));
+        when(violationLogRepository.findByTenant(any(Tenant.class))).thenReturn(List.of(violationLog1, violationLog2));
+
+        List<ViolationLog> violationLogs = violationLogService.getAllViolationLogForTenant("test@gmail.com");
+
+        assertEquals(List.of(violationLog1, violationLog2), violationLogs);
+    }
+
+    @Test
+    void testGetAllViolationLogForTenantNotFoundException(){
+        when(tenantRepository.findByEmailAddressAndApplicationStatus(anyString(), any(ApplicationStatus.class))).thenReturn(Optional.empty());
+
+        assertThrows(TenantNotFoundException.class, ()->{
+            violationLogService.getAllViolationLogForTenant("test@gmail.com");
+        });
     }
 }

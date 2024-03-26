@@ -22,4 +22,6 @@ public interface IViolationLogService {
     UpdateViolationLogResponse updateViolationLog(UpdateViolationLogRequest request);
 
     List<ViolationLog> getAllViolationLogsByPropertyId(Long propertyId);
+
+    List<ViolationLog> getAllViolationLogForTenant(String email);
 }
