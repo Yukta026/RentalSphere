@@ -33,6 +33,16 @@ public class PropertyController {
         return new ResponseEntity<>(propertyService.getProperty(id), HttpStatus.OK);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<GetAllPropertyResponse> getAllPropertyForManager(@RequestParam String email, @RequestParam String status){
+        return new ResponseEntity<>(propertyService.getAllPropertyForManager(email, status), HttpStatus.OK);
+    }
+
+    @GetMapping("/rented/{email}")
+    public ResponseEntity<GetAllPropertyResponse> getAllPropertyWithTenant(@PathVariable String email){
+        return new ResponseEntity<>(propertyService.getAllPropertyWithTenant(email), HttpStatus.OK);
+    }
+
     @GetMapping
     public ResponseEntity<GetAllPropertyResponse> getAllPropertyApplications() {
         return new ResponseEntity<>(propertyService.getAllPropertyApplications(), HttpStatus.OK);

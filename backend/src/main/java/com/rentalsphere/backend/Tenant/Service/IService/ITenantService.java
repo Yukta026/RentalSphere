@@ -1,5 +1,6 @@
 package com.rentalsphere.backend.Tenant.Service.IService;
 
+import com.rentalsphere.backend.DTOs.TenantDTO;
 import com.rentalsphere.backend.RequestResponse.Admin.PropertyManagerRequests;
 import com.rentalsphere.backend.RequestResponse.Admin.PropertyManagerResponse;
 import com.rentalsphere.backend.RequestResponse.Tenant.GetAllTenantResponse;
@@ -14,9 +15,7 @@ public interface ITenantService {
 
     public TenantResponse saveTenantApplication(TenantRegisterRequest tenantRequest);
 
-    public GetAllTenantResponse getAllTenantApplicationsForProperty(Long id);
+    public List<TenantDTO> getAllTenantApplications(Long id);
 
-    public GetTenantResponse getTenantApplicationById(Long id);
-
-
+    public TenantDTO getTenantApplicationById(Long id);
 }

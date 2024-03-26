@@ -1,6 +1,7 @@
 package com.rentalsphere.backend.RequestResponse.Property;
 
 import com.rentalsphere.backend.DTOs.PropertiesDTO;
+import com.rentalsphere.backend.DTOs.PropertyDTO;
 import com.rentalsphere.backend.RequestResponse.BasicResponse.BasicResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,5 +15,5 @@ import java.util.List;
 @NoArgsConstructor
 @SuperBuilder
 public class GetAllPropertyResponse extends BasicResponse {
-    private List<PropertiesDTO> properties;
+    private List<PropertyDTO> properties;
 }

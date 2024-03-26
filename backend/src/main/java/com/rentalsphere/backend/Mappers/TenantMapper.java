@@ -14,20 +14,17 @@ public class TenantMapper {
                 tenant.getEmailAddress(),
                 tenant.getPhoneNumber(),
                 tenant.getDateOfBirth(),
-                tenant.getStreetAddress(),
                 tenant.getDesiredMoveInDate(),
                 tenant.getNumOccupants(),
-                tenant.getCurrentEmployer(),
                 tenant.getCreationDate()
         );
     }
 
     public static List<TenantDTO> convertToTenantDTOs(List<Tenant> tenants){
         List<TenantDTO> tenantDTOs = new ArrayList<>();
-
-        for(Tenant tenant: tenants){
+        tenants.forEach(tenant -> {
             tenantDTOs.add(convertToTenantDTO(tenant));
-        }
+        });
 
         return tenantDTOs;
     }
