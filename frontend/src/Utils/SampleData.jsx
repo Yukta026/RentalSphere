@@ -442,6 +442,66 @@ export const sampleServiceReqData = [
   },
 ];
 
+export const sampleContactData = [
+  {
+    id: "1",
+    name: "Selma Lowery",
+    phoneNumber: "1-417-743-5425",
+    email: "lorem.tristique@google.net",
+    skill: "Plumber",
+    companyName: "abc llc",
+  },
+  {
+    id: "2",
+    name: "Zephr Duncan",
+    phoneNumber: "1-317-775-7161",
+    email: "consectetuer.cursus@hotmail.couk",
+    skill: "Electrician",
+    companyName: "abc llc",
+  },
+  {
+    id: "3",
+    name: "Kane Lawson",
+    phoneNumber: "(781) 586-2754",
+    email: "(781) 586-2754",
+    skill: "Cook",
+    companyName: "abc llc",
+  },
+  {
+    id: "4",
+    name: "Abigail Armstrong",
+    phoneNumber: "1-585-923-6157",
+    email: "nonummy.ipsum@outlook.net",
+    skill: "Home cleaner",
+    companyName: "abc llc",
+  },
+  {
+    id: "5",
+    name: "Selma Lowery",
+    phoneNumber: "1-417-743-5425",
+    email: "lorem.tristique@google.net",
+    skill: "Insurance",
+    companyName: "abc llc",
+  },
+  {
+    id: "6",
+    name: "Zephr Duncan",
+    phoneNumber: "1-317-775-7161",
+    email: "consectetuer.cursus@hotmail.couk",
+    skill: "Carpet cleaner",
+    companyName: "abc llc",
+  },
+  {
+    id: "7",
+    name: "Zephr Duncan",
+    phoneNumber: "1-317-775-7161",
+    email: "consectetuer.cursus@hotmail.couk",
+    skill: "plumber",
+    companyName: "abc llc",
+  },
+
+]
+
 export const sampleDocumentData = [
   {
     id: "1",
