@@ -1,7 +1,11 @@
 package com.rentalsphere.backend.Tenant.Service;
 
+import com.rentalsphere.backend.DTOs.TenantDTO;
 import com.rentalsphere.backend.Enums.ApplicationStatus;
+import com.rentalsphere.backend.Exception.Property.PropertyNotFoundException;
+import com.rentalsphere.backend.Exception.Tenant.TenantNotFoundException;
 import com.rentalsphere.backend.Exception.User.UserNotFoundException;
+import com.rentalsphere.backend.Mappers.TenantMapper;
 import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.Property.Repository.PropertyRepository;
 import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterResponse;
@@ -51,26 +55,11 @@ public class TenantService implements ITenantService {
                 .streetAddress(tenantRequest.getStreetAddress())
                 .user(user.get())
                 .property(property.get())
-//                .city(tenantRequest.getCity())
-//                .state(tenantRequest.getState())
-//                .zipCode(tenantRequest.getZipCode())
-             //   .propertyListingID(tenantRequest.getPropertyListingID())
                 .desiredMoveInDate(tenantRequest.getDesiredMoveInDate())
                 .leaseTermMonths(tenantRequest.getLeaseTermMonths())
-//                .monthlyBudget(tenantRequest.getMonthlyBudget())
                 .numOccupants(tenantRequest.getNumOccupants())
                 .currentEmployer(tenantRequest.getCurrentEmployer())
-//                .positionTitle(tenantRequest.getPositionTitle())
-//                .monthlyIncome(tenantRequest.getMonthlyIncome())
-//                .supervisorName(tenantRequest.getSupervisorName())
-//                .supervisorPhoneNumber(tenantRequest.getSupervisorPhoneNumber())
                 .lengthOfEmployment(tenantRequest.getLengthOfEmployment())
-//                .emergencyContactFullName(tenantRequest.getEmergencyContactFullName())
-//                .relationship(tenantRequest.getRelationship())
-//                .emergencyContactPhoneNumber(tenantRequest.getEmergencyContactPhoneNumber())
-//                .emailContact(tenantRequest.getEmailContact())
-//                .phoneContact(tenantRequest.getPhoneContact())
-//                .consentGiven(tenantRequest.getConsentGiven())
                 .applicationStatus(ApplicationStatus.PENDING)
                 .creationDate(tenantRequest.getCreationDate())
                 .build();;
@@ -83,13 +72,30 @@ public class TenantService implements ITenantService {
     }
 
     @Override
-    public List<Tenant> getAllTenantApplications() {
-        return tenantRepository.findAll();
+    public List<TenantDTO> getAllTenantApplications(Long id) {
+        Optional<Property> property = propertyRepository.findById(id);
+
+        if(!property.isPresent()){
+            throw new PropertyNotFoundException("No such property exists.");
+        }
+
+        List<Tenant> tenants = tenantRepository.findAllByPropertyAndApplicationStatus(property.get(), ApplicationStatus.PENDING);
+        List<TenantDTO> tenantApplications = TenantMapper.convertToTenantDTOs(tenants);
+
+        return tenantApplications;
     }
 
     @Override
-    public Optional<Tenant> getTenantApplicationById(Long id) {
-        return tenantRepository.findById(id);
+    public TenantDTO getTenantApplicationById(Long id) {
+        Optional<Tenant> tenant = tenantRepository.findById(id);
+
+        if(!tenant.isPresent()){
+            throw new TenantNotFoundException("No such tenant exists");
+        }
+
+        TenantDTO tenantDTO = TenantMapper.convertToTenantDTO(tenant.get());
+        
+        return tenantDTO;
     }
 
 
