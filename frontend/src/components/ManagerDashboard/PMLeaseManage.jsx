@@ -1,20 +1,23 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth.jsx";
+import { Link, useNavigate } from "react-router-dom";
+import LoadingSpinner from "../../assets/LoadingSpinner";
 import { IoIosArrowDown } from "react-icons/io";
 import { MdFileDownload, MdOutlineDelete } from "react-icons/md";
-import { Link, useNavigate } from "react-router-dom";
 import { sampleLeaseData } from "../../Utils/SampleData";
-import LoadingSpinner from "../../assets/LoadingSpinner";
+import useAppContext from "../../hooks/useAppContext.jsx";
 const ALL_PROPS_URL = "http://localhost:8080/api/v1/property";
 const ALL_LEASE_URL = "http://localhost:8080/api/v1/lease/property/";
 
 export default function PMLeaseManage() {
   const { auth } = useAuth();
   const navigate = useNavigate();
+  const { contProp, setContProp, contTenant, setContTenant } = useAppContext();
   const [isLoading, setIsLoading] = useState(true);
   const [properties, setProperties] = useState([]);
-  const [selectedProperty, setSelectedProperty] = useState({});
+  const [selectedProperty, setSelectedProperty] = useState("");
+  const [currTenant, setCurrTenant] = useState("");
   const [leases, setLeases] = useState([]);
   const [currLease, setCurrLease] = useState({});
 
@@ -36,7 +39,8 @@ export default function PMLeaseManage() {
 
   const handlePropClick = (propt) => {
     setSelectedProperty(propt);
-    fetchLeases();
+    // setContProp(propt.propertyId);
+    // setCurrTenant(propt.tenantId);
   };
 
   const fetchLeases = async () => {
@@ -59,6 +63,15 @@ export default function PMLeaseManage() {
   const handleLeaseClick = (lease) => {
     setCurrLease(lease);
   };
+
+  useEffect(() => {
+    setCurrLease(leases[0]);
+  }, [leases]);
+
+  useEffect(() => {
+    console.log(selectedProperty);
+    fetchLeases();
+  }, [selectedProperty]);
 
   useEffect(() => {
     fetchAllProps();
@@ -133,12 +146,12 @@ export default function PMLeaseManage() {
           </h6>
 
           <div className="flex gap-10">
-            <div className="w-[60%] mt-4">
+            <div className="w-[70%] mt-4">
               <div className="w-full">
                 <table className="table-auto w-full h-full">
                   <thead className="text-left text-gray-4 uppercase text-[14px] tracking-wider">
                     <tr className="border-b-2 border-gray py-10">
-                      <th className="pb-5 px-3">Document name</th>
+                      <th className="pb-5 px-3">Lease Status</th>
                       <th className="pb-5 px-3">Start date</th>
                       <th className="pb-5 px-3">End date</th>
                       <th className="pb-5 px-3">Month rent</th>
@@ -157,27 +170,30 @@ export default function PMLeaseManage() {
                       leases.map((data, index) => (
                         <tr
                           key={index}
-                          className="border-b-2 border-gray py-10"
-                          onClick={handleLeaseClick(data)}
+                          className="border-b-2 border-gray py-10 cursor-pointer"
+                          onClick={() => {
+                            handleLeaseClick(data);
+                          }}
                         >
-                          <td className="py-4 px-3">{data.documentName}</td>
+                          <td className="py-4 px-3">{data.leaseStatus}</td>
                           <td className="py-4 px-3">{data.startDate}</td>
                           <td className="py-4 px-3">{data.endDate}</td>
                           <td className="py-4 px-3 text-center">
-                            {data.monthRent}
+                            {data.monthlyRent}
                           </td>
                           <td className="py-4 px-3 ">
                             <a
                               className="flex justify-center"
-                              href={data.documentLink}
+                              href={data.leasePdfUrl}
                               target="_blank"
-                              download=""
                             >
                               <MdFileDownload className="text-green-900 text-center text-[20px]" />
                             </a>
                           </td>
-                          <td className="relative py-4 px-3 flex justify-center">
-                            <MdOutlineDelete className="text-red-600 text-[20px]" />
+                          <td className="py-4 px-3 flex justify-center">
+                            <a className="flex justify-center">
+                              <MdOutlineDelete className="text-red-600 text-[20px]" />
+                            </a>
                           </td>
                         </tr>
                       ))}
@@ -186,91 +202,87 @@ export default function PMLeaseManage() {
               </div>
             </div>
 
-            <div className="w-[40%]">
+            <div className="w-[30%]">
               <div className="bg-white drop-shadow-md border border-gray-300 p-4">
                 <h6 className="font-semibold text-[20px] text-gray-600">
                   Lease Information
                 </h6>
-                {currLease && currLease.id ? (
+                {currLease && currLease.leaseId ? (
                   <>
                     <div className="flex gap-4 items-center">
-                      <div className="w-[40%]">
+                      <div className="w-[50%]">
                         <p className="mt-4 text-[18px]">First name</p>
-                        <p className="text-[14px]">John</p>
+                        <p className="text-[14px]">{currLease.firstName}</p>
                       </div>
 
-                      <div className="w-[40%]">
+                      <div className="w-[50%]">
                         <p className="mt-4 text-[18px]">Last name </p>
-                        <p className="text-[14px]">Doe</p>
+                        <p className="text-[14px]">{currLease.lastName}</p>
                       </div>
                     </div>
 
                     <div className="w-full border-gray border-b pb-4">
                       <p className="mt-4 text-[18px]">DOB</p>
-                      <p className="text-[14px]">25 January 1991</p>
+                      <p className="text-[14px]">{currLease.dateOfBirth}</p>
                     </div>
 
                     <div className="flex gap-4 flex-wrap items-center border-gray border-b pb-4">
-                      <div className="w-[40%]">
+                      <div className="w-[50%]">
                         <p className="mt-4 text-[18px]">Email</p>
-                        <p className="text-[14px]">john.doe@gmail.com</p>
+                        <p className="text-[14px]">{currLease.email}</p>
                       </div>
 
-                      <div className="w-[40%]">
+                      <div className="w-[50%]">
                         <p className="mt-4 text-[18px]">Contact number</p>
-                        <p className="text-[14px]">+1 123 456 7890</p>
+                        <p className="text-[14px]">{currLease.phoneNumber}</p>
                       </div>
 
-                      <div className="w-[40%]">
-                        <p className="mt-4 text-[18px]">License number</p>
-                        <p className="text-[14px]">FDF525252FF</p>
-                      </div>
+                      {/* <div className="w-[40%]">
+                        <p className="mt-4 text-[18px]">Identification number</p>
+                          <p className="text-[14px]">{}</p>
+                      </div> */}
                     </div>
 
                     <div className="flex gap-4 ">
-                      <div className="w-[40%]">
+                      <div className="w-[50%]">
                         <p className="mt-4 text-[18px]">Address</p>
-                        <p className="text-[14px]">
-                          {" "}
-                          7 street line road <br /> Boston MA 202020 <br />{" "}
-                          United State{" "}
-                        </p>
+                        <p className="text-[14px]">{currLease.streetAddress}</p>
                       </div>
 
-                      <div className="w-[40%]">
+                      <div className="w-[50%]">
                         <p className="mt-4 text-[18px]">Occupants</p>
-                        <p className="text-[14px]">2</p>
+                        <p className="text-[14px]">{currLease.numOccupants}</p>
                       </div>
                     </div>
 
                     <div className="flex gap-4 items-center">
-                      <div className="w-[40%]">
+                      <div className="w-[50%]">
                         <p className="mt-4 text-[18px]">Start date</p>
-                        <p className="text-[14px]">April 2023</p>
+                        <p className="text-[14px]">{currLease.startDate}</p>
                       </div>
 
-                      <div className="w-[40%]">
+                      <div className="w-[50%]">
                         <p className="mt-4 text-[18px]">End date</p>
-                        <p className="text-[14px]">March 2024</p>
+                        <p className="text-[14px]">{currLease.endDate}</p>
                       </div>
                     </div>
 
                     <div className="flex gap-4 items-center">
-                      <div className="w-[40%]">
+                      <div className="w-[50%]">
                         <p className="mt-4 text-[18px]">Rent</p>
-                        <p className="text-[14px]">$ 1000</p>
+                        <p className="text-[14px]">{currLease.monthlyRent}</p>
                       </div>
 
-                      <div className="w-[40%]">
+                      {/* <div className="w-[40%]">
                         <p className="mt-4 text-[18px]">Maintenance </p>
                         <p className="text-[14px]">$ 200</p>
-                      </div>
+                      </div> */}
                     </div>
 
-                    <div>
+                    {/* <div>
                       <p className="mt-4 text-[18px]">Deposite </p>
                       <p className="text-[14px]">$ 1000</p>
-                    </div>
+                    </div> */}
                   </>
                 ) : (
                   <></>
