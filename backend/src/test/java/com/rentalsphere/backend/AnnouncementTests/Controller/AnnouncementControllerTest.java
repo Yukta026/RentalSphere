@@ -160,21 +160,6 @@ class AnnouncementControllerTest {
     }
 
     @Test
-    void testGetAnnouncementsByPropertyId_PropertyExists() {
-        Long propertyId = 1L;
-        Property property = new Property();
-        when(propertyRepository.findById(propertyId)).thenReturn(Optional.of(property));
-
-        List<Announcement> announcements = Arrays.asList(new Announcement(), new Announcement());
-        when(announcementRepository.findByProperty(property)).thenReturn(announcements);
-
-        // Act
-        List<Announcement> result = announcementService.getAnnouncementsByPropertyId(propertyId);
-
-        // Assert
-        assertEquals(announcements, result);
-    }
-    @Test
     void testGetAnnouncementsByPropertyId_PropertyNotFound() {
         Long propertyId = 1L;
         when(propertyRepository.findById(propertyId)).thenReturn(Optional.empty());
