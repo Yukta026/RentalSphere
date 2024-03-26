@@ -171,4 +171,33 @@ public class PostServiceTest {
             postService.deletePost(anyLong());
         });
     }
+
+    @Test
+    void testGetAllTenantPosts(){
+        GetAllPostResponse expectedResponse = GetAllPostResponse.builder()
+                .isSuccess(true)
+                .posts(postDTOs)
+                .timeStamp(new Date())
+                .build();
+        GetAllPostResponse response;
+
+        when(tenantRepository.findByEmailAddressAndApplicationStatus(anyString(), any(ApplicationStatus.class))).thenReturn(Optional.ofNullable(tenant));
+        when(postRepository.findAllByTenant(any(Tenant.class))).thenReturn(List.of(post));
+
+        try(MockedStatic<PostMapper> postMapper = mockStatic(PostMapper.class)){
+            postMapper.when(()->PostMapper.convertToPostDTOs(anyList())).thenReturn(postDTOs);
+            response = postService.getAllTenantPosts("test@gmail.com");
+        }
+
+        assertEquals(expectedResponse, response);
+    }
+
+    @Test
+    void testGetAllTenantPostsNotFoundException(){
+        when(tenantRepository.findByEmailAddressAndApplicationStatus(anyString(), any(ApplicationStatus.class))).thenReturn(Optional.empty());
+
+        assertThrows(TenantNotFoundException.class, ()->{
+           postService.getAllTenantPosts("test@gmail.com");
+        });
+    }
 }
