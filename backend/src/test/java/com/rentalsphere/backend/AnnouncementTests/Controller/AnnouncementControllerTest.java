@@ -2,7 +2,11 @@ package com.rentalsphere.backend.AnnouncementTests.Controller;
 
 import com.rentalsphere.backend.Announcement.Controller.AnnouncementController;
 import com.rentalsphere.backend.Announcement.Model.Announcement;
+import com.rentalsphere.backend.Announcement.Repository.AnnouncementRepository;
 import com.rentalsphere.backend.Announcement.Service.AnnouncementService;
+import com.rentalsphere.backend.Exception.Property.PropertyNotFoundException;
+import com.rentalsphere.backend.Property.Model.Property;
+import com.rentalsphere.backend.Property.Repository.PropertyRepository;
 import com.rentalsphere.backend.RequestResponse.Announcement.AnnouncementRegisterRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +14,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +26,10 @@ class AnnouncementControllerTest {
 
     @Mock
     private AnnouncementService announcementService;
-
+    @Mock
+    private PropertyRepository propertyRepository;
+    @Mock
+    private AnnouncementRepository announcementRepository;
     @InjectMocks
     private AnnouncementController announcementController;
 
@@ -28,6 +37,8 @@ class AnnouncementControllerTest {
 
     @BeforeEach
     void setUp() {
+        propertyRepository = mock(PropertyRepository.class);
+        announcementRepository = mock(AnnouncementRepository.class);
         announcementService = mock(AnnouncementService.class);
         announcementController = new AnnouncementController(announcementService);
         registerRequest = new AnnouncementRegisterRequest();
@@ -147,6 +158,34 @@ class AnnouncementControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(announcements, response.getBody());
     }
+
+    @Test
+    void testGetAnnouncementsByPropertyId_PropertyExists() {
+        Long propertyId = 1L;
+        Property property = new Property();
+        when(propertyRepository.findById(propertyId)).thenReturn(Optional.of(property));
+
+        List<Announcement> announcements = Arrays.asList(new Announcement(), new Announcement());
+        when(announcementRepository.findByProperty(property)).thenReturn(announcements);
+
+        // Act
+        List<Announcement> result = announcementService.getAnnouncementsByPropertyId(propertyId);
+
+        // Assert
+        assertEquals(announcements, result);
+    }
+    @Test
+    void testGetAnnouncementsByPropertyId_PropertyNotFound() {
+        Long propertyId = 1L;
+        when(propertyRepository.findById(propertyId)).thenReturn(Optional.empty());
+
+        // Simulate throwing PropertyNotFoundException
+        doThrow(new PropertyNotFoundException("Property not found")).when(announcementService).getAnnouncementsByPropertyId(propertyId);
+
+        // Act & Assert
+        assertThrows(PropertyNotFoundException.class, () -> announcementService.getAnnouncementsByPropertyId(propertyId));
+    }
+
 }
 
 
