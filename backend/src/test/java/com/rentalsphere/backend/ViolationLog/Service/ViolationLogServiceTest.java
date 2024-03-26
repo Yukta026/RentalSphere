@@ -16,9 +16,11 @@ import com.rentalsphere.backend.ViolationLog.Model.ViolationLog;
 import com.rentalsphere.backend.ViolationLog.Repository.ViolationLogRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -83,10 +85,16 @@ class ViolationLogServiceTest {
         Property property = new Property();
         property.setPropertyApplicationID(propertyId);
 
+        Long tenantId = 1L;
+        Tenant tenant = new Tenant();
+        tenant.setTenantID(tenantId);
+
         ViolationLogRegisterRequest request = new ViolationLogRegisterRequest();
         request.setPropertyId(propertyId);
+        request.setTenantId(tenantId);
 
         when(propertyRepository.findById(propertyId)).thenReturn(Optional.of(property));
+        when(tenantRepository.findById(tenantId)).thenReturn(Optional.of(tenant));
         when(violationLogRepository.save(any(ViolationLog.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         // Execute
