@@ -1,6 +1,7 @@
 package com.rentalsphere.backend.Tenant.Service;
 
 import com.rentalsphere.backend.DTOs.TenantDTO;
+import com.rentalsphere.backend.DTOs.TenantDTO;
 import com.rentalsphere.backend.Enums.ApplicationStatus;
 import com.rentalsphere.backend.Exception.Property.PropertyNotFoundException;
 import com.rentalsphere.backend.Exception.Tenant.TenantNotFoundException;
@@ -73,7 +74,7 @@ public class TenantService implements ITenantService {
     }
 
     @Override
-    public GetAllTenantResponse getAllTenantApplicationsForProperty(Long id) {
+    public List<TenantDTO> getAllTenantApplications(Long id) {
         Optional<Property> property = propertyRepository.findById(id);
 
         if(!property.isPresent()){
@@ -81,28 +82,24 @@ public class TenantService implements ITenantService {
         }
 
         List<Tenant> tenants = tenantRepository.findAllByPropertyAndApplicationStatus(property.get(), ApplicationStatus.PENDING);
-        List<TenantDTO> tenantDTOs = TenantMapper.convertToTenantDTOs(tenants);
+        List<TenantDTO> tenantApplications = TenantMapper.convertToTenantDTOs(tenants);
 
-        return GetAllTenantResponse.builder()
-                .isSuccess(true)
-                .tenants(tenantDTOs)
-                .timeStamp(new Date())
-                .build();
+        return tenantApplications;
     }
 
     @Override
-    public GetTenantResponse getTenantApplicationById(Long id) {
+    public TenantDTO getTenantApplicationById(Long id) {
         Optional<Tenant> tenant = tenantRepository.findById(id);
 
         if(!tenant.isPresent()){
-            throw new TenantNotFoundException("No such tenant exists.");
+            throw new TenantNotFoundException("No such tenant exists");
         }
 
         TenantDTO tenantDTO = TenantMapper.convertToTenantDTO(tenant.get());
-        return GetTenantResponse.builder()
-                .isSuccess(true)
-                .tenant(tenantDTO)
-                .timeStamp(new Date())
-                .build();
+        
+        return tenantDTO;
     }
+
+
+
 }
