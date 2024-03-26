@@ -36,13 +36,13 @@ const TenantCommunity = () => {
           {productsData &&
             productsData.map((data, index) => (
               <>
-              <Link className="w-[25%] mt-6 card card-compact bg-base-100 shadow-xl" to={`/tenantdashboard/community/${data.id}`}>
+              <Link className="w-[25%] border-2 rounded-xl p-1 border-gray-300 mt-6 card card-compact bg-base-100 shadow-xl" to={`/tenantdashboard/community/${data.id}`}>
                 <div className="">
                  
                     <img
-                      className="h-[200px] w-full object-cover "
+                      className="h-[200px] rounded-t-lg w-full object-cover "
                       src={data?.image}
-                      alt="Shoes"
+                      alt="car"
                     />
                   <div className="card-body">
                     <h2 className="card-title">{data.name}</h2>

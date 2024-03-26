@@ -37,7 +37,7 @@ export default function PMViolationLog() {
             </thead>
             <tbody className='text-black font-gilroy-medium'>
               {sampleViolationLogData.map((data, index) => (
-                <tr key={index} className={`${statusClassMapping[data.damageIntensity]} border-b-8  border-white py-10`}>
+                <tr key={index} className={` border-b-8  border-white py-10`}>
                   <td className={`py-4 px-3 `}>{data.title}</td>
                   <td className={`py-4 px-3 `} >
                     {data.description.length > 30 ? (
@@ -60,7 +60,9 @@ export default function PMViolationLog() {
                       )}
                   </td>
                   <td className={`py-4 px-3  text-center`}>$ {data.monetary}</td>
-                  <td className={`py-4 px-3  text-center`}>{data.damageIntensity}</td>
+                  <td className={`text-center capitalize`}>
+                      <p className={`${statusClassMapping[data.damageIntensity]} py-2 rounded-md`}>{data.damageIntensity}</p>
+                  </td>
                 </tr>
               ))}
               
