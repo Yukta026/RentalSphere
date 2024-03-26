@@ -148,7 +148,7 @@ const Home = () => {
                   <div className="grid grid-cols-2 mt-8">
                     <div className="flex items-center">
                       <div className="relative">
-                        <div className="w-6 h-6 bg-gray-200 rounded-full md:w-8 md:h-8"></div>
+                        {/* <div className="w-6 h-6 bg-gray-200 rounded-full md:w-8 md:h-8"></div> */}
                         <span className="absolute top-0 right-0 inline-block w-3 h-3 rounded-full bg-primary-red"></span>
                       </div>
 

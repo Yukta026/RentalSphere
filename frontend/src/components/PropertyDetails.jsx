@@ -66,9 +66,14 @@ const PropertyDetails = () => {
           <div className="flex justify-center gap-6 ml-12">
             <div className="w-[48%]">
               <CarouselSlider>
-                <div className="h-full w-full">
-                  <img className="object-cover" src={singleListing.imageURL} />
-                </div>
+                {singleListing &&
+                  singleListing.imageURLs &&
+                  singleListing.imageURLs.map((imgURL, index) => (
+                    <div className="h-full w-full">
+                      <img className="object-cover" src={imgURL} key={index} />
+                    </div>
+                  ))}
+
                 <div className="h-full w-full">
                   <img
                     className="object-cover"

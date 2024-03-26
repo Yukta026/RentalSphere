@@ -4,10 +4,10 @@ import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { FiTool } from "react-icons/fi";
 import { sampleRequestData } from "../../Utils/SampleData";
-import { loadStripe } from "@stripe/stripe-js";
-const stripePromise = loadStripe(
-  "pk_test_51OwYqn03v7HMsTm7prkFCVoQJ5Wx7fSwROpUjiJC7poWI61Ti6VYo4B0DNnzl8hHlsw89n8nNVldg7Kl6dcYyVay00auB7yPv7"
-);
+// import { loadStripe } from "@stripe/stripe-js";
+// const stripePromise = loadStripe(
+//   "pk_test_51OwYqn03v7HMsTm7prkFCVoQJ5Wx7fSwROpUjiJC7poWI61Ti6VYo4B0DNnzl8hHlsw89n8nNVldg7Kl6dcYyVay00auB7yPv7"
+// );
 
 function TenantOverview() {
   const navigate = useNavigate();
@@ -59,11 +59,11 @@ function TenantOverview() {
         "http://localhost:8000/create-checkout-session"
       );
 
-      // When the checkout session is created, redirect to Stripe's hosted checkout page
-      const stripe = await stripePromise;
-      const { error } = await stripe.redirectToCheckout({
-        sessionId: data.sessionId,
-      });
+      // // When the checkout session is created, redirect to Stripe's hosted checkout page
+      // const stripe = await stripePromise;
+      // const { error } = await stripe.redirectToCheckout({
+      //   sessionId: data.sessionId,
+      // });
 
       if (error) {
         console.log(error.message);
@@ -83,14 +83,14 @@ function TenantOverview() {
           <h3 className="font-extrabold text-[26px]">$ 0.00</h3>
         </Link >
 
-        <div>
+        {/* <div>
           <button
             onClick={handlePayment}
             className="bg-green-700 text-white tracking-wider rounded-full px-10 py-4"
           >
             Make payment
           </button>
-        </div>
+        </div> */}
       </div>
 
       <div className="flex justify-between gap-6">

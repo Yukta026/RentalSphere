@@ -1,59 +1,56 @@
-import React from 'react'
-import { useNavigate, useParams, Link} from 'react-router-dom';
-import { sampleCommunityData } from '../../Utils/SampleData';
+import React from "react";
+import { useNavigate, useParams, Link } from "react-router-dom";
+import { sampleCommunityData } from "../../Utils/SampleData";
 
 const CommunityPostDetails = () => {
-
-    const { id } = useParams()
-
-    const navigate = useNavigate();
-
-    const data = sampleCommunityData.find((obj) => obj.id == id)
-    console.log(data, "data")
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const data = sampleCommunityData.find((obj) => obj.id == id);
+  console.log(data, "data");
 
   return (
-   <>
-    <div className='flex gap-10 mx-auto justify-center mt-10'>
-        <div className='w-[40%]'>
-            <img className='object-cover' src={data.image} />
+    <>
+      <div className="flex gap-10 mx-auto justify-center mt-10">
+        <div className="w-[40%]">
+          <img className="object-cover" src={data.image} />
         </div>
 
-        <div className='w-[40%]'>
+        <div className="w-[40%]">
+          <div>
+            <h2 className="font-bold text-[22px]">{data.name}</h2>
+            <p>{data.description}</p>
+          </div>
+
+          <div>
+            <h2 className="text-[20px] mt-6">Addres</h2>
+            <p>{data.address}</p>
+          </div>
+
+          <div className="flex gap-10">
             <div>
-                <h2 className='font-bold text-[22px]'>{data.name}</h2>
-                <p>{data.description}</p>
-            </div>
-
-            <div>
-                <h2 className='text-[20px] mt-6'>Addres</h2>
-                <p>{data.address}</p>
-            </div>
-
-            <div className='flex gap-10'>
-                <div>
-                    <h2 className='text-[20px] mt-6'>Contact</h2>
-                    <p>{data.contactNumber}</p>
-                </div>
-                <div>
-                    <h2 className='text-[20px] mt-6'>Email</h2>
-                    <p>{data.email}</p>
-                </div>
-
+              <h2 className="text-[20px] mt-6">Contact</h2>
+              <p>{data.contactNumber}</p>
             </div>
             <div>
-                <h2 className='text-[20px] mt-6'>Price</h2>
-                <p className='font-bold text-[22px]'>$ {data.price}</p>
+              <h2 className="text-[20px] mt-6">Email</h2>
+              <p>{data.email}</p>
             </div>
-            
-            <Link className="mt-6 w-[50%] card bg-green-700 text-white py-2 text-center font-semibold capitalize rounded-md" to={`mailto:${data.email}`}>
-                Send Enquiry
-            </Link>
+          </div>
+          <div>
+            <h2 className="text-[20px] mt-6">Price</h2>
+            <p className="font-bold text-[22px]">$ {data.price}</p>
+          </div>
+
+          <Link
+            className="mt-6 w-[50%] card bg-green-700 text-white py-2 text-center font-semibold capitalize rounded-md"
+            to={`mailto:${data.email}`}
+          >
+            Send Enquiry
+          </Link>
         </div>
+      </div>
+    </>
+  );
+};
 
-        
-    </div>
-   </>
-  )
-}
-
-export default CommunityPostDetails
+export default CommunityPostDetails;
