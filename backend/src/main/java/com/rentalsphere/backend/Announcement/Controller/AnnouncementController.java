@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/announcements")
@@ -46,5 +47,16 @@ public class AnnouncementController {
     public ResponseEntity<Void> deleteAnnouncement(@PathVariable Long id) {
         announcementService.deleteAnnouncement(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/property/{propertyId}")
+    public ResponseEntity<List<Announcement>> getAnnouncementsByPropertyId(@PathVariable Long propertyId) {
+        List<Announcement> announcements = announcementService.getAnnouncementsByPropertyId(propertyId);
+        return ResponseEntity.ok(announcements);
+    }
+
+    @GetMapping("/tenant/{email}")
+    public ResponseEntity<List<Announcement>> getAnnouncementForTenant(@PathVariable String email){
+        return new ResponseEntity<>(announcementService.getAnnouncementForTenant(email), HttpStatus.OK);
     }
 }

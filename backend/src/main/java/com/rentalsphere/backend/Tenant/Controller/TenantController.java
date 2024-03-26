@@ -2,6 +2,8 @@ package com.rentalsphere.backend.Tenant.Controller;
 
 import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterRequest;
 import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterResponse;
+import com.rentalsphere.backend.RequestResponse.Tenant.GetAllTenantResponse;
+import com.rentalsphere.backend.RequestResponse.Tenant.GetTenantResponse;
 import com.rentalsphere.backend.RequestResponse.Tenant.TenantRegisterRequest;
 import com.rentalsphere.backend.RequestResponse.Tenant.TenantResponse;
 import com.rentalsphere.backend.Tenant.Model.Tenant;
@@ -31,15 +33,12 @@ public class TenantController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Tenant> getTenantApplicationById(@PathVariable Long id) {
-        Optional<Tenant> tenant = tenantService.getTenantApplicationById(id);
-        return tenant.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<GetTenantResponse> getTenantApplicationById(@PathVariable Long id) {
+        return new ResponseEntity<>(tenantService.getTenantApplicationById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<Tenant>> getAllTenantApplications() {
-        List<Tenant> tenants = tenantService.getAllTenantApplications();
-        return new ResponseEntity<>(tenants, HttpStatus.OK);
+    @GetMapping("/property/{id}")
+    public ResponseEntity<GetAllTenantResponse> getAllTenantApplicationsForProperty(@PathVariable Long id) {
+        return new ResponseEntity<>(tenantService.getAllTenantApplicationsForProperty(id), HttpStatus.OK);
     }
 }

@@ -133,76 +133,225 @@ export const tenantApprovalsData = [
 
 export const sampleTenantReqs = [
   {
-    id: 1,
-    name: "John Doe",
+    tenantID: 1,
+    firstName: "John",
+    lastName: "Doe",
+    email: "johndoe@gmail.com",
     details: "Request details for John Doe",
   },
   {
-    id: 2,
-    name: "Jane Smith",
+    tenantID: 2,
+    firstName: "Jane",
+    lastName: "Smith",
+    email: "janesmith@gmail.com",
     details: "Request details for Jane Smith",
   },
 ];
 
 export const sampleListingsData = [
   {
-    id:1,
-    numBedrooms: "3",
-    numBathrooms: "3",
-    title: "Statue of Liberty",
-    address: "New York, NY 10004, United States",
-    listingType: "Condominium",
-    furnishType: "Partly Furnished",
-    area: "1,386 sq. ft.",
-    rate: "$1.98/sq.ft",
-    owner: "John Doe",
-    price: "3,200",
+    id: 1,
+    numBedrooms: "2",
+    numBathrooms: "1",
+    title: "Central Park View Apartment",
+    address: "123 Central Park West, New York, NY 10019, United States",
+    listingType: "Apartment",
+    furnishType: "Fully Furnished",
+    area: "900 sq. ft.",
+    rate: "$2.50/sq.ft",
+    owner: "Jane Smith",
+    price: "2250",
     imageURL:
       "https://cdn.pixabay.com/photo/2017/09/09/18/25/living-room-2732939_1280.jpg",
+    propertyDescription:
+      "Enjoy breathtaking views of Central Park from this beautifully furnished apartment. Conveniently located near all amenities.",
+    details: {
+      utils: "No",
+      wifi: "No",
+      parking: "3+",
+      agreement: "1 Year",
+      moveInDate: "April 1 2024",
+      petFriendly: "Yes",
+      appliances: "No",
+      airc: "Yes",
+      outdoor: "Yes",
+      smoke: "No",
+    },
   },
   {
-    numBedrooms: "3",
-    numBathrooms: "3",
-    title: "Statue of Liberty",
-    address: "New York, NY 10004, United States",
-    listingType: "Condominium",
-    furnishType: "Partly Furnished",
-    area: "1,386 sq. ft.",
-    rate: "$1.98/sq.ft",
-    owner: "John Doe",
-    price: "3,200",
+    id: 2,
+    numBedrooms: "4",
+    numBathrooms: "2.5",
+    title: "Luxury Penthouse Downtown",
+    address: "456 Broadway, New York, NY 10012, United States",
+    listingType: "Penthouse",
+    furnishType: "Fully Furnished",
+    area: "3000 sq. ft.",
+    rate: "$4.80/sq.ft",
+    owner: "Michael Johnson",
+    price: "14400",
     imageURL:
-      "https://cdn.pixabay.com/photo/2017/09/09/18/25/living-room-2732939_1280.jpg",
+      "https://cdn.pixabay.com/photo/2020/06/27/16/40/apartment-5346460_1280.jpg",
+    propertyDescription:
+      "Experience ultimate luxury living in this stunning downtown penthouse. High-end finishes and panoramic city views.",
+    details: {
+      utils: "Yes",
+      wifi: "Yes",
+      parking: "2",
+      agreement: "2 Years",
+      moveInDate: "Immediate",
+      petFriendly: "No",
+      appliances: "Yes",
+      airc: "Yes",
+      outdoor: "No",
+      smoke: "Yes",
+    },
   },
   {
-    numBedrooms: "3",
-    numBathrooms: "3",
-    title: "Statue of Liberty",
-    address: "New York, NY 10004, United States",
-    listingType: "Condominium",
-    furnishType: "Partly Furnished",
-    area: "1,386 sq. ft.",
-    rate: "$1.98/sq.ft",
-    owner: "John Doe",
-    price: "3,200",
+    id: 3,
+    numBedrooms: "1",
+    numBathrooms: "1",
+    title: "Cozy Studio in SoHo",
+    address: "789 Houston St, New York, NY 10012, United States",
+    listingType: "Studio",
+    furnishType: "Partially Furnished",
+    area: "600 sq. ft.",
+    rate: "$3.20/sq.ft",
+    owner: "Emily Davis",
+    price: "1920",
     imageURL:
-      "https://cdn.pixabay.com/photo/2017/09/09/18/25/living-room-2732939_1280.jpg",
+      "https://cdn.pixabay.com/photo/2016/08/26/15/06/home-1622401_1280.jpg",
+    propertyDescription:
+      "Charming studio apartment located in the heart of SoHo. Close to trendy cafes, boutiques, and public transportation.",
+    details: {
+      utils: "Yes",
+      wifi: "Yes",
+      parking: "Street",
+      agreement: "6 Months",
+      moveInDate: "Flexible",
+      petFriendly: "Yes",
+      appliances: "Partial",
+      airc: "No",
+      outdoor: "No",
+      smoke: "No",
+    },
   },
   {
+    id: 4,
     numBedrooms: "3",
-    numBathrooms: "3",
-    title: "Statue of Liberty",
-    address: "New York, NY 10004, United States",
-    listingType: "Condominium",
-    furnishType: "Partly Furnished",
-    area: "1,386 sq. ft.",
-    rate: "$1.98/sq.ft",
-    owner: "John Doe",
-    price: "3,200",
+    numBathrooms: "2",
+    title: "Spacious Family Home in Brooklyn",
+    address: "10 Smith St, Brooklyn, NY 11201, United States",
+    listingType: "House",
+    furnishType: "Unfurnished",
+    area: "2000 sq. ft.",
+    rate: "$2.00/sq.ft",
+    owner: "David Wilson",
+    price: "4000",
     imageURL:
-      "https://cdn.pixabay.com/photo/2017/09/09/18/25/living-room-2732939_1280.jpg",
+      "https://cdn.pixabay.com/photo/2018/01/26/08/15/dining-room-3108037_1280.jpg",
+    propertyDescription:
+      "Ideal family home featuring spacious rooms and a backyard. Located in a peaceful neighborhood close to schools and parks.",
+    details: {
+      utils: "Yes",
+      wifi: "No",
+      parking: "2",
+      agreement: "1 Year",
+      moveInDate: "May 1 2024",
+      petFriendly: "Yes",
+      appliances: "Partial",
+      airc: "No",
+      outdoor: "Yes",
+      smoke: "No",
+    },
   },
-  
+  {
+    id: 5,
+    numBedrooms: "2",
+    numBathrooms: "1.5",
+    title: "Modern Condo with City Views",
+    address: "1010 Avenue of the Americas, New York, NY 10018, United States",
+    listingType: "Condo",
+    furnishType: "Fully Furnished",
+    area: "1200 sq. ft.",
+    rate: "$3.80/sq.ft",
+    owner: "Daniel Brown",
+    price: "4560",
+    imageURL:
+      "https://cdn.pixabay.com/photo/2017/03/22/17/39/kitchen-2165756_1280.jpg",
+    propertyDescription:
+      "Contemporary condo offering stunning views of the city skyline. Fully equipped with modern amenities and stylish decor.",
+    details: {
+      utils: "Yes",
+      wifi: "Yes",
+      parking: "Garage",
+      agreement: "2 Years",
+      moveInDate: "Immediate",
+      petFriendly: "No",
+      appliances: "Yes",
+      airc: "Yes",
+      outdoor: "Balcony",
+      smoke: "No",
+    },
+  },
+  {
+    id: 6,
+    numBedrooms: "3",
+    numBathrooms: "2.5",
+    title: "Elegant Townhouse in Upper East Side",
+    address: "20 East 65th Street, New York, NY 10065, United States",
+    listingType: "Townhouse",
+    furnishType: "Partially Furnished",
+    area: "2500 sq. ft.",
+    rate: "$5.00/sq.ft",
+    owner: "Olivia Taylor",
+    price: "12500",
+    imageURL:
+      "https://cdn.pixabay.com/photo/2017/08/27/10/16/interior-2685521_1280.jpg",
+    propertyDescription:
+      "Sophisticated townhouse with classic architecture and upscale interiors. Located in a prestigious neighborhood with easy access to elite shopping and dining.",
+    details: {
+      utils: "Yes",
+      wifi: "Yes",
+      parking: "1",
+      agreement: "1 Year",
+      moveInDate: "Flexible",
+      petFriendly: "No",
+      appliances: "Yes",
+      airc: "Yes",
+      outdoor: "Terrace",
+      smoke: "No",
+    },
+  },
+  {
+    id: 7,
+    numBedrooms: "4",
+    numBathrooms: "3",
+    title: "Spacious Loft in Greenwich Village",
+    address: "30 Jones Street, New York, NY 10014, United States",
+    listingType: "Loft",
+    furnishType: "Unfurnished",
+    area: "1800 sq. ft.",
+    rate: "$4.00/sq.ft",
+    owner: "Sophia Clark",
+    price: "7200",
+    imageURL:
+      "https://cdn.pixabay.com/photo/2016/11/30/08/48/bedroom-1872196_1280.jpg",
+    propertyDescription:
+      "Expansive loft space featuring high ceilings and exposed brick walls. Located in the vibrant Greenwich Village neighborhood with easy access to restaurants, bars, and entertainment.",
+    details: {
+      utils: "No",
+      wifi: "Yes",
+      parking: "Street",
+      agreement: "1 Year",
+      moveInDate: "April 15 2024",
+      petFriendly: "Yes",
+      appliances: "Partial",
+      airc: "Yes",
+      outdoor: "No",
+      smoke: "No",
+    },
+  },
 ];
 
 export const sampleRequestData = [
@@ -225,159 +374,168 @@ export const sampleRequestData = [
     requestSubject: "Testst",
     requestType: "Testst",
     date:"24 Feb 2024",
-    requestMessage: "TeststTeststTeststTestst"
-  }
-]
+    requestMessage: "TeststTeststTeststTestst",
+  },
+];
 
 export const sampleViolationLogData = [
   {
     title: "Title lorem",
-    description: "1 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the",
+    description:
+      "1 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the",
     monetary: "200",
     personalComment: "Lorem Ipsum is simply",
-    damageIntensity: "Moderate"
+    damageIntensity: "Moderate",
   },
   {
     title: "Title lorem",
-    description: "2 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the",
+    description:
+      "2 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the",
     monetary: "200",
     personalComment: "Lorem Ipsum is simply",
-    damageIntensity: "Minor"
+    damageIntensity: "Minor",
   },
   {
     title: "Title lorem",
-    description: "3 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the",
+    description:
+      "3 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the",
     monetary: "200",
     personalComment: "Lorem Ipsum is simply",
-    damageIntensity: "Severe"
+    damageIntensity: "Severe",
   },
   {
     title: "Title lorem",
-    description: "4 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the",
+    description:
+      "4 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the",
     monetary: "200",
     personalComment: "Lorem Ipsum is simply",
-    damageIntensity: "Moderate"
+    damageIntensity: "Moderate",
   },
   {
     title: "Title lorem",
-    description: "4 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the",
+    description:
+      "4 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the",
     monetary: "200",
     personalComment: "Lorem Ipsum is simply",
-    damageIntensity: "Minor"
+    damageIntensity: "Minor",
   },
-]
+];
 
 export const sampleServiceReqData = [
   {
     id: "d5e3",
     requestSubject: "New Req",
     requestType: "New Req type",
-    requestMessage: "New Req type Message New Req type Message"
+    requestMessage: "New Req type Message New Req type Message",
   },
   {
     id: "caee",
     requestSubject: "Test 1",
     requestType: "Test 1 type",
-    requestMessage: "Test 1 message Test 1 messageTest 1 messageTest 1 message"
+    requestMessage: "Test 1 message Test 1 messageTest 1 messageTest 1 message",
   },
   {
     id: "2fdd",
     requestSubject: "Testst",
     requestType: "Testst",
-    requestMessage: "TeststTeststTeststTestst"
-  }
-]
-
+    requestMessage: "TeststTeststTeststTestst",
+  },
+];
 
 export const sampleDocumentData = [
   {
     id: "1",
     documentName: "Document 1",
-    documentLink: "https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf",
-    createdDate: "22 Fab 2024"
+    documentLink:
+      "https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf",
+    createdDate: "22 Fab 2024",
   },
   {
     id: "2",
     documentName: "Document 2",
-    documentLink: "https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf",
-    createdDate: "22 Fab 2024"
+    documentLink:
+      "https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf",
+    createdDate: "22 Fab 2024",
   },
   {
     id: "3",
     documentName: "Document 3",
-    documentLink: "https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf",
-    createdDate: "22 Fab 2024"
+    documentLink:
+      "https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf",
+    createdDate: "22 Fab 2024",
   },
-]
+];
 
 export const sampleLeaseData = [
   {
     id: "1",
     documentName: "Document 1",
-    documentLink: "https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf",
+    documentLink:
+      "https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf",
     startDate: "22 Fab 2024",
     endDate: "22 Jan 2025",
-    monthRent:1200,
+    monthRent: 1200,
   },
   {
     id: "2",
     documentName: "Document 2",
-    documentLink: "https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf",
+    documentLink:
+      "https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf",
     startDate: "22 Fab 2024",
     endDate: "22 Jan 2025",
-    monthRent:1200,
+    monthRent: 1200,
   },
   {
     id: "3",
     documentName: "Document 3",
-    documentLink: "https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf",
+    documentLink:
+      "https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf",
     startDate: "22 Fab 2024",
     endDate: "22 Jan 2025",
-    monthRent:1200,
+    monthRent: 1200,
   },
-]
-
+];
 
 export const samplePaymentData = [
   {
     id: "1",
-    invoiceNo:"dsf2313sdas",
-    note: "Maintenance",
-    amount: 2500,
-    paymentDate: "24 March 2024",
-    paymentDueDate: "30 March 2024",
-    status:"open",
-    tenant:"John Doe"
+    invoiceNo: "inv2458xyc",
+    note: "Rent for April",
+    amount: 3200,
+    paymentDate: "15 April 2024",
+    paymentDueDate: "01 May 2024",
+    status: "paid",
+    tenant: "Emily Clark",
   },
   {
     id: "2",
-    invoiceNo:"dsf2313sdas",
-    note: "Maintenance",
-    amount: 2500,
-    paymentDate: "24 March 2024",
-    paymentDueDate: "30 March 2024",
-    status:"partial",
-    tenant:"John Doe"
+    invoiceNo: "inv7893abc",
+    note: "Annual Maintenance",
+    amount: 1500,
+    paymentDate: "05 March 2024",
+    paymentDueDate: "10 March 2024",
+    status: "open",
+    tenant: "Michael Smith",
   },
   {
     id: "3",
-    invoiceNo:"dsf2313sdas",
-    note: "Maintenance",
-    amount: 2500,
-    paymentDate: "24 March 2024",
-    paymentDueDate: "30 March 2024",
-    status:"paid",
-    tenant:"John Doe"
+    invoiceNo: "inv9630qwe",
+    note: "Utility Bill",
+    amount: 600,
+    paymentDate: "20 March 2024",
+    paymentDueDate: "25 March 2024",
+    status: "paid",
+    tenant: "Sarah Johnson",
   },
   {
-    id: "3",
-    invoiceNo:"dsf2313sdas",
-    note: "Maintenance",
-    amount: 2500,
-    paymentDate: "24 March 2024",
-    paymentDueDate: "30 March 2024",
-    status:"overdue",
-    tenant:"John Doe"
+    id: "4",
+    invoiceNo: "inv8524rty",
+    note: "Parking Fee",
+    amount: 300,
+    paymentDate: "11 March 2024",
+    paymentDueDate: "15 March 2024",
+    status: "open",
+    tenant: "James Williams",
   },
 ];
 
@@ -387,11 +545,13 @@ export const sampleCommunityData = [
     name: "Second hand car for sale",
     description: "Top condition ",
     contactNumber: "09879154689",
-    email:"jsmith@gmail.com",
+    email: "jsmith@gmail.com",
     address: "304. park view",
     price: "60000",
-    image: "https://imgd-ct.aeplcdn.com/640X480/cw/ucp/stockApiImg/QM0B9FY_5632c10a393746479ed4bbbc8f61ea05_1_30554345.jpeg?q=80"
-  }
-]
+    image:
+      "https://imgd-ct.aeplcdn.com/640X480/cw/ucp/stockApiImg/QM0B9FY_5632c10a393746479ed4bbbc8f61ea05_1_30554345.jpeg?q=80",
+  },
+];
+
 
 

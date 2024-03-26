@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import LoadingSpinner from "../../assets/LoadingSpinner.jsx";
 import { httpPost } from "../../Utils/HttpRequest.jsx"; // Import the httpRequest module
 import useAuth from "../../hooks/useAuth.jsx";
-const FORGOT_PASSW_URL = import.meta.env.VITE_BACKEND_URL + "/auth/forgotpassword";
+const FORGOT_PASSW_URL = "http://localhost:8080/api/v1/auth/forgotpassword";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
