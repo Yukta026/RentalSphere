@@ -18,6 +18,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -113,5 +114,20 @@ public class PostControllerTest {
         when(postService.deletePost(anyLong())).thenReturn(postResponse);
 
         assertEquals(responseEntity, postController.deletePost(anyLong()));
+    }
+
+    @Test
+    void testGetAllTenantPosts(){
+        getAllPostResponse = GetAllPostResponse.builder()
+                .isSuccess(true)
+                .posts(List.of(post))
+                .timeStamp(new Date())
+                .build();
+
+        ResponseEntity<?> responseEntity = new ResponseEntity<>(getAllPostResponse, HttpStatus.OK);
+
+        when(postService.getAllTenantPosts(anyString())).thenReturn(getAllPostResponse);
+
+        assertEquals(responseEntity, postController.getAllTenantPosts(anyString()));
     }
 }
