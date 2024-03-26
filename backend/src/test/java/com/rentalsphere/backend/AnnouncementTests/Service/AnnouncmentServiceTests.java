@@ -1,4 +1,4 @@
-package com.rentalsphere.backend.AnnouncementTests;
+package com.rentalsphere.backend.AnnouncementTests.Service;
 
 import com.rentalsphere.backend.Announcement.Model.Announcement;
 import com.rentalsphere.backend.Announcement.Repository.AnnouncementRepository;
