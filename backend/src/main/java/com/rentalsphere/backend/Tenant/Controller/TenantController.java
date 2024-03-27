@@ -1,5 +1,6 @@
 package com.rentalsphere.backend.Tenant.Controller;
 
+import com.rentalsphere.backend.DTOs.TenantDTO;
 import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterRequest;
 import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterResponse;
 import com.rentalsphere.backend.RequestResponse.Tenant.GetAllTenantResponse;
@@ -33,12 +34,13 @@ public class TenantController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetTenantResponse> getTenantApplicationById(@PathVariable Long id) {
+    public ResponseEntity<TenantDTO> getTenantApplicationById(@PathVariable Long id) {
         return new ResponseEntity<>(tenantService.getTenantApplicationById(id), HttpStatus.OK);
     }
 
     @GetMapping("/property/{id}")
-    public ResponseEntity<GetAllTenantResponse> getAllTenantApplicationsForProperty(@PathVariable Long id) {
-        return new ResponseEntity<>(tenantService.getAllTenantApplicationsForProperty(id), HttpStatus.OK);
+    public ResponseEntity<List<TenantDTO>> getAllTenantApplications(@PathVariable Long id) {
+        List<TenantDTO> tenants = tenantService.getAllTenantApplications(id);
+        return new ResponseEntity<>(tenants, HttpStatus.OK);
     }
 }

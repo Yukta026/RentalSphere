@@ -359,25 +359,28 @@ export const sampleRequestData = [
     id: "d5e3",
     requestSubject: "New Req",
     requestType: "New Req type",
-    requestMessage: "New Req type Message New Req type Message",
+    date:"24 Feb 2024",
+    requestMessage: "New Req type Message New Req type Message"
   },
   {
     id: "caee",
     requestSubject: "Test 1",
     requestType: "Test 1 type",
-    requestMessage: "Test 1 message Test 1 messageTest 1 messageTest 1 message",
+    date:"24 Feb 2024",
+    requestMessage: "Test 1 message Test 1 messageTest 1 messageTest 1 message"
   },
   {
     id: "2fdd",
     requestSubject: "Testst",
     requestType: "Testst",
+    date:"24 Feb 2024",
     requestMessage: "TeststTeststTeststTestst",
   },
 ];
 
 export const sampleViolationLogData = [
   {
-    title: "title lorem",
+    title: "Title lorem",
     description:
       "1 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the",
     monetary: "200",
@@ -385,7 +388,7 @@ export const sampleViolationLogData = [
     damageIntensity: "Moderate",
   },
   {
-    title: "title lorem",
+    title: "Title lorem",
     description:
       "2 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the",
     monetary: "200",
@@ -393,7 +396,7 @@ export const sampleViolationLogData = [
     damageIntensity: "Minor",
   },
   {
-    title: "title lorem",
+    title: "Title lorem",
     description:
       "3 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the",
     monetary: "200",
@@ -401,7 +404,7 @@ export const sampleViolationLogData = [
     damageIntensity: "Severe",
   },
   {
-    title: "title lorem",
+    title: "Title lorem",
     description:
       "4 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the",
     monetary: "200",
@@ -409,7 +412,7 @@ export const sampleViolationLogData = [
     damageIntensity: "Moderate",
   },
   {
-    title: "title lorem",
+    title: "Title lorem",
     description:
       "4 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the",
     monetary: "200",
@@ -438,6 +441,66 @@ export const sampleServiceReqData = [
     requestMessage: "TeststTeststTeststTestst",
   },
 ];
+
+export const sampleContactData = [
+  {
+    id: "1",
+    name: "Selma Lowery",
+    phoneNumber: "1-417-743-5425",
+    email: "lorem.tristique@google.net",
+    skill: "Plumber",
+    companyName: "abc llc",
+  },
+  {
+    id: "2",
+    name: "Zephr Duncan",
+    phoneNumber: "1-317-775-7161",
+    email: "consectetuer.cursus@hotmail.couk",
+    skill: "Electrician",
+    companyName: "abc llc",
+  },
+  {
+    id: "3",
+    name: "Kane Lawson",
+    phoneNumber: "(781) 586-2754",
+    email: "(781) 586-2754",
+    skill: "Cook",
+    companyName: "abc llc",
+  },
+  {
+    id: "4",
+    name: "Abigail Armstrong",
+    phoneNumber: "1-585-923-6157",
+    email: "nonummy.ipsum@outlook.net",
+    skill: "Home cleaner",
+    companyName: "abc llc",
+  },
+  {
+    id: "5",
+    name: "Selma Lowery",
+    phoneNumber: "1-417-743-5425",
+    email: "lorem.tristique@google.net",
+    skill: "Insurance",
+    companyName: "abc llc",
+  },
+  {
+    id: "6",
+    name: "Zephr Duncan",
+    phoneNumber: "1-317-775-7161",
+    email: "consectetuer.cursus@hotmail.couk",
+    skill: "Carpet cleaner",
+    companyName: "abc llc",
+  },
+  {
+    id: "7",
+    name: "Zephr Duncan",
+    phoneNumber: "1-317-775-7161",
+    email: "consectetuer.cursus@hotmail.couk",
+    skill: "plumber",
+    companyName: "abc llc",
+  },
+
+]
 
 export const sampleDocumentData = [
   {
@@ -549,3 +612,6 @@ export const sampleCommunityData = [
       "https://imgd-ct.aeplcdn.com/640X480/cw/ucp/stockApiImg/QM0B9FY_5632c10a393746479ed4bbbc8f61ea05_1_30554345.jpeg?q=80",
   },
 ];
+
+
+

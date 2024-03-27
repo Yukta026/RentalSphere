@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
 // import NewRequest from '../components/new-request/NewRequest';
 import Axios from "axios";
 import { FiTool } from "react-icons/fi";
@@ -78,10 +78,10 @@ function TenantOverview() {
       <h1 className="font-bold text-[20px]">Dashboard</h1>
 
       <div className="my-8 border-l-4 border-green-700 w-11/12 py-11 flex justify-between items-center bg-white drop-shadow rounded-[8px] p-6">
-        <div>
+        <Link className="cursor-pointer" to={'/tenantdashboard/payments'}>
           <h3 className="font-medium text-[26px]">Your Current Balance</h3>
           <h3 className="font-extrabold text-[26px]">$ 0.00</h3>
-        </div>
+        </Link >
 
         <div>
           <button
@@ -98,8 +98,8 @@ function TenantOverview() {
           <div className="">
             <h3 className="font-semibold text-[18px]">Open request</h3>
             {requestsData &&
-              requestsData.map((data, index) => (
-                <div className="mt-6 flex items-center gap-4">
+              requestsData.map((data) => (
+                <Link to={'/tenantdashboard/requests'} className="mt-6 flex items-center gap-4">
                   <div className="border-2 border-green-700 bg-green-100 text-green-700 text-[22px] p-3 rounded-[8px]">
                     <FiTool />
                   </div>
@@ -111,7 +111,7 @@ function TenantOverview() {
                       {data.requestType}
                     </p>
                   </div>
-                </div>
+                </Link>
               ))}
           </div>
 
@@ -127,8 +127,8 @@ function TenantOverview() {
           <div className="">
             <h3 className="font-semibold text-[18px]">New Announcements</h3>
             {announcementsData &&
-              announcementsData.map((data, index) => (
-                <div className="mt-6 flex items-center gap-4" key={index}>
+              announcementsData.map((data) => (
+                <Link to={'/tenantdashboard/announcements'} className="mt-6 flex items-center gap-4">
                   <div className="border-2 border-green-700 bg-green-100 text-green-700 text-[22px] p-3 rounded-[8px]">
                     <FiTool />
                   </div>
@@ -140,7 +140,7 @@ function TenantOverview() {
                       {data.announcementdate}
                     </p>
                   </div>
-                </div>
+                </Link>
               ))}
           </div>
         </div>

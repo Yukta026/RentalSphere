@@ -1,6 +1,8 @@
 package com.rentalsphere.backend.Property.Model;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rentalsphere.backend.Enums.ApplicationStatus;
+import com.rentalsphere.backend.Enums.RentedStatus;
 import com.rentalsphere.backend.Lease.Model.Lease;
 import com.rentalsphere.backend.Tenant.Model.Tenant;
 import com.rentalsphere.backend.User.Model.User;
@@ -84,6 +86,9 @@ import lombok.NoArgsConstructor;
         @Column(name = "ApplicationStatus", nullable = false)
         @Enumerated(EnumType.STRING)
         private ApplicationStatus applicationStatus;
+        @Column(name = "RentedStatus", nullable = false)
+        @Enumerated(EnumType.STRING)
+        private RentedStatus rentedStatus;
         //
         @NotNull(message = "Creation date cannot be null.")
         @Column(name = "CreationDate", nullable = false)
@@ -93,12 +98,15 @@ import lombok.NoArgsConstructor;
         @Column(name = "LicenseNumber", nullable = false)
         private String licenseNumber;
         //
+        @JsonIgnore
         @OneToMany(mappedBy = "property")
         private List<Tenant> tenants;
         //
+        @JsonIgnore
         @OneToMany(mappedBy = "property")
         private List<PropertyImages> propertyImages;
         //
+        @JsonIgnore
         @OneToMany(mappedBy = "property")
         private List<Lease> leaseList;
 

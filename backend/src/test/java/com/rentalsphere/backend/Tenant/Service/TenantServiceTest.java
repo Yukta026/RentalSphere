@@ -4,11 +4,10 @@ import com.rentalsphere.backend.DTOs.TenantDTO;
 import com.rentalsphere.backend.Enums.ApplicationStatus;
 import com.rentalsphere.backend.Exception.Property.PropertyNotFoundException;
 import com.rentalsphere.backend.Exception.Tenant.TenantNotFoundException;
+import com.rentalsphere.backend.Mappers.PropertyMapper;
 import com.rentalsphere.backend.Mappers.TenantMapper;
 import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.Property.Repository.PropertyRepository;
-import com.rentalsphere.backend.RequestResponse.Tenant.GetAllTenantResponse;
-import com.rentalsphere.backend.RequestResponse.Tenant.GetTenantResponse;
 import com.rentalsphere.backend.Tenant.Model.Tenant;
 import com.rentalsphere.backend.Tenant.Repository.TenantRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -35,68 +35,78 @@ public class TenantServiceTest {
     @Mock
     private PropertyRepository propertyRepository;
     @Mock
-    private Tenant tenant;
-    @Mock
     private Property property;
     @Mock
-    private TenantDTO tenantDTO;
-    private GetAllTenantResponse getAllTenantResponseExpected;
-    private GetTenantResponse getTenantResponseExpected;
+    private Tenant tenant;
+    @Mock
+    private List<Tenant> tenants;
+    private List<TenantDTO> dummyTenants;
 
     @BeforeEach
     void init(){
-        getAllTenantResponseExpected = GetAllTenantResponse.builder()
-                .isSuccess(true)
-                .tenants(List.of(tenantDTO, tenantDTO))
-                .timeStamp(new Date())
-                .build();
-        getTenantResponseExpected = GetTenantResponse.builder()
-                .isSuccess(true)
-                .tenant(tenantDTO)
-                .timeStamp(new Date())
-                .build();
+        TenantDTO dummyTenant1 = new TenantDTO();
+        dummyTenant1.setId(1L);
+        dummyTenant1.setName("John Doe");
+        dummyTenant1.setEmail("johndoe@example.com");
+        dummyTenant1.setPhoneNumber("555-555-5555");
+        dummyTenant1.setDateOfBirth(new Date());
+        dummyTenant1.setDesiredMoveInDate(new Date());
+        dummyTenant1.setNumOccupants(2);
+        dummyTenant1.setApplicationDate(new Date());
+
+        TenantDTO dummyTenant2 = new TenantDTO();
+        dummyTenant2.setId(2L);
+        dummyTenant2.setName("Jane Doe");
+        dummyTenant2.setEmail("janedoe@example.com");
+        dummyTenant2.setPhoneNumber("555-555-5556");
+        dummyTenant2.setDateOfBirth(new Date());
+        dummyTenant2.setDesiredMoveInDate(new Date());
+        dummyTenant2.setNumOccupants(1);
+        dummyTenant2.setApplicationDate(new Date());
+
+        this.dummyTenants = Arrays.asList(dummyTenant1, dummyTenant2);
     }
 
     @Test
-    void testGetAllTenantApplicationsForProperty(){
-        GetAllTenantResponse getAllTenantResponseActual;
+    void testGetAllTenantApplications(){
+        List<TenantDTO> actualResponse;
+
         when(propertyRepository.findById(anyLong())).thenReturn(Optional.of(property));
-        when(tenantRepository.findAllByPropertyAndApplicationStatus(any(Property.class), any(ApplicationStatus.class))).thenReturn(List.of(tenant));
+        when(tenantRepository.findAllByPropertyAndApplicationStatus(any(Property.class), any(ApplicationStatus.class))).thenReturn(tenants);
 
         try(MockedStatic<TenantMapper> tenantMapper = mockStatic(TenantMapper.class)){
-            tenantMapper.when(()->TenantMapper.convertToTenantDTOs(anyList())).thenReturn(List.of(tenantDTO, tenantDTO));
-            getAllTenantResponseActual = tenantService.getAllTenantApplicationsForProperty(anyLong());
+            tenantMapper.when(()->TenantMapper.convertToTenantDTOs(anyList())).thenReturn(dummyTenants);
+            actualResponse = tenantService.getAllTenantApplications(anyLong());
         }
 
-        assertTrue(getAllTenantResponseActual.isSuccess());
-        assertEquals(getAllTenantResponseExpected.getTenants(), getAllTenantResponseActual.getTenants());
+        assertEquals(dummyTenants, actualResponse);
     }
 
     @Test
-    void testGetAllTenantApplicationsForProperty_PropertyNotFoundException(){
+    void testGetAllTenantApplicationsNotFoundException(){
         when(propertyRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         assertThrows(PropertyNotFoundException.class, ()->{
-           tenantService.getAllTenantApplicationsForProperty(anyLong());
+            tenantService.getAllTenantApplications(1L);
         });
     }
 
     @Test
     void testGetTenantApplicationById(){
-        GetTenantResponse getTenantResponseActual;
+        TenantDTO actualResponse;
+
         when(tenantRepository.findById(anyLong())).thenReturn(Optional.of(tenant));
 
         try(MockedStatic<TenantMapper> tenantMapper = mockStatic(TenantMapper.class)){
-            tenantMapper.when(()->TenantMapper.convertToTenantDTO(tenant)).thenReturn(tenantDTO);
-            getTenantResponseActual = tenantService.getTenantApplicationById(anyLong());
+            tenantMapper.when(()->TenantMapper.convertToTenantDTO(any(Tenant.class))).thenReturn(dummyTenants.get(0));
+            actualResponse = tenantService.getTenantApplicationById(anyLong());
         }
 
-        assertTrue(getTenantResponseActual.isSuccess());
-        assertEquals(getTenantResponseExpected.getTenant(), getTenantResponseActual.getTenant());
+        assertEquals(dummyTenants.get(0), actualResponse);
     }
 
     @Test
-    void testGetTenantApplicationById_TenantNotFound(){
+    void testGetTenantApplicationByIdNotFoundException(){
         when(tenantRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         assertThrows(TenantNotFoundException.class, ()->{

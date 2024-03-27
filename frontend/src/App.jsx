@@ -6,12 +6,24 @@ import AppRoutes from "./AppRoutes.jsx";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/AuthProvider.jsx";
 import { AppProvider } from "./context/AppProvider.jsx";
+import useAppContext from "./hooks/useAppContext.jsx";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
+    
     <BrowserRouter>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <AuthProvider>
         <AppProvider>
           <div className="flex-col min-h-screen h-screen justify-between">
@@ -24,6 +36,7 @@ function App() {
           <ToastContainer />
         </AppProvider>
       </AuthProvider>
+      <ToastContainer />
     </BrowserRouter>
   );
 }

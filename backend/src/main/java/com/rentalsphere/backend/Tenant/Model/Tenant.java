@@ -1,5 +1,6 @@
 package com.rentalsphere.backend.Tenant.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rentalsphere.backend.Enums.ApplicationStatus;
 import com.rentalsphere.backend.Lease.Model.Lease;
 import com.rentalsphere.backend.Marketplace.Model.Post;
@@ -29,6 +30,7 @@ public class Tenant {
     @Column(name = "TenantID")
     private Long tenantID;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "userID", referencedColumnName = "id")
     private User user;
@@ -85,13 +87,16 @@ public class Tenant {
     @Column(name = "CreationDate", nullable = false)
     private Date creationDate;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "property_id", referencedColumnName = "PropertyApplicationID") // This is the foreign key column in PropertyApplications table
     private Property property;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "tenant")
     private List<Lease> leaseList;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "tenant")
     private List<Post> posts;
 
