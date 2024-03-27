@@ -32,6 +32,12 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class PostServiceTest {
+
+    final int leaseTermMonth = 12;
+    final int numOfOccupants = 2;
+    final double price = 2000.00;
+    final double updatedPrice = 1500.00;
+
     @InjectMocks
     private PostService postService;
     @Mock
@@ -66,16 +72,16 @@ public class PostServiceTest {
                 .socialSecurityNumber("1234567890")
                 .streetAddress("some street")
                 .desiredMoveInDate(new Date())
-                .leaseTermMonths(12)
-                .numOccupants(2)
+                .leaseTermMonths(leaseTermMonth)
+                .numOccupants(numOfOccupants)
                 .currentEmployer("some employer")
                 .lengthOfEmployment(1)
                 .applicationStatus(ApplicationStatus.APPROVED)
                 .creationDate(new Date())
                 .build();
         map = Map.of("url", "some url");
-        createPostRequest = new CreatePostRequest("patel@gmail.com", "title", "description", 2000.00, file);
-        updatePostRequest = new UpdatePostRequest(1L, "new title", "new description", 1500.00, file, AvailabilityStatus.SOLD);
+        createPostRequest = new CreatePostRequest("patel@gmail.com", "title", "description", price, file);
+        updatePostRequest = new UpdatePostRequest(1L, "new title", "new description", updatedPrice, file, AvailabilityStatus.SOLD);
     }
 
     @Test
