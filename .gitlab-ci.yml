@@ -30,6 +30,8 @@ build-frontend:
     - npm install
     - npm run build
     - ls -a
+    - cd dist
+    - ls -a
     - echo "Frontend Build Complete"
 
   artifacts:
@@ -140,7 +142,9 @@ deploy-frontend:
     - apk update && apk add openssh-client sshpass
     - ls -a
     - cd ~
-    - cd frontend/dist
+    - cd frontend || true
+    - ls -a
+    - cd dist || true
     - ls -a
     - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "rm -r /var/www/html/*" || true
     - sshpass -p "dalw24" scp -o StrictHostKeyChecking=no -r -v frontend/dist/* ${SERVER_USER}@${SERVER_IP}:/var/www/html
