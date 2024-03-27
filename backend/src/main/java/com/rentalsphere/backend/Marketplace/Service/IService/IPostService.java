@@ -10,4 +10,5 @@ public interface IPostService {
     public GetAllPostResponse getAllPosts();
     public PostResponse updatePost(UpdatePostRequest request) throws IOException;
     public PostResponse deletePost(Long id);
+    public GetAllPostResponse getAllTenantPosts(String email);
 }

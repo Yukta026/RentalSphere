@@ -100,11 +100,15 @@ public class PostService implements IPostService {
         post.get().setTitle(request.getTitle());
         post.get().setDescription(request.getDescription());
         post.get().setPrice(request.getPrice());
-        post.get().setAvailabilityStatus(request.getAvailabilityStatus());
+        String availabilityStatus = post.get().getAvailabilityStatus().name();
+        if(availabilityStatus.equalsIgnoreCase(AvailabilityStatus.AVAILABLE.name()) || availabilityStatus.equalsIgnoreCase(AvailabilityStatus.SOLD.name())){
+            post.get().setAvailabilityStatus(request.getAvailabilityStatus());
+        }
         if(request.getUpdatedImage() != null){
             Map image = cloudinaryService.upload(request.getUpdatedImage());
             post.get().setImageUrl((String) image.get("url"));
         }
+        postRepository.save(post.get());
         return PostResponse.builder()
                 .isSuccess(true)
                 .message("Post updated.")
@@ -123,6 +127,24 @@ public class PostService implements IPostService {
         return PostResponse.builder()
                 .isSuccess(true)
                 .message("Post deleted.")
+                .timeStamp(new Date())
+                .build();
+    }
+
+    @Override
+    public GetAllPostResponse getAllTenantPosts(String email) {
+        Optional<Tenant> tenant = tenantRepository.findByEmailAddressAndApplicationStatus(email, ApplicationStatus.APPROVED);
+
+        if(!tenant.isPresent()){
+            throw new TenantNotFoundException("No such tenant exists.");
+        }
+
+        List<Post> posts = postRepository.findAllByTenant(tenant.get());
+        List<PostDTO> postDTOs = PostMapper.convertToPostDTOs(posts);
+
+        return GetAllPostResponse.builder()
+                .isSuccess(true)
+                .posts(postDTOs)
                 .timeStamp(new Date())
                 .build();
     }
