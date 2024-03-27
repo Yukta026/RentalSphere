@@ -93,14 +93,14 @@ publish:
     - cd ..
     - ls -a
 
-  # only:
-  #   - development
+  only:
+    - development
 
 deploy-backend:
   image: alpine:latest
   stage: deploy
-  # tags:
-  #   - rentalsphere
+  tags:
+    - rentalsphere
   script:
     - cd backend/
     - echo "Deploying Backend..."
@@ -159,5 +159,5 @@ deploy-frontend:
   #   name: production
   #   url: http://172.17.3.125:5173
 
-  # only:
-  #   - development
+  only:
+    - development

@@ -6,8 +6,8 @@ import { MdFileDownload, MdOutlineDelete } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { sampleLeaseData } from "../../Utils/SampleData";
 import LoadingSpinner from "../../assets/LoadingSpinner";
-const ALL_PROPS_URL = "http://localhost:8080/api/v1/property";
-const ALL_LEASE_URL = "http://localhost:8080/api/v1/lease/property/";
+const ALL_PROPS_URL = "http://172.17.3.125:8080/api/v1/property";
+const ALL_LEASE_URL = "http://172.17.3.125:8080/api/v1/lease/property/";
 
 export default function PMLeaseManage() {
   const { auth } = useAuth();

@@ -48,7 +48,8 @@ public class ApplicationConfiguration {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:5173")
+//                        .allowedOrigins("http://localhost:5173", "http://172.17.3.125", "http://csci5308vm6.research.cs.dal.ca")
+                        .allowedOrigins("*")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
