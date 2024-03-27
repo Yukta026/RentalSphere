@@ -25,9 +25,16 @@ img{
     width: 100%;
 }
 
+@media only screen and (min-width: 992px){
+    .container{
+        padding: 0 60px !important;
+    }
+}
+
 .container{
-    width: 1200px;
-    margin: auto;
+    /* width: 1200px;
+    margin: auto; */
+    padding: 0 20px;
 }
 
 .sub_title{
