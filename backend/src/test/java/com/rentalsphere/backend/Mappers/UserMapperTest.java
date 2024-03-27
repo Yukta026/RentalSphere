@@ -16,14 +16,11 @@ public class UserMapperTest {
 
     @Test
     public void testConvertToPropertyManagerDTO() {
-        // Arrange
         User user = createDummyUser();
         Property property = createDummyProperty();
 
-        // Act
         PropertyManagerDTO propertyManagerDTO = UserMapper.convertToPropertyManagerDTO(user, property);
 
-        // Assert
         assertEquals("john.doe@example.com", propertyManagerDTO.getEmail());
         assertEquals("John", propertyManagerDTO.getFirstName());
         assertEquals("Doe", propertyManagerDTO.getLastName());
@@ -38,7 +35,6 @@ public class UserMapperTest {
         user.setEmail("john.doe@example.com");
         user.setFirstName("John");
         user.setLastName("Doe");
-        // Set other properties for user if needed
         return user;
     }
 
@@ -47,7 +43,6 @@ public class UserMapperTest {
         property.setPhoneNumber("1234567890");
         property.setLicenseNumber("ABCD1234");
         property.setCreationDate(new Date());
-        // Set other properties for property if needed
         return property;
     }
 }
