@@ -7,10 +7,10 @@ import { useNavigate } from "react-router-dom";
 import { FiEdit, FiTrash } from "react-icons/fi";
 import { IoIosArrowDown } from "react-icons/io";
 import LoadingSpinner from "../../assets/LoadingSpinner.jsx";
-const ALL_PROPS_URL = "http://localhost:8080/api/v1/property";
-const ANNOUNCEMENTS_URL = "http://localhost:8080/api/v1/announcements";
+const ALL_PROPS_URL = "http://172.17.3.125:8080/api/v1/property";
+const ANNOUNCEMENTS_URL = "http://172.17.3.125:8080/api/v1/announcements";
 const PROP_ANNOUNCEMENTS_URL =
-  "http://localhost:8080/api/v1/announcements/property/";
+  "http://172.17.3.125:8080/api/v1/announcements/property/";
 
 const PMAnnouncements = () => {
   const { auth } = useAuth();

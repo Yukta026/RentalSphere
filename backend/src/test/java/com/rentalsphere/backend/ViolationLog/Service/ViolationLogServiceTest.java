@@ -31,6 +31,7 @@ import static org.mockito.Mockito.*;
 
 class ViolationLogServiceTest {
 
+    final double monetaryDamage = 2500.00;
     @Mock
     private ViolationLogRepository violationLogRepository;
 
@@ -211,7 +212,7 @@ class ViolationLogServiceTest {
                 .date(new Date())
                 .personalComments("comment1")
                 .intensity("intensity1")
-                .monetaryDamage(2500.00)
+                .monetaryDamage(monetaryDamage)
                 .build();
 
         ViolationLog violationLog2 = ViolationLog.builder()
@@ -220,7 +221,7 @@ class ViolationLogServiceTest {
                 .date(new Date())
                 .personalComments("comment2")
                 .intensity("intensity2")
-                .monetaryDamage(2500.00)
+                .monetaryDamage(monetaryDamage)
                 .build();
 
         when(tenantRepository.findByEmailAddressAndApplicationStatus(anyString(), any(ApplicationStatus.class))).thenReturn(Optional.ofNullable(tenant));

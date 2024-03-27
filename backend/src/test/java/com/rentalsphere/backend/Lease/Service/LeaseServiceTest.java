@@ -35,6 +35,11 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class LeaseServiceTest {
+
+    final double monthlyRent = 2500.00;
+    final int leaseTermMonth = 12;
+    final int numOfOccupants = 2;
+    final int numBedrooms = 2;
     @InjectMocks
     private LeaseService leaseService;
     @Mock
@@ -77,9 +82,9 @@ public class LeaseServiceTest {
                 .city("some city")
                 .state("some state")
                 .zipCode("zip")
-                .monthlyRent(2500.00)
+                .monthlyRent(monthlyRent)
                 .availableMoveInDate(new Date())
-                .numBedrooms(2)
+                .numBedrooms(numBedrooms)
                 .numBathrooms(1)
                 .propertyDescription("some description")
                 .applicationStatus(ApplicationStatus.APPROVED)
@@ -95,8 +100,8 @@ public class LeaseServiceTest {
                 .socialSecurityNumber("1234567890")
                 .streetAddress("some street")
                 .desiredMoveInDate(new Date())
-                .leaseTermMonths(12)
-                .numOccupants(2)
+                .leaseTermMonths(leaseTermMonth)
+                .numOccupants(numOfOccupants)
                 .currentEmployer("some employer")
                 .lengthOfEmployment(1)
                 .applicationStatus(ApplicationStatus.APPROVED)
@@ -107,14 +112,14 @@ public class LeaseServiceTest {
                 .id(1L)
                 .startDate(new Date())
                 .endDate(new Date())
-                .monthlyRent(2500.00)
+                .monthlyRent(monthlyRent)
                 .leaseStatus(LeaseStatus.ACTIVE)
                 .leasePdf("pdf url")
                 .tenant(tenant)
                 .property(property)
                 .build();
-        leaseRequest = new LeaseRequest("2024-03-10", "2025-03-10", 2500.00, file, LeaseStatus.ACTIVE.name(), 1L, 1L);
-        updateLeaseRequest = new UpdateLeaseRequest(1L,"2024-03-10", "2025-03-10", 2500.00, LeaseStatus.INACTIVE);
+        leaseRequest = new LeaseRequest("2024-03-10", "2025-03-10", monthlyRent, file, LeaseStatus.ACTIVE.name(), 1L, 1L);
+        updateLeaseRequest = new UpdateLeaseRequest(1L,"2024-03-10", "2025-03-10", monthlyRent, LeaseStatus.INACTIVE);
     }
 
     @Test

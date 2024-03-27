@@ -26,6 +26,8 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class LeaseControllerTest {
+
+    final double monthlyRent = 2500.00;
     @InjectMocks
     private LeaseController leaseController;
     @Mock
@@ -42,8 +44,8 @@ public class LeaseControllerTest {
 
     @BeforeEach
     void init(){
-        leaseRequest = new LeaseRequest("2024-03-10", "2025-03-10", 2500.00, file, LeaseStatus.ACTIVE.name(), 1L, 1L);
-        updateLeaseRequest = new UpdateLeaseRequest(1L,"2024-03-10", "2025-03-10", 2500.00, LeaseStatus.INACTIVE);
+        leaseRequest = new LeaseRequest("2024-03-10", "2025-03-10", monthlyRent, file, LeaseStatus.ACTIVE.name(), 1L, 1L);
+        updateLeaseRequest = new UpdateLeaseRequest(1L,"2024-03-10", "2025-03-10", monthlyRent, LeaseStatus.INACTIVE);
     }
 
     @Test
