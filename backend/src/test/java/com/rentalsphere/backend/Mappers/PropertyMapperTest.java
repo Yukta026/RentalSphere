@@ -16,15 +16,11 @@ public class PropertyMapperTest {
 
     @Test
     public void testConvertToPropertiesDTO() {
-        // Arrange
         List<Property> properties = createDummyProperties();
 
-        // Act
         List<PropertyDTO> propertyDTOs = PropertyMapper.convertToPropertiesDTO(properties);
 
-        // Assert
         assertEquals(2, propertyDTOs.size());
-        // Add minimal assertions here for readability
     }
 
 //    @Test
@@ -74,7 +70,6 @@ public class PropertyMapperTest {
         User user = new User();
         user.setFirstName(firstName);
         user.setLastName(lastName);
-        // Set other properties for user if needed
         return user;
     }
 }
