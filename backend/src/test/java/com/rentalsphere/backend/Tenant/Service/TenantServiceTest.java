@@ -4,12 +4,16 @@ import com.rentalsphere.backend.DTOs.TenantDTO;
 import com.rentalsphere.backend.Enums.ApplicationStatus;
 import com.rentalsphere.backend.Exception.Property.PropertyNotFoundException;
 import com.rentalsphere.backend.Exception.Tenant.TenantNotFoundException;
-import com.rentalsphere.backend.Mappers.PropertyMapper;
+import com.rentalsphere.backend.Exception.User.UserNotFoundException;
 import com.rentalsphere.backend.Mappers.TenantMapper;
 import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.Property.Repository.PropertyRepository;
+import com.rentalsphere.backend.RequestResponse.Tenant.TenantRegisterRequest;
+import com.rentalsphere.backend.RequestResponse.Tenant.TenantResponse;
 import com.rentalsphere.backend.Tenant.Model.Tenant;
 import com.rentalsphere.backend.Tenant.Repository.TenantRepository;
+import com.rentalsphere.backend.User.Model.User;
+import com.rentalsphere.backend.User.Repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,10 +22,7 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -41,6 +42,14 @@ public class TenantServiceTest {
     @Mock
     private List<Tenant> tenants;
     private List<TenantDTO> dummyTenants;
+
+    @Mock
+    TenantRegisterRequest tenantRegisterRequest;
+
+    @Mock
+    UserRepository userRepository;
+    @Mock
+    User user;
 
     @BeforeEach
     void init(){
@@ -65,6 +74,9 @@ public class TenantServiceTest {
         dummyTenant2.setApplicationDate(new Date());
 
         this.dummyTenants = Arrays.asList(dummyTenant1, dummyTenant2);
+
+        TenantRegisterRequest tenantRequest = new TenantRegisterRequest(); // Assume this is your request object, populate it accordingly
+        tenantRequest.setEmailAddress("user@example.com");
     }
 
     @Test
@@ -113,4 +125,31 @@ public class TenantServiceTest {
            tenantService.getTenantApplicationById(anyLong());
         });
     }
+
+    @Test
+    void testSaveTenantApplicationSuccess() {
+        // Arrange
+
+        tenantRegisterRequest.setEmailAddress("user@example.com");
+        Property mockProperty = new Property(); // Assuming Property has an empty constructor
+        when(userRepository.findByEmail(tenantRegisterRequest.getEmailAddress())).thenReturn(Optional.of(new User()));
+
+        when(propertyRepository.findById(any())).thenReturn(Optional.of(mockProperty));
+        // Act
+        TenantResponse response = tenantService.saveTenantApplication(tenantRegisterRequest);
+
+        // Assert
+        assertEquals("Request made to the PM", response.getMessage());
+    }
+
+
+    @Test
+    void testPropertyNotFound() {
+        when(userRepository.findByEmail(tenantRegisterRequest.getEmailAddress())).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(UserNotFoundException.class, () -> tenantService.saveTenantApplication(tenantRegisterRequest));
+    }
+
+
 }
