@@ -42,4 +42,9 @@ public class PostController {
     public ResponseEntity<PostResponse> deletePost(@PathVariable Long id){
         return new ResponseEntity<>(postService.deletePost(id), HttpStatus.OK);
     }
+
+    @GetMapping("/tenant/{email}")
+    public ResponseEntity<GetAllPostResponse> getAllTenantPosts(@PathVariable String email){
+        return new ResponseEntity<>(postService.getAllTenantPosts(email), HttpStatus.OK);
+    }
 }
