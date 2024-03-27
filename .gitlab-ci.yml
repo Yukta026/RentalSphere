@@ -12,6 +12,8 @@ variables:
 build-backend:
   stage: build
   image: maven:latest
+  tags:
+    - rentalsphere
   script:
     - cd backend
     - echo "Building Backend Application..."
@@ -24,6 +26,8 @@ build-backend:
 build-frontend:
   stage: build
   image: node:latest
+  tags:
+    - rentalsphere
   script:
     - echo "Building Frontend Application..."
     - cd frontend
@@ -116,8 +120,8 @@ deploy-backend:
   # environment:
   #   name: production
   #   url: http://172.17.3.125:8080
-  # only:
-  #   - development
+  only:
+    - development
 
 deploy-frontend:
   image: alpine:latest
