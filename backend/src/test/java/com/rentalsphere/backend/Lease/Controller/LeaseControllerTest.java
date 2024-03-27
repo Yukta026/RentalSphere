@@ -21,6 +21,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -120,5 +121,20 @@ public class LeaseControllerTest {
         when(leaseService.removeLease(anyLong())).thenReturn(leaseResponse);
 
         assertEquals(responseEntity, leaseController.removeLease(anyLong()));
+    }
+
+    @Test
+    void testGetLeaseForTenant(){
+        getLeaseResponse = GetLeaseResponse.builder()
+                .isSuccess(true)
+                .lease(leaseDTO)
+                .timeStamp(new Date())
+                .build();
+
+        ResponseEntity<?> responseEntity = new ResponseEntity<>(getLeaseResponse, HttpStatus.OK);
+
+        when(leaseService.getLeaseForTenant(anyString())).thenReturn(getLeaseResponse);
+
+        assertEquals(responseEntity, leaseController.getLeaseForTenant(anyString()));
     }
 }

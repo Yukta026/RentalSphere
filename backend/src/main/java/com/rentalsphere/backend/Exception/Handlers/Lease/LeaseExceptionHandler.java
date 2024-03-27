@@ -1,8 +1,6 @@
-package com.rentalsphere.backend.Exception.Handlers.Tenant;
+package com.rentalsphere.backend.Exception.Handlers.Lease;
 
-import com.rentalsphere.backend.Exception.Tenant.TenantNotFoundException;
-import com.rentalsphere.backend.Exception.User.UserAlreadyExistsException;
-import com.rentalsphere.backend.Exception.User.UserNotFoundException;
+import com.rentalsphere.backend.Exception.Lease.LeaseNotFoundException;
 import com.rentalsphere.backend.RequestResponse.Exception.ExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +10,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.Date;
 
 @ControllerAdvice
-public class TenantExceptionHandler {
-    @ExceptionHandler(TenantNotFoundException.class)
-    public ResponseEntity<ExceptionResponse> handleTenantNotFoundException(TenantNotFoundException tenantNotFoundException){
+public class LeaseExceptionHandler {
+    @ExceptionHandler(LeaseNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> handleLeaseNotFoundException(LeaseNotFoundException leaseNotFoundException){
         ExceptionResponse response = ExceptionResponse.builder()
                 .isSuccess(false)
-                .errorMessage(tenantNotFoundException.getMessage())
+                .errorMessage(leaseNotFoundException.getMessage())
                 .timeStamp(new Date())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);

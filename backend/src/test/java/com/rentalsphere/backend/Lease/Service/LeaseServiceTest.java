@@ -3,7 +3,9 @@ package com.rentalsphere.backend.Lease.Service;
 import com.rentalsphere.backend.DTOs.LeaseDTO;
 import com.rentalsphere.backend.Enums.ApplicationStatus;
 import com.rentalsphere.backend.Enums.LeaseStatus;
+import com.rentalsphere.backend.Exception.Lease.LeaseNotFoundException;
 import com.rentalsphere.backend.Exception.Property.PropertyNotFoundException;
+import com.rentalsphere.backend.Exception.Tenant.TenantNotFoundException;
 import com.rentalsphere.backend.Exception.User.UserNotFoundException;
 import com.rentalsphere.backend.Lease.Model.Lease;
 import com.rentalsphere.backend.Lease.Repository.LeaseRepository;
@@ -225,5 +227,44 @@ public class LeaseServiceTest {
 
         verify(leaseRepository).deleteById(anyLong());
         assertTrue(response.isSuccess());
+    }
+
+    @Test
+    void testGetLeaseForTenant(){
+        GetLeaseResponse expectedResponse = GetLeaseResponse.builder()
+                .isSuccess(true)
+                .lease(leaseDTO)
+                .timeStamp(new Date())
+                .build();
+        GetLeaseResponse actualResponse;
+
+        when(tenantRepository.findByEmailAddressAndApplicationStatus(anyString(), any(ApplicationStatus.class))).thenReturn(Optional.ofNullable(tenant));
+        when(leaseRepository.findByTenantAndLeaseStatus(any(Tenant.class), any(LeaseStatus.class))).thenReturn(Optional.ofNullable(lease));
+
+        try(MockedStatic<LeaseMapper> leaseMapper = mockStatic(LeaseMapper.class)){
+            leaseMapper.when(()->LeaseMapper.convertToLeaseDTO(any(Lease.class), any(Tenant.class), any(User.class))).thenReturn(leaseDTO);
+            actualResponse = leaseService.getLeaseForTenant("test@gmail.com");
+        }
+
+        assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test
+    void testGetLeaseForTenantNotFoundException(){
+        when(tenantRepository.findByEmailAddressAndApplicationStatus(anyString(), any(ApplicationStatus.class))).thenReturn(Optional.empty());
+
+        assertThrows(TenantNotFoundException.class, ()->{
+            leaseService.getLeaseForTenant("test@gmail.com");
+        });
+    }
+
+    @Test
+    void testGetLeaseForTenantLeaseNotFoundException(){
+        when(tenantRepository.findByEmailAddressAndApplicationStatus(anyString(), any(ApplicationStatus.class))).thenReturn(Optional.of(tenant));
+        when(leaseRepository.findByTenantAndLeaseStatus(any(Tenant.class), any(LeaseStatus.class))).thenReturn(Optional.empty());
+
+        assertThrows(LeaseNotFoundException.class, ()->{
+            leaseService.getLeaseForTenant("test@gmail.com");
+        });
     }
 }
