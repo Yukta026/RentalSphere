@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { httpPost } from "../../Utils/HttpRequest.jsx";
 import useAuth from "../../hooks/useAuth.jsx";
-const CHANGE_PASSW_URL = "http://localhost:8080/api/v1/auth/changepassword";
+const CHANGE_PASSW_URL = "http://172.17.3.125:8080/api/v1/auth/changepassword";
 
 const PasswordReset = () => {
   const { token } = useParams();

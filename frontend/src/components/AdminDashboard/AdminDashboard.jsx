@@ -6,9 +6,9 @@ import useAuth from "../../hooks/useAuth.jsx";
 import useAppContext from "../../hooks/useAppContext.jsx";
 import { toast, Bounce } from "react-toastify";
 import LoadingSpinner from "../../assets/LoadingSpinner.jsx";
-const ALL_PMREQS_URL = "http://localhost:8080/api/v1/admin/properties";
-const PMREQ_APPROVE_URL = "http://localhost:8080/api/v1/admin/approve/";
-const PMREQ_REJECT_URL = "http://localhost:8080/api/v1/admin/reject/";
+const ALL_PMREQS_URL = "http://172.17.3.125:8080/api/v1/admin/properties";
+const PMREQ_APPROVE_URL = "http://172.17.3.125:8080/api/v1/admin/approve/";
+const PMREQ_REJECT_URL = "http://172.17.3.125:8080/api/v1/admin/reject/";
 
 const AdminDashboard = () => {
   const { auth, setAuth } = useAuth();
