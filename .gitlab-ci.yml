@@ -140,12 +140,15 @@ deploy-frontend:
     - chmod og-rwx $ID_RSA
     - echo "Frontend Build Files Transfer in progress!"
     - apk update && apk add openssh-client sshpass
+    - pwd
     - ls -a
-    - cd ~
+    # - cd ~
     - cd frontend || true
     - ls -a
     - cd dist || true
     - ls -a
+    - cd ..
+    - cd ..
     - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "rm -r /var/www/html/*" || true
     - sshpass -p "dalw24" scp -o StrictHostKeyChecking=no -r -v frontend/dist/* ${SERVER_USER}@${SERVER_IP}:/var/www/html
     - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "cd /var/www/html/"
