@@ -23,6 +23,9 @@ import static org.mockito.Mockito.*;
 
 class AnnouncementTests {
 
+    final long ID_1 = 1L;
+    final long ID_2 = 2L;
+    final int EXPECTED_SIZE = 2;
     @Mock
     private AnnouncementRepository announcementRepository;
 
@@ -47,9 +50,10 @@ class AnnouncementTests {
 
     @Test
     void testGetAllAnnouncements() {
+
         // Mock data
-        Announcement announcement1 = new Announcement(1L, "Title 1", "Content 1", new Date());
-        Announcement announcement2 = new Announcement(2L, "Title 2", "Content 2", new Date());
+        Announcement announcement1 = new Announcement(ID_1, "Title 1", "Content 1", new Date());
+        Announcement announcement2 = new Announcement(ID_2, "Title 2", "Content 2", new Date());
         List<Announcement> announcementList = Arrays.asList(announcement1, announcement2);
 
         // Mock repository behavior
@@ -62,7 +66,7 @@ class AnnouncementTests {
         verify(announcementRepository).findAll();
 
         // Assert the result
-        assertEquals(2, result.size());
+        assertEquals(EXPECTED_SIZE, result.size());
         assertEquals(announcement1, result.get(0));
         assertEquals(announcement2, result.get(1));
     }
@@ -96,7 +100,7 @@ class AnnouncementTests {
         // Mock repository behavior
         Property property = new Property();
         property.setPropertyApplicationID(1L); // Set property ID
-        Announcement savedAnnouncement = new Announcement(1L, "Title", "Content", new Date());
+        Announcement savedAnnouncement = new Announcement(ID_1, "Title", "Content", new Date());
         savedAnnouncement.setProperty(property);
         when(propertyRepository.findById(anyLong())).thenReturn(Optional.of(property)); // Mock property repository
         when(announcementRepository.save(any(Announcement.class))).thenReturn(savedAnnouncement);
@@ -155,8 +159,8 @@ class AnnouncementTests {
 
     @Test
     void testGetAnnouncementForTenant(){
-        Announcement announcement1 = new Announcement(1L, "Title 1", "Content 1", new Date());
-        Announcement announcement2 = new Announcement(2L, "Title 2", "Content 2", new Date());
+        Announcement announcement1 = new Announcement(ID_1, "Title 1", "Content 1", new Date());
+        Announcement announcement2 = new Announcement(ID_2, "Title 2", "Content 2", new Date());
 
         when(tenantRepository.findByEmailAddressAndApplicationStatus(anyString(), any(ApplicationStatus.class))).thenReturn(Optional.of(tenant));
         when(tenant.getProperty()).thenReturn(property);

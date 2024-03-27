@@ -32,6 +32,8 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class AuthenticationServiceTest {
+
+    final int amount = 10;
     @InjectMocks
     private AuthenticationService authenticationService;
     @Mock
@@ -60,8 +62,8 @@ public class AuthenticationServiceTest {
     private ResetPasswordToken resetPasswordTokenValid;
     @Mock
     private ResetPasswordToken resetPasswordTokenInvalid;
-    private ForgotPasswordResponse forgotPasswordResponseExpected;
-    private ForgotPasswordResponse changePasswordResponseExpected;
+    private ForgotPasswordResponse forgotPassRespExpected;
+    private ForgotPasswordResponse changePassRespExpected;
     private ChangePasswordRequest changePasswordRequest;
     private Role role;
 
@@ -85,19 +87,19 @@ public class AuthenticationServiceTest {
         loginRequest = new LoginRequest("raj@gmail.com", "raj@123");
         forgotPasswordRequest = new ForgotPasswordRequest("raj@gmail.com");
         changePasswordRequest = new ChangePasswordRequest("raj@gmail.com","token","raj@12345");
-        forgotPasswordResponseExpected = ForgotPasswordResponse.builder()
+        forgotPassRespExpected = ForgotPasswordResponse.builder()
                 .isSuccess(true)
                 .successMessage("email sent")
                 .timeStamp(new Date())
                 .build();
-        changePasswordResponseExpected = ForgotPasswordResponse.builder()
+        changePassRespExpected = ForgotPasswordResponse.builder()
                 .isSuccess(true)
                 .successMessage("Password reset successful")
                 .timeStamp(new Date())
                 .build();
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
-        cal.add(Calendar.MINUTE, 10);
+        cal.add(Calendar.MINUTE, amount);
         Date nonExpiredTime = cal.getTime();
         resetPasswordTokenValid = new ResetPasswordToken(UUID.randomUUID(),"token", user, nonExpiredTime);
     }
@@ -161,11 +163,11 @@ public class AuthenticationServiceTest {
 
         ForgotPasswordResponse forgotPasswordResponseActual = authenticationService.forgotPassword(forgotPasswordRequest);
 
-        assertEquals(forgotPasswordResponseExpected, forgotPasswordResponseActual);
+        assertEquals(forgotPassRespExpected, forgotPasswordResponseActual);
     }
 
     @Test
-    void testForgotPasswordUserNotFoundException(){
+    void forgotPasswordResponseExpectedUserNotFoundException(){
         when(userRepository.findByEmail(forgotPasswordRequest.getEmail())).thenReturn(Optional.empty());
 
         assertThrows(UserNotFoundException.class, ()->{
@@ -181,7 +183,7 @@ public class AuthenticationServiceTest {
 
         ForgotPasswordResponse changePasswordResponseActual = authenticationService.changePassword(changePasswordRequest);
 
-        assertEquals(changePasswordResponseExpected, changePasswordResponseActual);
+        assertEquals(changePassRespExpected, changePasswordResponseActual);
     }
 
     @Test
