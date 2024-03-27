@@ -1,6 +1,5 @@
 package com.rentalsphere.backend.Exception.Handlers.Lease;
 
-import com.rentalsphere.backend.Exception.Announcement.AnnouncementNotFoundException;
 import com.rentalsphere.backend.Exception.Lease.LeaseNotFoundException;
 import com.rentalsphere.backend.RequestResponse.Exception.ExceptionResponse;
 import org.springframework.http.HttpStatus;
