@@ -100,8 +100,8 @@ public class PostService implements IPostService {
         post.get().setTitle(request.getTitle());
         post.get().setDescription(request.getDescription());
         post.get().setPrice(request.getPrice());
-        String availabilityStatus = post.get().getAvailabilityStatus().name();
-        if(availabilityStatus.equalsIgnoreCase(AvailabilityStatus.AVAILABLE.name()) || availabilityStatus.equalsIgnoreCase(AvailabilityStatus.SOLD.name())){
+        String updatedAvailabilityStatus = request.getAvailabilityStatus().name();
+        if(updatedAvailabilityStatus.equalsIgnoreCase(AvailabilityStatus.AVAILABLE.name()) || updatedAvailabilityStatus.equalsIgnoreCase(AvailabilityStatus.SOLD.name())){
             post.get().setAvailabilityStatus(request.getAvailabilityStatus());
         }
         if(request.getUpdatedImage() != null){

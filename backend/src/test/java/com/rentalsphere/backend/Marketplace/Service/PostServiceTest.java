@@ -139,6 +139,8 @@ public class PostServiceTest {
     void testUpdatePost() throws IOException {
         when(postRepository.findById(updatePostRequest.getId())).thenReturn(Optional.of(post));
 
+        when(postRepository.save(any(Post.class))).thenReturn(post);
+
         PostResponse postResponse = postService.updatePost(updatePostRequest);
 
         assertTrue(postResponse.isSuccess());
