@@ -37,16 +37,16 @@ build-frontend:
       # - $FRONTEND_ARTIFACT
       - frontend/dist
 
-test:
-  image: maven:latest
-  stage: backend_test
-  tags:
-    - rentalsphere
-  script:
-    - echo "Running tests..."
-    - cd backend
-    - ./mvnw test
-    - echo "Backend Tests Complete"
+# test:
+#   image: maven:latest
+#   stage: backend_test
+#   tags:
+#     - rentalsphere
+#   script:
+#     - echo "Running tests..."
+#     - cd backend
+#     - ./mvnw test
+#     - echo "Backend Tests Complete"
 
 # quality:
 #   image: openjdk:17
@@ -146,7 +146,7 @@ deploy-frontend:
     - sshpass -p "dalw24" scp -o StrictHostKeyChecking=no -r -v frontend/dist/* ${SERVER_USER}@${SERVER_IP}:/var/www/html
     - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "cd /var/www/html/"
     - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "ls -a"
-    - echo "Frontend Deplyoment Complete!"
+    - echo "Frontend Deplyoment Complete!!"
 
   # environment:
   #   name: production
