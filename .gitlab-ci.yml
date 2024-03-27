@@ -39,31 +39,31 @@ build-frontend:
       # - $FRONTEND_ARTIFACT
       - frontend/dist
 
-# test:
-#   image: maven:latest
-#   stage: backend_test
-#   tags:
-#     - rentalsphere
-#   script:
-#     - echo "Running tests..."
-#     - cd backend
-#     - ./mvnw test
-#     - echo "Backend Tests Complete"
+test:
+  image: maven:latest
+  stage: backend_test
+  tags:
+    - rentalsphere
+  script:
+    - echo "Running tests..."
+    - cd backend
+    - ./mvnw test
+    - echo "Backend Tests Complete"
 
-# quality:
-#   image: openjdk:17
-#   stage: code_quality
-#   tags:
-#     - rentalsphere
-#   script:
-#     - cd backend
-#     - rm -rf code_smells
-#     - mkdir code_smells
-#     - java -jar DesigniteJava.jar -i . -o code_smells
-#   artifacts:
-#     paths:
-#       - backend/code_smells/*.csv
-#     expire_in: 1 week
+quality:
+  image: openjdk:17
+  stage: code_quality
+  tags:
+    - rentalsphere
+  script:
+    - cd backend
+    - rm -rf code_smells
+    - mkdir code_smells
+    - java -jar DesigniteJava.jar -i . -o code_smells
+  artifacts:
+    paths:
+      - backend/code_smells/*.csv
+    expire_in: 1 week
 
 publish:
   image: docker:latest
