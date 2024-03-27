@@ -90,13 +90,10 @@ public class LeaseMapperTest {
         lease2.setTenant(tenant2);
         lease2.getTenant().setUser(user2);
 
-        // Act
         List<LeaseDTO> leaseDTOList = LeaseMapper.convertToLeaseListDTO(leaseList);
 
-        // Assert
         assertEquals(2, leaseDTOList.size());
         assertEquals(1L, leaseDTOList.get(0).getLeaseId());
         assertEquals(2L, leaseDTOList.get(1).getLeaseId());
-        // Add more assertions for other properties if needed
     }
 }
