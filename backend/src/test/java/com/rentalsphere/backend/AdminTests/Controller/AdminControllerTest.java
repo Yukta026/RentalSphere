@@ -1,6 +1,7 @@
 package com.rentalsphere.backend.AdminTests.Controller;
 import com.rentalsphere.backend.Admin.Controller.AdminController;
 import com.rentalsphere.backend.Admin.Service.AdminService;
+import com.rentalsphere.backend.Admin.Service.IService.IAdminService;
 import com.rentalsphere.backend.RequestResponse.Admin.PropertyManagerRequests;
 import com.rentalsphere.backend.RequestResponse.Admin.PropertyManagerResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 public class AdminControllerTest {
     @Mock
-    private AdminService adminService;
+    private IAdminService adminService;
 
     @InjectMocks
     private AdminController adminController;

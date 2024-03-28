@@ -1,11 +1,13 @@
 package com.rentalsphere.backend.Announcement.Controller;
 
 import com.rentalsphere.backend.Announcement.Model.Announcement;
-import com.rentalsphere.backend.Announcement.Service.AnnouncementService;
+import com.rentalsphere.backend.Announcement.Service.IService.IAnnouncementService;
 import com.rentalsphere.backend.RequestResponse.Announcement.AnnouncementRegisterRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +19,8 @@ import java.util.Optional;
 @RequestMapping("/api/v1/announcements")
 public class AnnouncementController {
 
-    private final AnnouncementService announcementService;
+    @Autowired
+    private final IAnnouncementService announcementService;
 
     @GetMapping
     public ResponseEntity<List<Announcement>> getAllAnnouncements() {

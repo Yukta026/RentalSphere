@@ -1,10 +1,11 @@
 package com.rentalsphere.backend.Authentication.Controller;
 
-import com.rentalsphere.backend.Authentication.Service.AuthenticationService;
+import com.rentalsphere.backend.Authentication.Service.IService.IAuthenticationService;
 import com.rentalsphere.backend.RequestResponse.Authentication.*;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/v1/auth")
 public class AuthenticationController{
-    private final AuthenticationService authenticationService;
+    @Autowired
+    private final IAuthenticationService authenticationService;
 
     @PostMapping(path = "/register")
     public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody RegisterRequest request){

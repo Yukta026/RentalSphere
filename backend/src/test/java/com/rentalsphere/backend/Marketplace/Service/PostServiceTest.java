@@ -177,4 +177,24 @@ public class PostServiceTest {
             postService.deletePost(anyLong());
         });
     }
+
+    @Test
+    void testGetPostOfTenant(){
+        GetAllPostResponse expectedResponse = GetAllPostResponse.builder()
+                .isSuccess(true)
+                .posts(postDTOs)
+                .timeStamp(new Date())
+                .build();
+        GetAllPostResponse response;
+
+        when(tenantRepository.findByEmailAddressAndApplicationStatus(anyString(), any(ApplicationStatus.class))).thenReturn(Optional.of(tenant));
+        when(postRepository.findByTenant(any(Tenant.class))).thenReturn(List.of(post));
+
+        try(MockedStatic<PostMapper> postMapper = mockStatic(PostMapper.class)){
+            postMapper.when(()->PostMapper.convertToPostDTOs(anyList())).thenReturn(postDTOs);
+            response = postService.getPostOfTenant(tenant.getEmailAddress());
+        }
+
+        assertEquals(expectedResponse, response);
+    }
 }

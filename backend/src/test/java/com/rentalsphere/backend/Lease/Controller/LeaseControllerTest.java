@@ -2,6 +2,7 @@ package com.rentalsphere.backend.Lease.Controller;
 
 import com.rentalsphere.backend.DTOs.LeaseDTO;
 import com.rentalsphere.backend.Enums.LeaseStatus;
+import com.rentalsphere.backend.Lease.Service.IService.ILeaseService;
 import com.rentalsphere.backend.Lease.Service.LeaseService;
 import com.rentalsphere.backend.RequestResponse.Lease.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +32,7 @@ public class LeaseControllerTest {
     @InjectMocks
     private LeaseController leaseController;
     @Mock
-    private LeaseService leaseService;
+    private ILeaseService leaseService;
     @Mock
     private MockMultipartFile file;
     @Mock

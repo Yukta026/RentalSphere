@@ -1,7 +1,9 @@
 package com.rentalsphere.backend.Authentication.Service;
 
+import com.rentalsphere.backend.Authentication.Service.IService.IAuthenticationService;
 import com.rentalsphere.backend.Configuration.JwtService;
 import com.rentalsphere.backend.Enums.Roles;
+import com.rentalsphere.backend.Exception.ResetPasswordToken.TokenExpiredException;
 import com.rentalsphere.backend.Exception.ResetPasswordToken.TokenNotFoundException;
 import com.rentalsphere.backend.Exception.User.InvalidCredentialsException;
 import com.rentalsphere.backend.Exception.User.SamePasswordException;
@@ -10,11 +12,9 @@ import com.rentalsphere.backend.Exception.User.UserNotFoundException;
 import com.rentalsphere.backend.RequestResponse.Authentication.*;
 import com.rentalsphere.backend.Role.Model.Role;
 import com.rentalsphere.backend.Role.Repository.RoleRepository;
-import com.rentalsphere.backend.Services.Email.EmailService;
+import com.rentalsphere.backend.Services.Email.IService.IEmailService;
 import com.rentalsphere.backend.User.Model.User;
 import com.rentalsphere.backend.User.Repository.UserRepository;
-import com.rentalsphere.backend.Utils.PasswordResetToken.Model.ResetPasswordToken;
-import com.rentalsphere.backend.Utils.PasswordResetToken.Repository.ResetPasswordTokenRepository;
 import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +33,6 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class AuthenticationServiceTest {
 
-    final int amount = 10;
     @InjectMocks
     private AuthenticationService authenticationService;
     @Mock
@@ -54,14 +53,9 @@ public class AuthenticationServiceTest {
     @Mock
     private RoleRepository roleRepository;
     @Mock
-    private ResetPasswordTokenRepository resetPasswordTokenRepository;
-    @Mock
-    private EmailService emailService;
+    private IEmailService emailService;
     @Mock
     private JwtService jwtService;
-    private ResetPasswordToken resetPasswordTokenValid;
-    @Mock
-    private ResetPasswordToken resetPasswordTokenInvalid;
     private ForgotPasswordResponse forgotPassRespExpected;
     private ForgotPasswordResponse changePassRespExpected;
     private ChangePasswordRequest changePasswordRequest;
@@ -75,6 +69,8 @@ public class AuthenticationServiceTest {
                 .password("raj@123")
                 .firstName("Raj")
                 .lastName("Patel")
+                .passwordResetToken("token")
+                .tokenExpiryDate(new Date(new Date().getTime() + 1000))
                 .roles(List.of(role))
                 .build();
         anotherUser = User.builder()
@@ -86,7 +82,7 @@ public class AuthenticationServiceTest {
         registerRequest = new RegisterRequest("Raj", "Patel", "raj@gmail.com", "raj@1235");
         loginRequest = new LoginRequest("raj@gmail.com", "raj@123");
         forgotPasswordRequest = new ForgotPasswordRequest("raj@gmail.com");
-        changePasswordRequest = new ChangePasswordRequest("raj@gmail.com","token","raj@12345");
+        changePasswordRequest = new ChangePasswordRequest("token","raj@gmail.com","raj@12345");
         forgotPassRespExpected = ForgotPasswordResponse.builder()
                 .isSuccess(true)
                 .successMessage("email sent")
@@ -97,11 +93,6 @@ public class AuthenticationServiceTest {
                 .successMessage("Password reset successful")
                 .timeStamp(new Date())
                 .build();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date());
-        cal.add(Calendar.MINUTE, amount);
-        Date nonExpiredTime = cal.getTime();
-        resetPasswordTokenValid = new ResetPasswordToken(UUID.randomUUID(),"token", user, nonExpiredTime);
     }
 
     @Test
@@ -159,7 +150,6 @@ public class AuthenticationServiceTest {
     @Test
     void testForgotPassword() throws MessagingException {
         when(userRepository.findByEmail(forgotPasswordRequest.getEmail())).thenReturn(Optional.of(user));
-        when(resetPasswordTokenRepository.save(any(ResetPasswordToken.class))).thenReturn(resetPasswordTokenValid);
 
         ForgotPasswordResponse forgotPasswordResponseActual = authenticationService.forgotPassword(forgotPasswordRequest);
 
@@ -178,7 +168,6 @@ public class AuthenticationServiceTest {
     @Test
     void testChangePassword(){
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.ofNullable(user));
-        when(resetPasswordTokenRepository.findByToken(anyString())).thenReturn(Optional.of(resetPasswordTokenValid));
         when(passwordEncoder.encode(anyString())).thenReturn("raj@12345");
 
         ForgotPasswordResponse changePasswordResponseActual = authenticationService.changePassword(changePasswordRequest);
@@ -197,25 +186,19 @@ public class AuthenticationServiceTest {
 
     @Test
     void testChangePasswordTokenNotFoundException(){
+        user.setPasswordResetToken("");
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user));
-        when(resetPasswordTokenRepository.findByToken(anyString())).thenReturn(Optional.empty());
 
         assertThrows(TokenNotFoundException.class, ()->{
            authenticationService.changePassword(changePasswordRequest);
         });
+    }
+
+    @Test
+    void testChangePasswordInvalidToken(){
+        user.setPasswordResetToken("another token");
 
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user));
-        when(resetPasswordTokenRepository.findByToken(anyString())).thenReturn(Optional.of(resetPasswordTokenInvalid));
-        when(resetPasswordTokenInvalid.getUser()).thenReturn(anotherUser);
-
-        assertThrows(TokenNotFoundException.class, ()->{
-            authenticationService.changePassword(changePasswordRequest);
-        });
-
-        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user));
-        when(resetPasswordTokenRepository.findByToken(anyString())).thenReturn(Optional.of(resetPasswordTokenInvalid));
-        when(resetPasswordTokenInvalid.getUser()).thenReturn(user);
-        when(resetPasswordTokenInvalid.getExpiryDate()).thenReturn(new Date());
 
         assertThrows(TokenNotFoundException.class, ()->{
             authenticationService.changePassword(changePasswordRequest);
@@ -223,9 +206,18 @@ public class AuthenticationServiceTest {
     }
 
     @Test
+    void testChangePasswordTokenExpired(){
+        user.setTokenExpiryDate(new Date());
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user));
+
+        assertThrows(TokenExpiredException.class, ()->{
+            authenticationService.changePassword(changePasswordRequest);
+        });
+    }
+
+    @Test
     void testSamePasswordException(){
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.ofNullable(user));
-        when(resetPasswordTokenRepository.findByToken(anyString())).thenReturn(Optional.of(resetPasswordTokenValid));
         when(passwordEncoder.encode(anyString())).thenReturn("raj@123");
 
         assertThrows(SamePasswordException.class, ()->{

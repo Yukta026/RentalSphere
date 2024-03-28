@@ -22,8 +22,8 @@ import com.rentalsphere.backend.Tenant.Model.Tenant;
 import com.rentalsphere.backend.Tenant.Repository.TenantRepository;
 import com.rentalsphere.backend.User.Model.User;
 import com.rentalsphere.backend.User.Repository.UserRepository;
-import com.rentalsphere.backend.Utils.PropertyImages.Model.PropertyImages;
-import com.rentalsphere.backend.Utils.PropertyImages.Repository.PropertyImagesRepository;
+import com.rentalsphere.backend.PropertyImages.Model.PropertyImages;
+import com.rentalsphere.backend.PropertyImages.Repository.PropertyImagesRepository;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,11 +43,17 @@ public class PropertyService implements IPropertyService {
 
     @Autowired
     private final PropertyRepository propertyRepository;
+    @Autowired
     private final UserRepository userRepository;
+    @Autowired
     private final CloudinaryService cloudinaryService;
+    @Autowired
     private final PropertyImagesRepository propertyImagesRepository;
+    @Autowired
     private final TenantRepository tenantRepository;
+    @Autowired
     private final RoleRepository roleRepository;
+    @Autowired
     private final EmailService emailService;
 
 

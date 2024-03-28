@@ -7,17 +7,14 @@ import com.rentalsphere.backend.Tenant.Model.Tenant;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
 
-@Data
+@Getter@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -38,12 +35,16 @@ public class User implements UserDetails {
     private String email;
     @NotBlank(message = "password cannot be blank.")
     private String password;
+    private String passwordResetToken;
+    private Date tokenExpiryDate;
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles;
     @JsonIgnore
     @OneToMany(mappedBy = "propertyManager")
     private List<Property> properties;
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Tenant> tenats;
 
