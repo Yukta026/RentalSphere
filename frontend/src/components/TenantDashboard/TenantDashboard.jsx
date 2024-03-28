@@ -2,11 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Route, Routes, useNavigate, NavLink, Outlet } from "react-router-dom";
 // import NewRequest from '../components/new-request/NewRequest';
 import Axios from "axios";
-import { FiFileText, FiGlobe, FiHome, FiTool, FiUsers } from "react-icons/fi";
+import {
+  FiFileText,
+  FiGlobe,
+  FiHome,
+  FiTool,
+  FiUsers,
+  FiAlertTriangle,
+} from "react-icons/fi";
 import { BsCreditCard } from "react-icons/bs";
 import { HiOutlineSpeakerphone } from "react-icons/hi";
 import { LuContact } from "react-icons/lu";
-
 
 const TenantDashboard = () => {
   const navigate = useNavigate();
@@ -30,7 +36,7 @@ const TenantDashboard = () => {
           </span>{" "}
           Dashboard
         </NavLink>
-        <NavLink
+        {/* <NavLink
           to="/tenantdashboard/payments"
           className={`flex items-center gap-4 my-4 cursor-pointer hover:bg-gray-200 px-4 rounded-[6px] py-2 ${({
             isActive,
@@ -40,8 +46,8 @@ const TenantDashboard = () => {
             <BsCreditCard />
           </span>{" "}
           Payments
-        </NavLink>
-
+        </NavLink> */}
+        {/* 
         <NavLink
           to="/tenantdashboard/requests"
           className={`flex items-center gap-4 my-4 cursor-pointer hover:bg-gray-200 px-4 rounded-[6px] py-2 ${({
@@ -52,7 +58,7 @@ const TenantDashboard = () => {
             <FiTool />
           </span>{" "}
           Requests
-        </NavLink>
+        </NavLink> */}
 
         <NavLink
           to="/tenantdashboard/announcements"
@@ -85,7 +91,7 @@ const TenantDashboard = () => {
           }) => (isActive ? "active" : "inactive")}`}
         >
           <span className="text-[20px]">
-            <LuContact  />
+            <LuContact />
           </span>{" "}
           Contacts
         </NavLink>
@@ -103,6 +109,18 @@ const TenantDashboard = () => {
         </NavLink>
 
         <NavLink
+          to="/tenantdashboard/violations"
+          className={`flex items-center gap-4 my-4 cursor-pointer hover:bg-gray-200 px-4 rounded-[6px] py-2 ${({
+            isActive,
+          }) => (isActive ? "active" : "inactive")}`}
+        >
+          <span className="text-[20px]">
+            <FiAlertTriangle />
+          </span>{" "}
+          Violations
+        </NavLink>
+
+        {/* <NavLink
           to="/tenantdashboard/account"
           className={`flex items-center gap-4 my-4 cursor-pointer hover:bg-gray-200 px-4 rounded-[6px] py-2 ${({
             isActive,
@@ -112,7 +130,7 @@ const TenantDashboard = () => {
             <FiUsers />
           </span>{" "}
           Account
-        </NavLink>
+        </NavLink> */}
       </div>
 
       <div className="w-full p-6">

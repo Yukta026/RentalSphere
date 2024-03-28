@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-//@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/v1/auth")
@@ -25,7 +24,7 @@ public class AuthenticationController{
 
     @PostMapping(path = "/login")
     public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody LoginRequest request){
-        return new ResponseEntity<>(authenticationService.login(request), HttpStatus.CREATED);
+        return new ResponseEntity<>(authenticationService.login(request), HttpStatus.OK);
     }
 
     @PostMapping(path = "/forgotpassword")

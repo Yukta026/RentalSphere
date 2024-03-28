@@ -11,10 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
 class PostExceptionHandlerTest {
-    /**
-     * Method under test:
-     * {@link PostExceptionHandler#handlePostNotFoundException(PostNotFoundException)}
-     */
+
     @Test
     void testHandlePostNotFoundException() {
         // Arrange

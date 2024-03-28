@@ -11,15 +11,13 @@ const PMREQ_APPROVE_URL = "http://172.17.3.125:8080/api/v1/admin/approve/";
 const PMREQ_REJECT_URL = "http://172.17.3.125:8080/api/v1/admin/reject/";
 
 const AdminDashboard = () => {
-  const { auth, setAuth } = useAuth();
-  const { allPMReqs, setAllPMReqs, isLoading, setIsLoading } = useAppContext();
+  const { auth } = useAuth();
+  const { allPMReqs, setAllPMReqs } = useAppContext();
   const navigate = useNavigate();
-  const [propertyManager, setPropertyManager] = useState([]);
-  const [showDash, setShowDash] = useState(true);
-  // const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const isAuthEmpty =
-    Object.keys(auth).length === 0 && auth.constructor === Object;
+  // const isAuthEmpty =
+  //   Object.keys(auth).length === 0 && auth.constructor === Object;
 
   useEffect(() => {
     if (auth && auth.role && auth.role !== "ADMIN") {
@@ -106,9 +104,10 @@ const AdminDashboard = () => {
     fetchPMReqs();
   };
 
-  const handleViewDetails = async (id) => {
-    navigate(`/admin/${id}`);
-  };
+  // const handleViewDetails = async (pmReq, index) => {
+  //   setCont
+  //   navigate(`/admin/${index}`);
+  // };
 
   return (
     <>
@@ -142,11 +141,11 @@ const AdminDashboard = () => {
                 <th className="px-4 py-2">Date</th>
                 <th className="px-4 py-2">ID Number</th>
                 <th className="px-4 py-2">Approve/Reject Requests</th>
-                <th className="px-4 py-2">View Details</th>
+                {/* <th className="px-4 py-2">View Details</th> */}
               </tr>
             </thead>
             <tbody>
-              {!isLoading &&
+              {!isLoading && allPMReqs ? (
                 allPMReqs?.map((pmReq, index) => (
                   <tr key={index}>
                     {/* <td className="px-4 py-2 border">{pmReq.id}</td> */}
@@ -181,16 +180,19 @@ const AdminDashboard = () => {
                         Reject
                       </button>
                     </td>
-                    <td className="px-4 py-2 border">
+                    {/* <td className="px-4 py-2 border">
                       <button
-                        onClick={() => handleViewDetails(index)}
+                        onClick={() => handleViewDetails(pmReq, index)}
                         className="px-4 py-2 mr-2 font-bold text-white bg-black rounded"
                       >
                         View
                       </button>
-                    </td>
+                    </td> */}
                   </tr>
-                ))}
+                ))
+              ) : (
+                <p>There are no Property Manger Requests at the moment</p>
+              )}
             </tbody>
           </table>
         </div>

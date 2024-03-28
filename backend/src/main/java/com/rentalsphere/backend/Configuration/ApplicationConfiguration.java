@@ -33,13 +33,14 @@ public class ApplicationConfiguration {
     private String apiSecret;
 
     @Bean
-    public UserDetailsService userDetailsService(){
-        return username -> userRepository.findByEmail(username).orElseThrow(()->new UsernameNotFoundException("User does not exist."));
+    public UserDetailsService userDetailsService() {
+        return username -> userRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User does not exist."));
     }
-
 
     /**
      * cors configuration
+     * 
      * @return - cors registry object
      */
     @Bean
@@ -49,7 +50,7 @@ public class ApplicationConfiguration {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
 //                        .allowedOrigins("http://localhost:5173", "http://172.17.3.125", "http://csci5308vm6.research.cs.dal.ca")
-                        .allowedOrigins("http://localhost:5173")
+                        .allowedOrigins("http://localhost:5173", "http://172.17.3.125", "http://csci5308vm6.research.cs.dal.ca")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
@@ -58,7 +59,7 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());
@@ -66,21 +67,24 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
     /**
      * function to encrypt the password
+     * 
      * @return - encoder function
      */
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     /**
      * thymeleaf template resolver method
+     * 
      * @return - template resolver
      */
     @Bean
@@ -98,6 +102,7 @@ public class ApplicationConfiguration {
 
     /**
      * spring template engine to parse the html template
+     * 
      * @return - spring template engine object
      */
     @Bean
@@ -110,16 +115,16 @@ public class ApplicationConfiguration {
 
     /**
      * configuration for cloudinary to store files
+     * 
      * @return - cloudinary object
      */
     @Bean
-    public Cloudinary getCloudinary(){
+    public Cloudinary getCloudinary() {
         Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
                 "cloud_name", cloudName,
                 "api_key", apiKey,
                 "api_secret", apiSecret,
-                "secure", true
-        ));
+                "secure", true));
 
         return cloudinary;
     }

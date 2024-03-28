@@ -17,6 +17,16 @@ export const AppProvider = ({ children }) => {
   // For Property Manager Requests for Admin
   const [allPMReqs, setAllPMReqs] = useState([]);
 
+  const [contProp, setContProp] = useState("");
+
+  const [contTenantEmail, setContTenantEmail] = useState("");
+
+  const [contTenant, setContTenant] = useState({});
+
+  const [contReq, setContReq] = useState({});
+
+  const [singlePost, setSinglePost] = useState({});
+
   // useEffect(() => {
   //   if (showAlert) {
   //     // Set a timeout to hide the toast after 3 seconds
@@ -59,6 +69,16 @@ export const AppProvider = ({ children }) => {
         setSingleListing,
         allPMReqs,
         setAllPMReqs,
+        contProp,
+        setContProp,
+        contTenantEmail,
+        setContTenantEmail,
+        contTenant,
+        setContTenant,
+        contReq,
+        setContReq,
+        singlePost,
+        setSinglePost,
       }}
     >
       {children}

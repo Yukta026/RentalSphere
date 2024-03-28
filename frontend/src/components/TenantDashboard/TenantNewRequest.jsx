@@ -22,7 +22,7 @@ const TenantNewRequest = () => {
   const sendNewRequest = async () => {
     try {
       const result = await Axios.post(
-        "http://localhost:8000/request",
+        "http://172.17.3.125:8000/request",
         requestData
       );
       console.log(result, "resultresult");

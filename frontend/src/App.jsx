@@ -6,12 +6,11 @@ import AppRoutes from "./AppRoutes.jsx";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/AuthProvider.jsx";
 import { AppProvider } from "./context/AppProvider.jsx";
-import useAppContext from "./hooks/useAppContext.jsx";
+// import useAppContext from "./hooks/useAppContext.jsx";
 import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
-    
     <BrowserRouter>
       <ToastContainer
         position="top-right"
