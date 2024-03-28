@@ -4,69 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RentalSphere</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      color: #333;
-      background-color: #f4f4f4;
-      padding: 20px;
-    }
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    .header {
-      background-color: #000;
-      padding: 10px;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .header img {
-      max-width: 100%;
-      height: auto;
-    }
-    .content {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    .feature {
-      margin-top: 40px;
-    }
-    .feature h3 {
-      color: #007bff;
-    }
-    .dependency-table {
-      border-collapse: collapse;
-      width: 100%;
-    }
-    .dependency-table th, .dependency-table td {
-      border: 1px solid #ddd;
-      padding: 8px;
-      text-align: left;
-    }
-    .dependency-table th {
-      background-color: #007bff;
-      color: #fff;
-    }
-    .badge {
-      display: inline-block;
-      padding: 6px 12px;
-      margin-bottom: 10px;
-      font-size: 14px;
-      font-weight: bold;
-      line-height: 1.42857143;
-      text-align: center;
-      white-space: nowrap;
-      vertical-align: middle;
-      border-radius: 3px;
-      color: #fff;
-    }
-    .badge-primary {
-      background-color: #007bff;
-    }
-  </style>
 </head>
 <body>
   <div class="container">
@@ -86,17 +23,10 @@
           <li>Please run <code>docker-compose down</code> after stopping the containers.</li>
         </ol>
       </div>
+    </div>
+</div>
 
-<style>
-  h3 {
-    color: #007bff;
-    font-size: 1.2em;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    border-bottom: 2px solid #ccc;
-    padding-bottom: 5px;
-  }
-</style>
+
 
 <h3>Feature: Registration/Login</h3>
 
