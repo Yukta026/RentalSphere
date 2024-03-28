@@ -5,6 +5,8 @@ import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.Tenant.Model.Tenant;
 import com.rentalsphere.backend.User.Model.User;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,6 +15,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PropertyMapperTest {
+    @Mock
+    private Tenant tenant;
+    @Mock
+    private User user;
 
     @Test
     public void testConvertToPropertiesDTO() {
@@ -23,21 +29,26 @@ public class PropertyMapperTest {
         assertEquals(2, propertyDTOs.size());
     }
 
-//    @Test
-//    public void testConvertToPropertiesWithTenant() {
-//        // Arrange
-//        List<Property> properties = createDummyProperties();
-//
-//        // Act
-//        List<PropertyDTO> propertyDTOs = PropertyMapper.convertToPropertiesWithTenant(properties);
-//
-//        // Assert
-//        assertEquals(2, propertyDTOs.size());
-//        // Add minimal assertions here for readability
-//    }
+    @Test
+    public void testConvertToPropertiesWithTenant() {
+        // Arrange
+        List<Property> properties = createDummyProperties();
+
+        // Act
+        List<PropertyDTO> propertyDTOs = PropertyMapper.convertToPropertiesWithTenant(properties);
+
+        // Assert
+        assertEquals(2, propertyDTOs.size());
+        // Add minimal assertions here for readability
+    }
 
     private List<Property> createDummyProperties() {
         List<Property> properties = new ArrayList<>();
+        tenant = new Tenant();
+        user = new User();
+        user.setFirstName("first name");
+        user.setLastName("last name");
+        tenant.setUser(user);
 
         // Property 1
         Property property1 = new Property();
@@ -46,7 +57,7 @@ public class PropertyMapperTest {
         property1.setEmailAddress("john@example.com");
         property1.setPhoneNumber("1234567890");
         property1.setPropertyImages(new ArrayList<>()); // Ensure propertyImages is not null
-        property1.setTenants(new ArrayList<>()); // Ensure tenants is not null
+        property1.setTenants(List.of(tenant)); // Ensure tenants is not null
         // Set other properties for property1
 
         // Property 2
@@ -56,7 +67,7 @@ public class PropertyMapperTest {
         property2.setEmailAddress("jane@example.com");
         property2.setPhoneNumber("9876543210");
         property2.setPropertyImages(new ArrayList<>()); // Ensure propertyImages is not null
-        property2.setTenants(new ArrayList<>()); // Ensure tenants is not null
+        property2.setTenants(List.of(tenant)); // Ensure tenants is not null
         // Set other properties for property2
 
         properties.add(property1);

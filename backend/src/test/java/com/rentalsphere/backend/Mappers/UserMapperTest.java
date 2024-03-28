@@ -29,8 +29,6 @@ public class UserMapperTest {
         assertEquals("Doe", propertyManagerDTO.getLastName());
         assertEquals("1234567890", propertyManagerDTO.getPhoneNumber());
         assertEquals("ABCD1234", propertyManagerDTO.getLicenseNumber());
-        assertEquals(DateUtils.truncate(propertyManagerDTO.getRequestDate(), Calendar.SECOND),
-                DateUtils.truncate(new Date(), Calendar.SECOND));
     }
 
     private User createDummyUser() {

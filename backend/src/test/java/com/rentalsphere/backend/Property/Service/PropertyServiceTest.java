@@ -3,11 +3,21 @@ package com.rentalsphere.backend.Property.Service;
 import com.rentalsphere.backend.DTOs.PropertyDTO;
 import com.rentalsphere.backend.Enums.ApplicationStatus;
 import com.rentalsphere.backend.Enums.RentedStatus;
+import com.rentalsphere.backend.Enums.Roles;
+import com.rentalsphere.backend.Exception.Property.PropertyNotFoundException;
 import com.rentalsphere.backend.Exception.User.UserNotFoundException;
+import com.rentalsphere.backend.Mappers.LeaseMapper;
 import com.rentalsphere.backend.Mappers.PropertyMapper;
 import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.Property.Repository.PropertyRepository;
+import com.rentalsphere.backend.PropertyImages.Repository.PropertyImagesRepository;
 import com.rentalsphere.backend.RequestResponse.Property.GetAllPropertyResponse;
+import com.rentalsphere.backend.RequestResponse.Property.GetPropertyResponse;
+import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterRequest;
+import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterResponse;
+import com.rentalsphere.backend.Role.Model.Role;
+import com.rentalsphere.backend.Services.Cloudinary.CloudinaryService;
+import com.rentalsphere.backend.Services.Cloudinary.IService.ICloudinaryService;
 import com.rentalsphere.backend.User.Model.User;
 import com.rentalsphere.backend.User.Repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,11 +27,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.*;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,10 +49,22 @@ public class PropertyServiceTest {
     private Property property;
     @Mock
     private User user;
+    @Mock
+    private CloudinaryService cloudinaryService;
+    @Mock
+    private PropertyImagesRepository propertyImagesRepository;
+    @Mock
+    private MockMultipartFile multipartFile;
+    @Mock
+    private PropertyDTO propertyDTO;
+
     private PropertyDTO dummyProperty;
+    private PropertyRegisterRequest request;
 
     @BeforeEach
     void init(){
+        Role role = new Role(UUID.randomUUID(), Roles.USER, List.of(user));
+        user.setRoles(List.of(role));
         this.dummyProperty = new PropertyDTO();
         dummyProperty.setPropertyId(123L);
         dummyProperty.setPropertyManagerName("John Doe");
@@ -60,6 +83,22 @@ public class PropertyServiceTest {
         imageURLs.add("https://example.com/image1.jpg");
         imageURLs.add("https://example.com/image2.jpg");
         dummyProperty.setImageURLs(imageURLs);
+
+        request = PropertyRegisterRequest.builder()
+                .email("example@example.com")
+                .phoneNumber("1234567890")
+                .propertyAddress("123 Example St")
+                .city("Example City")
+                .state("Example State")
+                .zipCode("12345")
+                .monthlyRent(1500.0)
+                .availableMoveInDate("2024-04-01")
+                .numBedrooms(2)
+                .numBathrooms(2)
+                .licenseNumber("ABC123")
+                .images(List.of(multipartFile))
+                .propertyDescription("This is an example property description.")
+                .build();
     }
 
     @Test
@@ -138,6 +177,56 @@ public class PropertyServiceTest {
 
         assertThrows(UserNotFoundException.class, ()->{
            propertyService.getAllPropertyWithTenant("test@gmail.com");
+        });
+    }
+
+    @Test
+    void testSavePropertyApplication() throws IOException, ParseException {
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user));
+        when(propertyRepository.save(any(Property.class))).thenReturn(property);
+        when(cloudinaryService.upload(any(MultipartFile.class))).thenReturn(new HashMap<>());
+        when(propertyImagesRepository.saveAll(anyList())).thenReturn(new ArrayList<>());
+
+        PropertyRegisterResponse response = propertyService.savePropertyApplication(request);
+
+        assertTrue(response.isSuccess());
+    }
+
+    @Test
+    void testSavePropertyApplicationNotFound(){
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
+
+        assertThrows(UserNotFoundException.class, ()->{
+            propertyService.savePropertyApplication(request);
+        });
+    }
+
+    @Test
+    void testGetProperty(){
+        GetPropertyResponse expectedResponse = GetPropertyResponse.builder()
+                .isSuccess(true)
+                .property(propertyDTO)
+                .timeStamp(new Date())
+                .build();
+
+        GetPropertyResponse response;
+
+        when(propertyRepository.findById(anyLong())).thenReturn(Optional.of(property));
+
+        try(MockedStatic<PropertyMapper> propertyMapper = mockStatic(PropertyMapper.class)){
+            propertyMapper.when(()->PropertyMapper.convertToPropertyDTO(any(Property.class))).thenReturn(propertyDTO);
+            response = propertyService.getProperty(1L);
+        }
+
+        assertEquals(expectedResponse, response);
+    }
+
+    @Test
+    void testGetPropertyNotFound(){
+        when(propertyRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThrows(PropertyNotFoundException.class, ()->{
+            propertyService.getProperty(1L);
         });
     }
 }
