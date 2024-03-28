@@ -20,6 +20,7 @@ public class JwtService {
     final long MILLIS_PER_SECOND = 1000;
     final long SECONDS_PER_MINUTE = 60;
     final long MINUTES_PER_DAY = 24;
+    final long DAYS = 9;
 
     public String generateToken(UserDetails userDetails){
         return generateToken(new HashMap<>(), userDetails);
@@ -31,8 +32,7 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-//                .setExpiration(new Date(System.currentTimeMillis() + 1000*60*24))
-                .setExpiration(new Date(System.currentTimeMillis() + MILLIS_PER_SECOND*SECONDS_PER_MINUTE*MINUTES_PER_DAY))
+                .setExpiration(new Date(System.currentTimeMillis() + MILLIS_PER_SECOND*SECONDS_PER_MINUTE*MINUTES_PER_DAY*DAYS))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
