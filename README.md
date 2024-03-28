@@ -8,7 +8,7 @@
 <body>
   <div class="container">
     <div class="header">
-      <a href="https://imgur.com/GjpA6cF"><img src="https://i.imgur.com/GjpA6cF.jpg?1" alt="RentalSphere Logo " style="max-width: 50px;"></a>
+      <a href="https://imgur.com/GjpA6cF"><img src="https://i.imgur.com/GjpA6cF.jpg?1" alt="RentalSphere Logo " style="max-width: 80px;"></a>
     </div>
     <div class="content">
       <p>RentalSphere is a versatile platform that addresses the complexities of property management, streamlining operations for landlords while enhancing the rental experience for tenants through innovative features and analytics-driven insights.</p>
