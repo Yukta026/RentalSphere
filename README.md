@@ -6,7 +6,7 @@
   <title>RentalSphere</title>
 </head>
 <body>
-  <div class="container">
+  <div class="container" style="text-align: center;">
     <div class="header">
       <a href="https://imgur.com/GjpA6cF"><img src="https://i.imgur.com/GjpA6cF.jpg?1" alt="RentalSphere Logo " style="max-width: 80px;"></a>
     </div>
