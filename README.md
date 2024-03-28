@@ -6,12 +6,14 @@
   <title>RentalSphere</title>
 </head>
 <body>
-  <div class="container" style="text-align: center;">
-    <div class="header">
+  <div class="container" >
+    <div class="header" style="text-align: center;">
       <a href="https://imgur.com/GjpA6cF"><img src="https://i.imgur.com/GjpA6cF.jpg?1" alt="RentalSphere Logo " style="max-width: 80px;"></a>
     </div>
-    <div class="content">
+    <div class="content" >
+        <div class="summary-app" style="text-align: center;">
       <p>RentalSphere is a versatile platform that addresses the complexities of property management, streamlining operations for landlords while enhancing the rental experience for tenants through innovative features and analytics-driven insights.</p>
+         </div>
       <hr>
       <div class="feature">
         <h3>Build Rentalsphere</h3>
@@ -326,10 +328,10 @@ Scenario: Tenant views dashboard analytics
 
 ## Code Coverage
 
-![Static Badge](https://img.shields.io/badge/JUnit_Test_Cases-124-blue)
-![Static Badge](https://img.shields.io/badge/Class_Coverage-82%25-blue)
-![Static Badge](https://img.shields.io/badge/Method_Coverage-64%25-blue)
-![Static Badge](https://img.shields.io/badge/Line_Coverage-69%25-blue)
+![Static Badge](https://img.shields.io/badge/JUnit_Test_Cases-141-blue)
+![Static Badge](https://img.shields.io/badge/Class_Coverage-92%25-blue)
+![Static Badge](https://img.shields.io/badge/Method_Coverage-72%25-blue)
+![Static Badge](https://img.shields.io/badge/Line_Coverage-77%25-blue)
 
 <hr />
 
