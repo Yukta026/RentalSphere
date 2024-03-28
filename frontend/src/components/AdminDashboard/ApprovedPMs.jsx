@@ -84,14 +84,14 @@ const PropertyMangers = () => {
               <th className="px-4 py-2">View Property</th>
             </tr>
           </thead>
-          <tbody>
-            {isLoading ? (
-              <div className="loadingCont flex justify-center items-center h-screen w-full">
-                <LoadingSpinner />
-              </div>
-            ) : (
-              approvedPMs &&
-              approvedPMs?.map((user) => (
+
+          {isLoading ? (
+            <div className="loadingCont flex justify-center items-center h-screen w-full">
+              <LoadingSpinner />
+            </div>
+          ) : approvedPMs && approvedPMs[0] ? (
+            approvedPMs?.map((user) => (
+              <tbody>
                 <tr key={user.id}>
                   {/* <td className="border px-4 py-2">{user.id}</td> */}
                   <td className="border px-4 py-2">{user.propertyId}</td>
@@ -102,7 +102,7 @@ const PropertyMangers = () => {
                   </td>
                   <td className="border px-4 py-2">
                     <button
-                      onClick={() => window.open(user.imageURL, "_blank")}
+                      onClick={() => window.open(user.imageURLs[0], "_blank")}
                       className="px-4 py-2 mr-2 font-bold text-white bg-black rounded"
                     >
                       View
@@ -126,9 +126,11 @@ const PropertyMangers = () => {
                   />
                 </td> */}
                 </tr>
-              ))
-            )}
-          </tbody>
+              </tbody>
+            ))
+          ) : (
+            <p>There are no Approved Property Managers at the moment</p>
+          )}
         </table>
       </div>
     </>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth.jsx";
+import useAppContext from "../../hooks/useAppContext.jsx";
 import { sampleCommunityData } from "../../Utils/SampleData";
 import LoadingSpinner from "../../assets/LoadingSpinner";
 const POSTS_URL = "http://localhost:8080/api/v1/marketplace/post/";
@@ -9,9 +10,11 @@ const POSTS_URL = "http://localhost:8080/api/v1/marketplace/post/";
 const TenantCommunity = () => {
   const { auth } = useAuth();
   const navigate = useNavigate();
+  // const { singlePost, setSinglePost } = useAppContext();
   const [isLoading, setIsLoading] = useState(false);
-  const [posts, setPosts] = useState(sampleCommunityData);
-  // const [posts, setPosts] = useState([]);
+  // const [posts, setPosts] = useState(sampleCommunityData);
+  const [posts, setPosts] = useState([]);
+  // const [singlePost, setSinglePost] = useState({});
 
   const loadPosts = async () => {
     const headers = {
@@ -25,13 +28,13 @@ const TenantCommunity = () => {
       .finally(() => setIsLoading(false));
   };
 
-  const handlePostClick = () => {
-    setSinglePost(data);
+  const handlePostClick = (data) => {
+    // setSinglePost(data);
 
-    if (singlePost && singlePost.id) {
-      const url = `${"/tenantdashboard/community/"}${singlePost.id}`;
-      navigate(url);
-    }
+    // if (singlePost && singlePost.id) {
+    const url = `${"/tenantdashboard/community/"}${data.id}`;
+    navigate(url);
+    // }
   };
 
   useEffect(() => {
@@ -54,18 +57,22 @@ const TenantCommunity = () => {
         <div className="loadingCont flex justify-center items-center h-screen w-full">
           <LoadingSpinner />
         </div>
-      ) : posts?.length == 0 ? (
-        <div>No Data Found</div>
       ) : (
+        // : posts.length == 0 ? (
+        // <div>No Data Found</div>
+        // )
         <div className="flex flex-wrap gap-6">
           {posts &&
             posts.map((data, index) => (
-              <div className="w-[25%] mt-6 card card-compact bg-base-100 shadow-xl">
+              <div
+                className="w-[25%] mt-6 card card-compact bg-base-100 shadow-xl"
+                key={index}
+              >
                 {/* <Link to={`/tenantdashboard/community/${data.id}`}> */}
                 <div className="">
                   <img
                     className="h-[200px] w-full object-cover "
-                    src={data?.image}
+                    src={data.imageUrl}
                   />
                   <div className="card-body">
                     <h2 className="card-title">{data.name}</h2>

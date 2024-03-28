@@ -1,7 +1,10 @@
-import Axios from "axios";
+import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth.jsx";
+import { toast, Bounce } from "react-toastify";
 import { productsData } from "../../Utils/sampleDataHarsh.jsx";
+const POSTS_URL = "http://localhost:8080/api/v1/marketplace/post/";
 
 const initialFormValues = {
   title: "",
@@ -11,20 +14,46 @@ const initialFormValues = {
 
 const TenantNewPost = () => {
   const navigate = useNavigate();
-
+  const { auth } = useAuth();
   const [formData, setFormData] = useState(initialFormValues);
+  const [files, setFiles] = useState([]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formDataToSend = new FormData();
+    formDataToSend.append("email", auth.email);
+    for (const [key, value] of Object.entries(formData)) {
+      formDataToSend.append(key, value);
+    }
+    console.log(files);
+    files.map((file) => formDataToSend.append("image", file));
+
+    const headers = {
+      Authorization: `Bearer ${auth.token}`,
+    };
+
+    await axios
+      .post(POSTS_URL, formDataToSend, { headers })
+      .then((res) => {
+        toast.success("Post Created", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      })
+      .catch((err) => console.log(err))
+      .finally(navigate("/tenantdashboard/community"));
+  };
 
   const handleFileUpload = (e) => {
     setFiles([...files, e.target.files[0]]);
-
-    // const selectedFiles = e.target.files;
-    // const newFiles = [];
-
-    // for (let i = 0; i < selectedFiles.length; i++) {
-    //   newFiles.push(selectedFiles[i]);
-    // }
-
-    // setFiles([...files, ...newFiles]);
   };
 
   const removeFile = (index) => {
@@ -71,34 +100,6 @@ const TenantNewPost = () => {
           className="input input-bordered w-full "
         />
       </div>
-      {/* 
-        <div className="flex flex-col gap-2 mt-4">
-          <label htmlFor="contactNumber" className="font-medium text-[16px]">
-            Contact Number
-          </label>
-          <input
-            type="number"
-            value={formData.contactNumber}
-            onChange={(e) => handleInputChange(e)}
-            placeholder="Contact Number"
-            name="contactNumber"
-            className="input appearance-none input-bordered w-full "
-          />
-        </div> */}
-
-      {/* <div className="flex flex-col gap-2 mt-4">
-          <label htmlFor="contactNumber" className="font-medium text-[16px]">
-            Email
-          </label>
-          <input
-            type="text"
-            value={formData.email}
-            onChange={(e) => handleInputChange(e)}
-            placeholder="Email"
-            name="email"
-            className="input appearance-none input-bordered w-full "
-          />
-        </div> */}
 
       <div className="flex flex-col gap-2 mt-4">
         <label htmlFor="price" className="font-medium text-[16px]">
@@ -113,19 +114,6 @@ const TenantNewPost = () => {
           className="input input-bordered w-full "
         />
       </div>
-
-      {/* <div className="flex flex-col gap-2 mt-4">
-          <label htmlFor="" className="font-medium text-[16px]">
-            Address
-          </label>
-          <textarea
-            className="textarea textarea-bordered"
-            value={formData.address}
-            onChange={(e) => handleInputChange(e)}
-            name="address"
-            placeholder="Address"
-          ></textarea>
-        </div> */}
 
       <div className="flex flex-col gap-2 mt-4">
         <label htmlFor="image" className="font-medium text-[16px]">

@@ -44,7 +44,7 @@ const NewPropertyManager = () => {
   const { auth } = useAuth();
   const moveInDateRef = useRef();
 
-  const [formData, setFormData] = useState(testFormValues);
+  const [formData, setFormData] = useState(initialValues);
   const [files, setFiles] = useState([]);
 
   const handleFileUpload = (e) => {

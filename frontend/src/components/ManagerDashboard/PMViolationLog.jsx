@@ -8,13 +8,13 @@ import { sampleViolationLogData } from "../../Utils/SampleData";
 import { Tooltip } from "react-tooltip";
 import { IoIosArrowDown } from "react-icons/io";
 import useAppContext from "../../hooks/useAppContext.jsx";
-const ALL_PROPS_URL = "http://localhost:8080/api/v1/property";
+const ALL_PROPS_URL = "http://localhost:8080/api/v1/property/rented/";
 const CREATE_VLOG_URL = "http://localhost:8080/api/v1/violationlog/";
 const PROP_VLOGS_URL = "http://localhost:8080/api/v1/violationlog/property/";
 
 export default function PMViolationLog() {
   const { auth } = useAuth();
-  const { contProp, setContProp } = useAppContext();
+  const { contProp, setContProp, setContTenant } = useAppContext();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [properties, setProperties] = useState([]);
@@ -51,11 +51,12 @@ export default function PMViolationLog() {
     };
     setIsLoading(true);
     await axios
-      .get(ALL_PROPS_URL, { headers })
+      .get(`${ALL_PROPS_URL}${auth.email}`, { headers })
       .then((res) => {
         console.log(res);
         console.log("all props from VLogs", res.data.properties);
         setProperties(res.data.properties);
+        setContTenant(res.data.properties[0].tenant);
       })
       .catch((err) => console.log(err))
       .finally(() => setIsLoading(false));
@@ -126,7 +127,7 @@ export default function PMViolationLog() {
                 value={propt.propertyId}
                 key={index}
               >
-                {propt.propertyDescription}
+                {propt.propertyAddress}
               </option>
             ))}
         </select>

@@ -7,13 +7,13 @@ import { IoIosArrowDown } from "react-icons/io";
 import { MdFileDownload, MdOutlineDelete } from "react-icons/md";
 import { sampleLeaseData } from "../../Utils/SampleData";
 import useAppContext from "../../hooks/useAppContext.jsx";
-const ALL_PROPS_URL = "http://localhost:8080/api/v1/property";
+const ALL_PROPS_URL = "http://localhost:8080/api/v1/property/rented/";
 const ALL_LEASE_URL = "http://localhost:8080/api/v1/lease/property/";
 
 export default function PMLeaseManage() {
   const { auth } = useAuth();
   const navigate = useNavigate();
-  const { contProp, setContProp, contTenant, setContTenant } = useAppContext();
+  const { setContProp, setContTenant } = useAppContext();
   const [isLoading, setIsLoading] = useState(true);
   const [properties, setProperties] = useState([]);
   const [selectedProperty, setSelectedProperty] = useState("");
@@ -27,11 +27,13 @@ export default function PMLeaseManage() {
     };
     setIsLoading(true);
     await axios
-      .get(ALL_PROPS_URL, { headers })
+      .get(`${ALL_PROPS_URL}${auth.email}`, { headers })
       .then((res) => {
         console.log(res);
         console.log("all props from leaseManage", res.data.properties);
         setProperties(res.data.properties);
+        console.log(res.data.properties[0].tenant);
+        setContTenant(res.data.properties[0].tenant);
       })
       .catch((err) => console.log(err))
       .finally(() => setIsLoading(false));
@@ -39,8 +41,7 @@ export default function PMLeaseManage() {
 
   const handlePropClick = (propt) => {
     setSelectedProperty(propt);
-    // setContProp(propt.propertyId);
-    // setCurrTenant(propt.tenantId);
+    // setContProp(propt);
   };
 
   const fetchLeases = async () => {
@@ -71,6 +72,7 @@ export default function PMLeaseManage() {
   useEffect(() => {
     console.log(selectedProperty);
     fetchLeases();
+    setContProp(selectedProperty);
   }, [selectedProperty]);
 
   useEffect(() => {
@@ -120,7 +122,7 @@ export default function PMLeaseManage() {
                     value={propt.propertyId}
                     key={index}
                   >
-                    {propt.propertyDescription}
+                    {propt.propertyAddress}
                   </option>
                   // <option
                   //   className="bg-white text-black outline-none"

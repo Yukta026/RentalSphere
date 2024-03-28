@@ -2,7 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Route, Routes, useNavigate, NavLink, Outlet } from "react-router-dom";
 // import NewRequest from '../components/new-request/NewRequest';
 import Axios from "axios";
-import { FiFileText, FiGlobe, FiHome, FiTool, FiUsers } from "react-icons/fi";
+import {
+  FiFileText,
+  FiGlobe,
+  FiHome,
+  FiTool,
+  FiUsers,
+  FiAlertTriangle,
+} from "react-icons/fi";
 import { BsCreditCard } from "react-icons/bs";
 import { HiOutlineSpeakerphone } from "react-icons/hi";
 import { LuContact } from "react-icons/lu";
@@ -99,6 +106,18 @@ const TenantDashboard = () => {
             <FiGlobe />
           </span>{" "}
           Community
+        </NavLink>
+
+        <NavLink
+          to="/tenantdashboard/violations"
+          className={`flex items-center gap-4 my-4 cursor-pointer hover:bg-gray-200 px-4 rounded-[6px] py-2 ${({
+            isActive,
+          }) => (isActive ? "active" : "inactive")}`}
+        >
+          <span className="text-[20px]">
+            <FiAlertTriangle />
+          </span>{" "}
+          Violations
         </NavLink>
 
         {/* <NavLink

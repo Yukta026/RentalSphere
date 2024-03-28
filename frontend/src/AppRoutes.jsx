@@ -40,6 +40,7 @@ import CommunityPostDetails from "./components/TenantDashboard/CommunityPostDeta
 import AddLease from "./components/ManagerDashboard/AddLease.jsx";
 import NewTenantApp from "./components/NewTenantApp.jsx";
 import AddViolationLog from "./components/ManagerDashboard/AddViolationLog.jsx";
+import TenantViolations from "./components/TenantDashboard/TenantViolations.jsx";
 
 const AppRoutes = () => {
   return (
@@ -89,6 +90,7 @@ const AppRoutes = () => {
         <Route exact path="community" element={<TenantCommunity />} />
         <Route exact path="community/:id" element={<CommunityPostDetails />} />
         <Route exact path="community/new-post" element={<TenantNewPost />} />
+        <Route exact path="violations" element={<TenantViolations />} />
         new-post
       </Route>
       {/*  */}

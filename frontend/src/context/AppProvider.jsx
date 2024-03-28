@@ -21,7 +21,11 @@ export const AppProvider = ({ children }) => {
 
   const [contTenantEmail, setContTenantEmail] = useState("");
 
-  const [contTenant, setContTenant] = useState("");
+  const [contTenant, setContTenant] = useState({});
+
+  const [contReq, setContReq] = useState({});
+
+  const [singlePost, setSinglePost] = useState({});
 
   // useEffect(() => {
   //   if (showAlert) {
@@ -71,6 +75,10 @@ export const AppProvider = ({ children }) => {
         setContTenantEmail,
         contTenant,
         setContTenant,
+        contReq,
+        setContReq,
+        singlePost,
+        setSinglePost,
       }}
     >
       {children}

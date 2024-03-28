@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useAppContext from "../../hooks/useAppContext";
 import useAuth from "../../hooks/useAuth.jsx";
@@ -10,33 +11,34 @@ const testFormValues = {
   title: "title lorem",
   description:
     "1 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the",
-  monetary: "200",
+  monetaryDamage: "200",
   personalComment: "Lorem Ipsum is simply",
   damageIntensity: "Moderate",
 };
 
-const initialFormValue = {
+const initialFormValues = {
   title: "",
   description: "",
   monetaryDamage: "",
   personalComments: "",
   intensity: "",
+  date: new Date().toLocaleDateString("en-CA"),
 };
 
 const AddViolationLog = () => {
-  const { contProp } = useAppContext();
+  const { contProp, contTenant } = useAppContext();
   const { auth } = useAuth();
   const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState("");
   // const [formData, setFormData] = useState(testFormValues);
-  const [formData, setFormData] = useState(initialFormValue);
+  const [formData, setFormData] = useState(initialFormValues);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!contProp) {
       toast.error("Please select a property first", {
@@ -56,24 +58,26 @@ const AddViolationLog = () => {
       Authorization: `Bearer ${auth.token}`,
     };
 
-    let currentDate = new Date();
-    console.log(currentDate);
-    let formattedDate = currentDate.toLocaleDateString("en-CA");
-    setFormData({ ...formData, date: formattedDate });
-    console.log(formData);
-    // await axios.post(NEW_VLOG_URL, formData, { headers });
-    // toast.success("Violation Created", {
-    //   position: "top-center",
-    //   autoClose: 1000,
-    //   hideProgressBar: false,
-    //   closeOnClick: true,
-    //   pauseOnHover: true,
-    //   draggable: true,
-    //   progress: undefined,
-    //   theme: "light",
-    //   transition: Bounce,
-    // });
-    // navigate("/managerdashboard/violationlog");
+    // let currentDate = new Date();
+    // console.log(currentDate);
+    // let formattedDate = currentDate.toLocaleDateString("en-CA");
+    // console.log(formattedDate);
+    // setFormData({ ...formData, date: new Date() });
+    // console.log(formData);
+    await axios.post(NEW_VLOG_URL, formData, { headers });
+    toast.success("Violation Created", {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+    navigate("/managerdashboard/violationlog");
+    setFormData(initialFormValues);
   };
 
   useEffect(() => {
@@ -86,6 +90,13 @@ const AddViolationLog = () => {
       setFormData({ ...formData, propertyId: contProp });
     }
   }, [contProp]);
+
+  useEffect(() => {
+    console.log(contTenant);
+    if (contTenant && contTenant.tenantID !== "") {
+      setFormData({ ...formData, tenantId: contTenant.tenantID });
+    }
+  }, [contTenant]);
 
   return (
     <form onSubmit={(e) => handleSubmit(e)}>

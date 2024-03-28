@@ -77,7 +77,7 @@ const Home = () => {
                       {/* <div className="absolute inset-0 bg-yellow-300 opacity-10"></div> ????? */}
                       {/* <div className="absolute inset-0" src="./src/assets/Img1.jpeg"></div> */}
 
-                      <img src={listing.imageURL} alt="" className="" />
+                      <img src={listing.imageURLs[0]} alt="" className="" />
                     </div>
 
                     <div className="absolute bottom-0 flex justify-center mb-3">
@@ -114,7 +114,7 @@ const Home = () => {
                       className="mt-2 text-sm text-gray-800 line-clamp-1"
                       title="New York, NY 10004, United States"
                     >
-                      {sampleListingsData[listing.propertyId - 1].address}
+                      {listing.propertyAddress}
                     </p>
                   </div>
 

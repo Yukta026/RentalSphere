@@ -1,5 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
+import useAuth from "../../hooks/useAuth";
 import useAppContext from "../../hooks/useAppContext";
+import { toast, Bounce } from "react-toastify";
+const LEASE_URL = "http://localhost:8080/api/v1/lease/";
 
 const testFormValues = {
   documentName: "Document 1",
@@ -9,17 +13,15 @@ const testFormValues = {
 };
 
 const initialFormValues = {
-  documentName: "",
-  startDate: "",
-  endDate: "",
   monthlyRent: "",
 };
 
 const AddLease = () => {
-  const { contProp, setContProp, contTenant, setContTenant } = useAppContext();
+  const { auth } = useAuth();
+  const { contProp, contTenant } = useAppContext();
   const startDateRef = useRef();
   const endDateRef = useRef();
-  const [formData, setFormData] = useState(testFormValues);
+  const [formData, setFormData] = useState(initialFormValues);
   const [files, setFiles] = useState([]);
 
   const handleFileUpload = (e) => {
@@ -42,12 +44,11 @@ const AddLease = () => {
     const headers = {
       Authorization: `Bearer ${auth.token}`,
     };
-    console.log(moveInDateRef.current.value);
     console.log(headers);
     console.log(formData);
 
-    await axios.post(NEW_PM_URL, formDataToSend, { headers });
-    toast.success("Request made to the Admin", {
+    await axios.post(LEASE_URL, formDataToSend, { headers });
+    toast.success("New Lease Created", {
       position: "top-center",
       autoClose: 1000,
       hideProgressBar: false,
@@ -58,9 +59,10 @@ const AddLease = () => {
       theme: "light",
       transition: Bounce,
     });
-    setFormData(initialValues);
+    setFormData(initialFormValues);
     setFiles([]);
-    moveInDateRef.current.value = "";
+    startDateRef.current.value = "";
+    endDateRef.current.value = "";
   };
 
   const handleInputChange = (e) => {
@@ -69,21 +71,25 @@ const AddLease = () => {
   };
 
   useEffect(() => {
-    console.log(contProp);
-    if (contProp && contProp !== "") {
+    if (("this is contProp", contProp)) {
+      console.log(contProp);
       setFormData({ ...formData, propertyId: contProp });
     }
   }, [contProp]);
 
   useEffect(() => {
     console.log(contTenant);
-    if (contTenant && contTenant !== "") {
-      setFormData({ ...formData, tenantId: contTenant });
+    if (contTenant && contTenant.tenantID != "") {
+      setFormData({ ...formData, tenantId: contTenant.tenantID });
     }
-  }, [, contTenant]);
+  }, [contTenant]);
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
 
   return (
-    <div>
+    <form onSubmit={(e) => handleSubmit(e)}>
       <h1 className="text-2xl font-bold">Add New Lease</h1>
       <div>
         <div className="grid items-center grid-cols-1 gap-4 text-sm gap-y-2 lg:grid-cols-3 mt-6">
@@ -102,7 +108,11 @@ const AddLease = () => {
                 <label htmlFor="" className="font-medium text-[16px]">
                   Select documents
                 </label>
-                <input type="file" name="document" />
+                <input
+                  type="file"
+                  name="document"
+                  onChange={(e) => handleFileUpload(e)}
+                />
               </div>
 
               <div className="mt-4 md:col-span-3">
@@ -111,7 +121,6 @@ const AddLease = () => {
                   type="date"
                   name="startDate"
                   className="w-full h-10 px-4 mt-1 border rounded bg-gray-50"
-                  onChange={(e) => handleFileUpload(e)}
                   ref={startDateRef}
                 />
               </div>
@@ -136,16 +145,6 @@ const AddLease = () => {
                   onChange={(e) => handleInputChange(e)}
                 />
               </div>
-              <div className="mt-4 md:col-span-6">
-                <label htmlFor="monthRent">Monthly Rent</label>
-                <input
-                  type="text"
-                  name="monthRent"
-                  className="w-full h-10 px-4 mt-1 border rounded bg-gray-50"
-                  // value={formData.monthRent}
-                  // onChange={(e) => handleInputChange(e)}
-                />
-              </div>
 
               <div className="mt-4 md:col-span-5">
                 <div className="inline-flex items-center">
@@ -161,7 +160,7 @@ const AddLease = () => {
           </div>
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 
