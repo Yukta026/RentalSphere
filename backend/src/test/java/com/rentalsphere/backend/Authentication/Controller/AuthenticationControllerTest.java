@@ -64,7 +64,7 @@ public class AuthenticationControllerTest {
                 .roles(List.of("USER"))
                 .timeStamp(new Date())
                 .build();
-        responseEntity = new ResponseEntity<>(authenticationResponse, HttpStatus.CREATED);
+        responseEntity = new ResponseEntity<>(authenticationResponse, HttpStatus.OK);
 
         when(authenticationService.login(loginRequest)).thenReturn(authenticationResponse);
 

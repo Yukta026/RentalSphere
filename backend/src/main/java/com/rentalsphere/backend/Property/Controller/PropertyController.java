@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.text.ParseException;
 
-@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/v1/property")
