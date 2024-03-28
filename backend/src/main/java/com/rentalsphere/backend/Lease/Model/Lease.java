@@ -4,16 +4,13 @@ import com.rentalsphere.backend.Enums.LeaseStatus;
 import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.Tenant.Model.Tenant;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 
 @Entity(name = "Lease_Agreement")
 @Table(name = "Lease_Agreement")
-@Data
+@Getter@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

@@ -9,10 +9,8 @@ import com.rentalsphere.backend.User.Model.User;
 import com.rentalsphere.backend.ViolationLog.Model.ViolationLog;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -20,7 +18,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter@Setter
 @Entity(name = "TenantApplications")
 @Table(name = "TenantApplications")
 public class Tenant {

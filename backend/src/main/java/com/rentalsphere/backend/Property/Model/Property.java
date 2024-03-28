@@ -9,19 +9,16 @@ import com.rentalsphere.backend.User.Model.User;
 import com.rentalsphere.backend.Utils.PropertyImages.Model.PropertyImages;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-    import java.util.Date;
+import java.util.Date;
     import java.util.List;
 
 
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    @Data
+    @Getter@Setter
     @Table(name = "PropertyApplications")
     @Entity(name = "PropertyApplications")
     public class Property {
