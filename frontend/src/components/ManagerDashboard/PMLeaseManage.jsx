@@ -7,8 +7,8 @@ import { IoIosArrowDown } from "react-icons/io";
 import { MdFileDownload, MdOutlineDelete } from "react-icons/md";
 import { sampleLeaseData } from "../../Utils/SampleData";
 import useAppContext from "../../hooks/useAppContext.jsx";
-const ALL_PROPS_URL = "http://localhost:8080/api/v1/property/rented/";
-const ALL_LEASE_URL = "http://localhost:8080/api/v1/lease/property/";
+const ALL_PROPS_URL = "http://172.17.3.125:8080/api/v1/property/rented/";
+const ALL_LEASE_URL = "http://172.17.3.125:8080/api/v1/lease/property/";
 
 export default function PMLeaseManage() {
   const { auth } = useAuth();

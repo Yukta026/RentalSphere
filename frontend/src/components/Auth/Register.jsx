@@ -4,7 +4,7 @@ import Axios from "axios";
 import { toast, Bounce } from "react-toastify";
 import useAuth from "../../hooks/useAuth.jsx";
 import LoadingSpinner from "../../assets/LoadingSpinner.jsx";
-const REGISTER_URL = "http://localhost:8080/api/v1/auth/register";
+const REGISTER_URL = "http://172.17.3.125:8080/api/v1/auth/register";
 
 export default function Register() {
   Axios.defaults.withCredentials = true;

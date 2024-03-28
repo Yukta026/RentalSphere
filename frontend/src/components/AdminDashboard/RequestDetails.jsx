@@ -22,14 +22,14 @@ const RequestDetails = () => {
 
   const loadPropertyManagerReq = async () => {
     const result = await Axios.get(
-      `http://localhost:8000/property-managers/${id}`
+      `http://172.17.3.125:8000/property-managers/${id}`
     );
     setPropertyManagerReq(result.data);
   };
 
   const handleApprove = async (id) => {
     try {
-      await Axios.patch(`http://localhost:8000/property-managers/${id}`, {
+      await Axios.patch(`http://172.17.3.125:8000/property-managers/${id}`, {
         verified: true,
       });
       alert("Form submitted successfully!");

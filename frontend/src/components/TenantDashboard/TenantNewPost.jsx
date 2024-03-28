@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth.jsx";
 import { toast, Bounce } from "react-toastify";
 import { productsData } from "../../Utils/sampleDataHarsh.jsx";
-const POSTS_URL = "http://localhost:8080/api/v1/marketplace/post/";
+const POSTS_URL = "http://172.17.3.125:8080/api/v1/marketplace/post/";
 
 const initialFormValues = {
   title: "",

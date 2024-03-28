@@ -38,7 +38,7 @@ const PropertyDetails = () => {
     };
     setIsLoading(true);
     await axios
-      .get(`http://localhost:8080/api/v1/property/${id}`, { headers })
+      .get(`http://172.17.3.125:8080/api/v1/property/${id}`, { headers })
       .then((res) => setSingleListing(res.data.property))
       .catch((err) => console.log(err))
       .finally(setIsLoading(false));

@@ -13,7 +13,7 @@ const TenantRequests = () => {
   // }, []);
 
   // const loadRequests = async () => {
-  //   const result = await Axios.get("http://localhost:8000/request");
+  //   const result = await Axios.get("http://172.17.3.125:8000/request");
   //   setRequestsData(result.data);
   // };
   return (
@@ -47,7 +47,7 @@ const TenantRequests = () => {
 
                     <div className="bg-white rounded-full px-8 py-2">
                       {data.requestType}
-                  </div>
+                    </div>
                   </div>
                 </div>
               </div>

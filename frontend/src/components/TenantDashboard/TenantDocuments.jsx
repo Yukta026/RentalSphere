@@ -16,7 +16,7 @@ const TenantDocuments = () => {
     };
     console.log(headers);
     await axios
-      .get(`http://localhost:8080/api/v1/lease/tenant/${auth.email}`, {
+      .get(`http://172.17.3.125:8080/api/v1/lease/tenant/${auth.email}`, {
         headers,
       })
       .then((res) => setLease(res.data.lease));

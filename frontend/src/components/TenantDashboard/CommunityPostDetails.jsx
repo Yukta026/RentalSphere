@@ -19,7 +19,9 @@ const CommunityPostDetails = () => {
     };
     setIsLoading(true);
     await axios
-      .get(`http://localhost:8080/api/v1/marketplace/post/${id}`, { headers })
+      .get(`http://172.17.3.125:8080/api/v1/marketplace/post/${id}`, {
+        headers,
+      })
       .then((res) => setSinglePost(res.data.post))
       .catch((err) => console.log(err))
       .finally(setIsLoading(false));

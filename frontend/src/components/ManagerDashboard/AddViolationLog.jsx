@@ -5,7 +5,7 @@ import useAppContext from "../../hooks/useAppContext";
 import useAuth from "../../hooks/useAuth.jsx";
 import { toast, Bounce } from "react-toastify";
 import { IoIosArrowDown } from "react-icons/io";
-const NEW_VLOG_URL = "http://localhost:8080/api/v1/violationlog/";
+const NEW_VLOG_URL = "http://172.17.3.125:8080/api/v1/violationlog/";
 
 const testFormValues = {
   title: "title lorem",

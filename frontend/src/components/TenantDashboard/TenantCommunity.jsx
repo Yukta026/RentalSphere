@@ -5,7 +5,7 @@ import useAuth from "../../hooks/useAuth.jsx";
 import useAppContext from "../../hooks/useAppContext.jsx";
 import { sampleCommunityData } from "../../Utils/SampleData";
 import LoadingSpinner from "../../assets/LoadingSpinner";
-const POSTS_URL = "http://localhost:8080/api/v1/marketplace/post/";
+const POSTS_URL = "http://172.17.3.125:8080/api/v1/marketplace/post/";
 
 const TenantCommunity = () => {
   const { auth } = useAuth();

@@ -3,7 +3,7 @@ import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import useAppContext from "../../hooks/useAppContext";
 import { toast, Bounce } from "react-toastify";
-const LEASE_URL = "http://localhost:8080/api/v1/lease/";
+const LEASE_URL = "http://172.17.3.125:8080/api/v1/lease/";
 
 const testFormValues = {
   documentName: "Document 1",
