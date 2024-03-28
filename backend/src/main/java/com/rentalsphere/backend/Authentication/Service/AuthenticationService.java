@@ -4,6 +4,7 @@ import com.rentalsphere.backend.Authentication.Service.IService.IAuthenticationS
 import com.rentalsphere.backend.Configuration.JwtService;
 import com.rentalsphere.backend.Enums.EmailType;
 import com.rentalsphere.backend.Enums.Roles;
+import com.rentalsphere.backend.Exception.ResetPasswordToken.TokenExpiredException;
 import com.rentalsphere.backend.Exception.ResetPasswordToken.TokenNotFoundException;
 import com.rentalsphere.backend.Exception.User.InvalidCredentialsException;
 import com.rentalsphere.backend.Exception.User.SamePasswordException;
@@ -14,11 +15,10 @@ import com.rentalsphere.backend.Role.Repository.RoleRepository;
 import com.rentalsphere.backend.Services.Email.EmailService;
 import com.rentalsphere.backend.User.Model.User;
 import com.rentalsphere.backend.User.Repository.UserRepository;
-import com.rentalsphere.backend.Utils.PasswordResetToken.Model.ResetPasswordToken;
-import com.rentalsphere.backend.Utils.PasswordResetToken.Repository.ResetPasswordTokenRepository;
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
@@ -29,15 +29,21 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class AuthenticationService implements IAuthenticationService {
-    private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
-    private final ResetPasswordTokenRepository resetPasswordTokenRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
-    private final EmailService emailService;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtService jwtService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private EmailService emailService;
+
+    private final static int EXPIRY_TIME = 60 * 60 * 1000;
 
     @Override
     public AuthenticationResponse register(RegisterRequest request) {
@@ -94,17 +100,20 @@ public class AuthenticationService implements IAuthenticationService {
 
     @Override
     public ForgotPasswordResponse forgotPassword(ForgotPasswordRequest request) throws MessagingException {
-        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(()->new UserNotFoundException("User does not exist"));
-        String token = UUID.randomUUID().toString();
-        ResetPasswordToken resetPasswordToken = ResetPasswordToken
-                .builder()
-                .token(token)
-                .user(user)
-                .expiryDate(new Date())
-                .build();
+        Optional<User> user = userRepository.findByEmail(request.getEmail());
 
-        resetPasswordTokenRepository.save(resetPasswordToken);
-        emailService.sendEmailTemplate(EmailType.PASSWORD_RESET, user.getEmail(), "Forgot Password", user.getFirstName() + " " + user.getLastName(), "Here is your password reset link ", token);
+        if(!user.isPresent()){
+            throw new UserNotFoundException("No such user exists");
+        }
+
+        String token = UUID.randomUUID().toString();
+
+        user.get().setPasswordResetToken(token);
+        long currentTime = new Date().getTime();
+        user.get().setTokenExpiryDate(new Date(currentTime + EXPIRY_TIME));
+
+        userRepository.save(user.get());
+        emailService.sendEmailTemplate(EmailType.PASSWORD_RESET, user.get().getEmail(), "Forgot Password", user.get().getFirstName() + " " + user.get().getLastName(), "Here is your password reset link ", token);
 
         return ForgotPasswordResponse
                 .builder()
@@ -117,27 +126,30 @@ public class AuthenticationService implements IAuthenticationService {
     @Override
     @Transactional
     public ForgotPasswordResponse changePassword(ChangePasswordRequest request) {
-        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(
-                ()->new UserNotFoundException("User does not exist")
-        );
-        ResetPasswordToken token = resetPasswordTokenRepository.findByToken(request.getToken()).orElseThrow(
-                ()->new TokenNotFoundException("Invalid token")
-        );
-        if(!token.getUser().equals(user)){
-            throw new TokenNotFoundException("Invalid token");
+        Optional<User> user = userRepository.findByEmail(request.getEmail());
+
+        if(!user.isPresent()){
+            throw new UserNotFoundException("No such user exists");
         }
 
-        if(!new Date().before(token.getExpiryDate())){
-            resetPasswordTokenRepository.deleteByToken(token.getToken());
-            throw new TokenNotFoundException("Token is expired");
+        String token = user.get().getPasswordResetToken();
+
+        if(!token.equals(request.getToken())){
+            throw new TokenNotFoundException("Invalid password reset token");
         }
 
-        if(passwordEncoder.encode(request.getNewPassword()).equals(user.getPassword())){
+        if(!new Date().before(user.get().getTokenExpiryDate())){
+            user.get().setPasswordResetToken(null);
+            userRepository.save(user.get());
+            throw new TokenExpiredException("Token is expired");
+        }
+
+        if(passwordEncoder.encode(request.getNewPassword()).equals(user.get().getPassword())){
             throw new SamePasswordException("New password cannot be same as old password");
         }
-        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
-        userRepository.save(user);
-        resetPasswordTokenRepository.deleteByToken(request.getToken());
+        user.get().setPasswordResetToken(null);
+        user.get().setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user.get());
 
         return ForgotPasswordResponse
                 .builder()
