@@ -5,80 +5,87 @@ import {
 } from "../../Utils/SampleData.jsx";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 // import Chart from "../chart/Chart.jsx";
-import { Bar, BarChart, Legend, Rectangle, ResponsiveContainer, XAxis } from "recharts";
+import {
+  Bar,
+  BarChart,
+  Legend,
+  Rectangle,
+  ResponsiveContainer,
+  XAxis,
+} from "recharts";
 import { YAxis } from "recharts";
 import { Area, AreaChart } from "recharts";
 import { Tooltip, CartesianGrid } from "recharts";
 
 const chartdata = [
   {
-    name: "January",
+    name: "2012",
     uv: 4000,
     pv: 2400,
     amt: 2400,
   },
   {
-    name: "February",
+    name: "2013",
     uv: 3000,
     pv: 1398,
     amt: 2210,
   },
   {
-    name: "March",
+    name: "2014",
     uv: 2000,
     pv: 9800,
     amt: 2290,
   },
   {
-    name: "April",
+    name: "2015",
     uv: 2780,
     pv: 3908,
     amt: 2000,
   },
   {
-    name: "May",
+    name: "2016",
     uv: 1890,
     pv: 4800,
     amt: 2181,
   },
   {
-    name: "June",
+    name: "2017",
     uv: 2390,
     pv: 3800,
     amt: 2500,
   },
   {
-    name: "July",
+    name: "2018",
     uv: 3490,
     pv: 4300,
     amt: 2100,
   },
   {
-    name: "August",
+    name: "2019",
     uv: 3490,
     pv: 4300,
     amt: 2100,
   },
   {
-    name: "September",
+    name: "2020",
     uv: 3490,
     pv: 4300,
     amt: 2100,
   },
   {
-    name: "October",
+    name: "2021",
     uv: 3490,
     pv: 4300,
     amt: 2100,
   },
   {
-    name: "November",
+    name: "2022",
     uv: 3490,
     pv: 4300,
     amt: 2100,
   },
   {
-    name: "December",
+    name: "2023",
     uv: 3490,
     pv: 4300,
     amt: 2100,
@@ -122,15 +129,19 @@ export default function PMOverview() {
               <CartesianGrid strokeDasharray="3 3" />
 
               <XAxis dataKey="name" />
-              <YAxis dataKey="pv"/>
+              <YAxis dataKey="pv" />
 
               <Tooltip />
               <Legend />
-              <Bar dataKey="pv" fill="#8884d8" 
-              // activeBar={<Rectangle fill="pink" stroke="blue" />} 
+              <Bar
+                dataKey="pv"
+                fill="#8884d8"
+                // activeBar={<Rectangle fill="pink" stroke="blue" />}
               />
-              <Bar dataKey="uv" fill="#82ca9d" 
-              // activeBar={<Rectangle fill="gold" stroke="purple" />} 
+              <Bar
+                dataKey="uv"
+                fill="#82ca9d"
+                // activeBar={<Rectangle fill="gold" stroke="purple" />}
               />
             </BarChart>
           </ResponsiveContainer>

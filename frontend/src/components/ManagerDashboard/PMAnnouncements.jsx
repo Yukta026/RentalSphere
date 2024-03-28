@@ -7,10 +7,11 @@ import { useNavigate } from "react-router-dom";
 import { FiEdit, FiTrash } from "react-icons/fi";
 import { IoIosArrowDown } from "react-icons/io";
 import LoadingSpinner from "../../assets/LoadingSpinner.jsx";
-const ALL_PROPS_URL = "http://172.17.3.125:8080/api/v1/property";
-const ANNOUNCEMENTS_URL = "http://172.17.3.125:8080/api/v1/announcements";
+const ALL_PROPS_URL = "http://localhost:8080/api/v1/property/search?email=";
+const ANNOUNCEMENTS_URL = "http://localhost:8080/api/v1/announcements";
+const UPD_ANN_URL = "http://localhost:8080/api/v1/announcements/";
 const PROP_ANNOUNCEMENTS_URL =
-  "http://172.17.3.125:8080/api/v1/announcements/property/";
+  "http://localhost:8080/api/v1/announcements/property/";
 
 const PMAnnouncements = () => {
   const { auth } = useAuth();
@@ -27,12 +28,7 @@ const PMAnnouncements = () => {
 
   const handleSubmit = () => {
     if (editMode) {
-      // const updatedAnnouncements = announcements.map((announcement) =>
-      //   announcement.id === selectedAnnouncement.id
-      //     ? { ...announcement, title, content }
-      //     : announcement
-      // );
-      // setAnnouncements(updatedAnnouncements);
+      handleUpdateAnnouncement();
     } else {
       handleCreateAnnouncement();
     }
@@ -40,6 +36,54 @@ const PMAnnouncements = () => {
     setContent("");
     setEditMode(false);
     setSelectedAnnouncement({});
+  };
+
+  const handleUpdateAnnouncement = async () => {
+    const headers = {
+      Authorization: `Bearer ${auth.token}`,
+    };
+    setIsLoading(true);
+    await axios
+      .put(
+        `${UPD_ANN_URL}${selectedAnnouncement.id}`,
+        {
+          title: title,
+          content: content,
+          propertyId: selectedProperty,
+        },
+        { headers }
+      )
+      .then((res) => {
+        console.log(res);
+        fetchAllAnnouncements();
+        toast.success("Announcement Updated", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Failure: Submit Failure", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      })
+      .finally(() => setIsLoading(false));
+    document.getElementById("my_modal_3").close();
   };
 
   const handleCreateAnnouncement = async () => {
@@ -90,6 +134,45 @@ const PMAnnouncements = () => {
     document.getElementById("my_modal_3").close();
   };
 
+  const handleDeleteAnnouncement = async (annId) => {
+    const headers = {
+      Authorization: `Bearer ${auth.token}`,
+    };
+    setIsLoading(true);
+    await axios
+      .delete(`${UPD_ANN_URL}${annId}`, { headers })
+      .then((res) => {
+        console.log(res);
+        fetchAllAnnouncements();
+        toast.success("Announcement Deleted", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Failure: Submit Failure", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      })
+      .finally(() => setIsLoading(false));
+  };
+
   const handleEditAnnouncement = (announcement) => {
     setEditMode(true);
     setSelectedAnnouncement(announcement);
@@ -120,7 +203,7 @@ const PMAnnouncements = () => {
     };
     setIsLoading(true);
     await axios
-      .get(ALL_PROPS_URL, { headers })
+      .get(`${ALL_PROPS_URL}${auth.email}${"&status=approved"}`, { headers })
       .then((res) => {
         console.log(res);
         console.log("all props from Announcements", res.data.properties);
@@ -144,10 +227,6 @@ const PMAnnouncements = () => {
     console.log("Change in selectedProperty: ", selectedProperty);
     fetchAllAnnouncements();
   }, [selectedProperty]);
-
-  // useEffect(() => {
-  //   fetchAllAnnouncements();
-  // }, [auth, navigate]);
 
   return (
     <div>
@@ -209,13 +288,13 @@ const PMAnnouncements = () => {
               </p>
               <button
                 className="absolute right-0 top-0 mr-2 mt-2 btn btn-sm btn-ghost btn-circle"
-                // onClick={() => handleEditAnnouncement(announcement)}
+                onClick={() => handleEditAnnouncement(announcement)}
               >
                 <FiEdit />
               </button>
               <button
                 className="absolute right-8 top-0 mr-2 mt-2 btn btn-sm btn-ghost btn-circle text-red-500"
-                // onClick={() => handleDeleteAnnouncement(announcement.id)}
+                onClick={() => handleDeleteAnnouncement(announcement.id)}
               >
                 <FiTrash />
               </button>

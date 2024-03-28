@@ -1,29 +1,99 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
+import useAuth from "../../hooks/useAuth";
+import useAppContext from "../../hooks/useAppContext";
+import { toast, Bounce } from "react-toastify";
+const LEASE_URL = "http://localhost:8080/api/v1/lease/";
+
+const testFormValues = {
+  documentName: "Document 1",
+  startDate: "22 Feb 2024",
+  endDate: "22 Jan 2025",
+  monthlyRent: 1200,
+};
+
+const initialFormValues = {
+  monthlyRent: "",
+};
 
 const AddLease = () => {
-  const testFormValues = {
-    documentName: "Document 1",
-    startDate: "22 Fab 2024",
-    endDate: "22 Jan 2025",
-    monthRent: 1200,
+  const { auth } = useAuth();
+  const { contProp, contTenant } = useAppContext();
+  const startDateRef = useRef();
+  const endDateRef = useRef();
+  const [formData, setFormData] = useState(initialFormValues);
+  const [files, setFiles] = useState([]);
+
+  const handleFileUpload = (e) => {
+    setFiles([...files, e.target.files[0]]);
   };
 
-  const [formData, setFormData] = useState(testFormValues);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formDataToSend = new FormData();
+    formDataToSend.append("email", auth.email);
+    for (const [key, value] of Object.entries(formData)) {
+      formDataToSend.append(key, value);
+    }
+    formDataToSend.append("startDate", startDateRef.current.value);
+    formDataToSend.append("endDate", endDateRef.current.value);
+    console.log(files);
+    files.map((file) => formDataToSend.append("leasePdf", file));
+
+    const headers = {
+      Authorization: `Bearer ${auth.token}`,
+    };
+    console.log(headers);
+    console.log(formData);
+
+    await axios.post(LEASE_URL, formDataToSend, { headers });
+    toast.success("New Lease Created", {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+    setFormData(initialFormValues);
+    setFiles([]);
+    startDateRef.current.value = "";
+    endDateRef.current.value = "";
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  useEffect(() => {
+    if (("this is contProp", contProp)) {
+      console.log(contProp);
+      setFormData({ ...formData, propertyId: contProp });
+    }
+  }, [contProp]);
+
+  useEffect(() => {
+    console.log(contTenant);
+    if (contTenant && contTenant.tenantID != "") {
+      setFormData({ ...formData, tenantId: contTenant.tenantID });
+    }
+  }, [contTenant]);
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
+
   return (
-    <div>
+    <form onSubmit={(e) => handleSubmit(e)}>
       <h1 className="text-2xl font-bold">Add New Lease</h1>
       <div>
         <div className="grid items-center grid-cols-1 gap-4 text-sm gap-y-2 lg:grid-cols-3 mt-6">
           <div className="text-gray-600">
-            {/* <p className="text-lg font-bold">Hello there</p>
-              <p>All fields mandatory*</p> */}
-
             <div>
               <img
                 src="/img/house-document-contract-7780840-6184494.webp"
@@ -38,47 +108,41 @@ const AddLease = () => {
                 <label htmlFor="" className="font-medium text-[16px]">
                   Select documents
                 </label>
-                <input type="file" name="document" />
-              </div>
-
-              <div className="mt-4 md:col-span-3">
-                <label htmlFor="availableStartDate">Start Date</label>
                 <input
-                  type="date"
-                  name="availableStartDate"
-                  className="w-full h-10 px-4 mt-1 border rounded bg-gray-50"
-                  // ref={moveInDateRef}
+                  type="file"
+                  name="document"
+                  onChange={(e) => handleFileUpload(e)}
                 />
               </div>
 
               <div className="mt-4 md:col-span-3">
-                <label htmlFor="availableEndDate">End Date</label>
+                <label htmlFor="startDate">Start Date</label>
                 <input
                   type="date"
-                  name="availableEndDate"
+                  name="startDate"
                   className="w-full h-10 px-4 mt-1 border rounded bg-gray-50"
-                  // ref={todaysDateRef}
+                  ref={startDateRef}
+                />
+              </div>
+
+              <div className="mt-4 md:col-span-3">
+                <label htmlFor="endDate">End Date</label>
+                <input
+                  type="date"
+                  name="endDate"
+                  className="w-full h-10 px-4 mt-1 border rounded bg-gray-50"
+                  ref={endDateRef}
                 />
               </div>
 
               <div className="mt-4 md:col-span-6">
-                <label htmlFor="monthRent">Month Rent</label>
+                <label htmlFor="monthlyRent">Monthly Rent</label>
                 <input
                   type="text"
-                  name="monthRent"
+                  name="monthlyRent"
                   className="w-full h-10 px-4 mt-1 border rounded bg-gray-50"
-                  value={formData.monthRent}
+                  value={formData.monthlyRent}
                   onChange={(e) => handleInputChange(e)}
-                />
-              </div>
-              <div className="mt-4 md:col-span-6">
-                <label htmlFor="monthRent">Month Rent</label>
-                <input
-                  type="text"
-                  name="monthRent"
-                  className="w-full h-10 px-4 mt-1 border rounded bg-gray-50"
-                  // value={formData.monthRent}
-                  // onChange={(e) => handleInputChange(e)}
                 />
               </div>
 
@@ -96,7 +160,7 @@ const AddLease = () => {
           </div>
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 

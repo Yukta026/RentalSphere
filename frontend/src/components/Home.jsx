@@ -15,7 +15,7 @@ import {
 } from "../Utils/SVGObjs";
 import { sampleListingsData } from "../Utils/SampleData.jsx";
 
-const LISTINGS_URL = "http://172.17.3.125:8080/api/v1/property";
+const LISTINGS_URL = "http://localhost:8080/api/v1/property";
 
 const Home = () => {
   // const [currListings, setCurrListings] = useState(sampleListingsData);
@@ -77,7 +77,7 @@ const Home = () => {
                       {/* <div className="absolute inset-0 bg-yellow-300 opacity-10"></div> ????? */}
                       {/* <div className="absolute inset-0" src="./src/assets/Img1.jpeg"></div> */}
 
-                      <img src={listing.imageURL} alt="" className="" />
+                      <img src={listing.imageURLs[0]} alt="" className="" />
                     </div>
 
                     <div className="absolute bottom-0 flex justify-center mb-3">
@@ -114,7 +114,7 @@ const Home = () => {
                       className="mt-2 text-sm text-gray-800 line-clamp-1"
                       title="New York, NY 10004, United States"
                     >
-                      {sampleListingsData[listing.propertyId - 1].address}
+                      {listing.propertyAddress}
                     </p>
                   </div>
 
@@ -148,7 +148,7 @@ const Home = () => {
                   <div className="grid grid-cols-2 mt-8">
                     <div className="flex items-center">
                       <div className="relative">
-                        <div className="w-6 h-6 bg-gray-200 rounded-full md:w-8 md:h-8"></div>
+                        {/* <div className="w-6 h-6 bg-gray-200 rounded-full md:w-8 md:h-8"></div> */}
                         <span className="absolute top-0 right-0 inline-block w-3 h-3 rounded-full bg-primary-red"></span>
                       </div>
 
