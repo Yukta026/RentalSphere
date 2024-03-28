@@ -293,13 +293,7 @@ Scenario: Tenant views dashboard analytics
 <td>JSON WebToken</td>
 <td>0.11.2</td>
 <td>Generates JWTs in the application for authorization.</td>
-<td><a href="https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt">Link</a></td>
-</tr>
-<tr>
-<td>Stripe</td>
-<td>24.2.0</td>
-<td>Payment integration in the application.</td>
-<td><a href="https://stripe.com/docs/api">Link</a></td>
+<td><a href="https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl">Link</a></td>
 </tr>
 <tr>
 <td>Cloudinary</td>
@@ -320,10 +314,10 @@ Scenario: Tenant views dashboard analytics
 <td><a href="https://www.thymeleaf.org/">Link</a></td>
 </tr>
 <tr>
-<td>Jackson Datatype: JSR310</td>
+<td>JSON WebToken (jjwt-jackson)</td>
 <td>2.15.3</td>
-<td>Add-on module to support JSR-310 (Java 8 Date & Time API) data types. </td>
-<td><a href="https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310">Link</a></td>
+<td>Generates JWTs in the application for authorization. </td>
+<td><a href="https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson">Link</a></td>
 </tr>
 </tbody>
 </table>
@@ -332,10 +326,10 @@ Scenario: Tenant views dashboard analytics
 
 ## Code Coverage
 
-![Static Badge](https://img.shields.io/badge/JUnit_Test_Cases-186-blue)
-![Static Badge](https://img.shields.io/badge/Class_Coverage-85%25-blue)
-![Static Badge](https://img.shields.io/badge/Method_Coverage-76%25-blue)
-![Static Badge](https://img.shields.io/badge/Line_Coverage-77%25-blue)
+![Static Badge](https://img.shields.io/badge/JUnit_Test_Cases-124-blue)
+![Static Badge](https://img.shields.io/badge/Class_Coverage-82%25-blue)
+![Static Badge](https://img.shields.io/badge/Method_Coverage-64%25-blue)
+![Static Badge](https://img.shields.io/badge/Line_Coverage-69%25-blue)
 
 <hr />
 
