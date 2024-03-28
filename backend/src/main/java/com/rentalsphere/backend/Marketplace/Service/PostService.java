@@ -5,7 +5,6 @@ import com.rentalsphere.backend.Enums.ApplicationStatus;
 import com.rentalsphere.backend.Enums.AvailabilityStatus;
 import com.rentalsphere.backend.Exception.Post.PostNotFoundException;
 import com.rentalsphere.backend.Exception.Tenant.TenantNotFoundException;
-import com.rentalsphere.backend.Exception.User.UserNotFoundException;
 import com.rentalsphere.backend.Mappers.PostMapper;
 import com.rentalsphere.backend.Marketplace.Model.Post;
 import com.rentalsphere.backend.Marketplace.Repository.PostRepository;
@@ -14,9 +13,8 @@ import com.rentalsphere.backend.RequestResponse.Post.*;
 import com.rentalsphere.backend.Services.Cloudinary.IService.ICloudinaryService;
 import com.rentalsphere.backend.Tenant.Model.Tenant;
 import com.rentalsphere.backend.Tenant.Repository.TenantRepository;
-import com.rentalsphere.backend.User.Model.User;
-import com.rentalsphere.backend.User.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -28,8 +26,11 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class PostService implements IPostService {
+    @Autowired
     private final PostRepository postRepository;
+    @Autowired
     private final TenantRepository tenantRepository;
+    @Autowired
     private final ICloudinaryService cloudinaryService;
 
     @Override
@@ -123,6 +124,24 @@ public class PostService implements IPostService {
         return PostResponse.builder()
                 .isSuccess(true)
                 .message("Post deleted.")
+                .timeStamp(new Date())
+                .build();
+    }
+
+    @Override
+    public GetAllPostResponse getPostOfTenant(String email) {
+        Optional<Tenant> tenant = tenantRepository.findByEmailAddressAndApplicationStatus(email, ApplicationStatus.APPROVED);
+
+        if(!tenant.isPresent()){
+            throw new TenantNotFoundException("NO such tenant exists");
+        }
+
+        List<Post> posts = postRepository.findByTenant(tenant.get());
+        List<PostDTO> postDTOs = PostMapper.convertToPostDTOs(posts);
+
+        return GetAllPostResponse.builder()
+                .isSuccess(true)
+                .posts(postDTOs)
                 .timeStamp(new Date())
                 .build();
     }

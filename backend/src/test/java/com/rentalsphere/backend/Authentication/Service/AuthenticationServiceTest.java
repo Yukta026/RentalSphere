@@ -1,5 +1,6 @@
 package com.rentalsphere.backend.Authentication.Service;
 
+import com.rentalsphere.backend.Authentication.Service.IService.IAuthenticationService;
 import com.rentalsphere.backend.Configuration.JwtService;
 import com.rentalsphere.backend.Enums.Roles;
 import com.rentalsphere.backend.Exception.ResetPasswordToken.TokenExpiredException;
@@ -11,7 +12,7 @@ import com.rentalsphere.backend.Exception.User.UserNotFoundException;
 import com.rentalsphere.backend.RequestResponse.Authentication.*;
 import com.rentalsphere.backend.Role.Model.Role;
 import com.rentalsphere.backend.Role.Repository.RoleRepository;
-import com.rentalsphere.backend.Services.Email.EmailService;
+import com.rentalsphere.backend.Services.Email.IService.IEmailService;
 import com.rentalsphere.backend.User.Model.User;
 import com.rentalsphere.backend.User.Repository.UserRepository;
 import jakarta.mail.MessagingException;
@@ -32,7 +33,6 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class AuthenticationServiceTest {
 
-    final int amount = 10;
     @InjectMocks
     private AuthenticationService authenticationService;
     @Mock
@@ -53,7 +53,7 @@ public class AuthenticationServiceTest {
     @Mock
     private RoleRepository roleRepository;
     @Mock
-    private EmailService emailService;
+    private IEmailService emailService;
     @Mock
     private JwtService jwtService;
     private ForgotPasswordResponse forgotPassRespExpected;

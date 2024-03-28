@@ -1,6 +1,7 @@
 package com.rentalsphere.backend.AdminTests.Service;
 
 import com.rentalsphere.backend.Admin.Service.AdminService;
+import com.rentalsphere.backend.Admin.Service.IService.IAdminService;
 import com.rentalsphere.backend.Enums.ApplicationStatus;
 import com.rentalsphere.backend.Enums.Roles;
 import com.rentalsphere.backend.Exception.User.UserAlreadyExistsException;

@@ -12,7 +12,7 @@ import com.rentalsphere.backend.Exception.User.UserAlreadyExistsException;
 import com.rentalsphere.backend.Exception.User.UserNotFoundException;
 import com.rentalsphere.backend.RequestResponse.Authentication.*;
 import com.rentalsphere.backend.Role.Repository.RoleRepository;
-import com.rentalsphere.backend.Services.Email.EmailService;
+import com.rentalsphere.backend.Services.Email.IService.IEmailService;
 import com.rentalsphere.backend.User.Model.User;
 import com.rentalsphere.backend.User.Repository.UserRepository;
 import jakarta.mail.MessagingException;
@@ -29,19 +29,20 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class AuthenticationService implements IAuthenticationService {
     @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
     @Autowired
-    private JwtService jwtService;
+    private final JwtService jwtService;
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
     @Autowired
-    private EmailService emailService;
+    private final IEmailService emailService;
 
     private final static int EXPIRY_TIME = 60 * 60 * 1000;
 

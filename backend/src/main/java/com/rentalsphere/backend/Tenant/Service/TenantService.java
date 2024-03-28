@@ -1,7 +1,6 @@
 package com.rentalsphere.backend.Tenant.Service;
 
 import com.rentalsphere.backend.DTOs.TenantDTO;
-import com.rentalsphere.backend.DTOs.TenantDTO;
 import com.rentalsphere.backend.Enums.ApplicationStatus;
 import com.rentalsphere.backend.Exception.Property.PropertyNotFoundException;
 import com.rentalsphere.backend.Exception.Tenant.TenantNotFoundException;
@@ -9,9 +8,6 @@ import com.rentalsphere.backend.Exception.User.UserNotFoundException;
 import com.rentalsphere.backend.Mappers.TenantMapper;
 import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.Property.Repository.PropertyRepository;
-import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterResponse;
-import com.rentalsphere.backend.RequestResponse.Tenant.GetAllTenantResponse;
-import com.rentalsphere.backend.RequestResponse.Tenant.GetTenantResponse;
 import com.rentalsphere.backend.RequestResponse.Tenant.TenantRegisterRequest;
 import com.rentalsphere.backend.RequestResponse.Tenant.TenantResponse;
 import com.rentalsphere.backend.Tenant.Model.Tenant;
@@ -19,6 +15,7 @@ import com.rentalsphere.backend.Tenant.Repository.TenantRepository;
 import com.rentalsphere.backend.Tenant.Service.IService.ITenantService;
 import com.rentalsphere.backend.User.Model.User;
 import com.rentalsphere.backend.User.Repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,19 +24,17 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class TenantService implements ITenantService {
 
     @Autowired
-    private TenantRepository tenantRepository;
+    private final TenantRepository tenantRepository;
 
     @Autowired
-    private  UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    private  PropertyRepository propertyRepository;
-
-    private TenantRegisterRequest tenantRequest;
-
+    private final PropertyRepository propertyRepository;
 
     @Override
     public TenantResponse saveTenantApplication(TenantRegisterRequest tenantRequest) {
