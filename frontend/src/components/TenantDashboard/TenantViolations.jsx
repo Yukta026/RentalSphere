@@ -5,7 +5,8 @@ import useAppContext from "../../hooks/useAppContext";
 import { sampleTenantAnnouncements } from "../../Utils/SampleData.jsx";
 import useAuth from "../../hooks/useAuth.jsx";
 import LoadingSpinner from "../../assets/LoadingSpinner.jsx";
-const ANNOUNCEMENTS_URL = "http://localhost:8080/api/v1/violationlog/tenant/";
+const ANNOUNCEMENTS_URL =
+  "http://172.17.3.125:8080/api/v1/violationlog/tenant/";
 
 const TenantViolations = () => {
   const { auth } = useAuth();

@@ -5,7 +5,7 @@ import useAuth from "../../hooks/useAuth.jsx";
 import LoadingSpinner from "../../assets/LoadingSpinner.jsx";
 import { propManagersData } from "../../Utils/sampleDataHarsh.jsx";
 import useAppContext from "../../hooks/useAppContext.jsx";
-const ALL_PMS_URL = "http://localhost:8080/api/v1/property";
+const ALL_PMS_URL = "http://172.17.3.125:8080/api/v1/property";
 
 const PropertyMangers = () => {
   const navigate = useNavigate();

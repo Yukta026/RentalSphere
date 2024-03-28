@@ -6,11 +6,11 @@ import { sampleTenantReqs } from "../../Utils/SampleData.jsx";
 import LoadingSpinner from "../../assets/LoadingSpinner.jsx";
 import { toast, Bounce } from "react-toastify";
 import { IoIosArrowDown } from "react-icons/io";
-const ALL_PROPS_URL = "http://localhost:8080/api/v1/property/search?email=";
+const ALL_PROPS_URL = "http://172.17.3.125:8080/api/v1/property/search?email=";
 const ALL_REQS_URL =
-  "http://localhost:8080/api/v1/tenantapplications/property/";
-const APPROVE_TENANT_URL = "http://localhost:8080/api/v1/property/approve/";
-const REJECT_TENANT_URL = "http://localhost:8080/api/v1/property/reject/";
+  "http://172.17.3.125:8080/api/v1/tenantapplications/property/";
+const APPROVE_TENANT_URL = "http://172.17.3.125:8080/api/v1/property/approve/";
+const REJECT_TENANT_URL = "http://172.17.3.125:8080/api/v1/property/reject/";
 
 const PMTenantRequests = () => {
   const { auth } = useAuth();

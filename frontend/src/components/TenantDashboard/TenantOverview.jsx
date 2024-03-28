@@ -7,10 +7,11 @@ import { toast, Bounce } from "react-toastify";
 // import NewRequest from '../components/new-request/NewRequest';
 import { FiTool } from "react-icons/fi";
 import { sampleRequestData } from "../../Utils/SampleData";
-const ANNOUNCEMENTS_URL = "http://localhost:8080/api/v1/announcements/tenant/";
-const LEASE_URL = "http://localhost:8080/api/v1/lease/tenant/";
-const POSTS_URL = "http://localhost:8080/api/v1/marketplace/post/tenant/";
-const MKP_URL = "http://localhost:8080/api/v1/marketplace/post/";
+const ANNOUNCEMENTS_URL =
+  "http://172.17.3.125:8080/api/v1/announcements/tenant/";
+const LEASE_URL = "http://172.17.3.125:8080/api/v1/lease/tenant/";
+const POSTS_URL = "http://172.17.3.125:8080/api/v1/marketplace/post/tenant/";
+const MKP_URL = "http://172.17.3.125:8080/api/v1/marketplace/post/";
 
 function TenantOverview() {
   const { auth } = useAuth();

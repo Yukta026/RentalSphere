@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
 import { samplePaymentData } from "../../Utils/SampleData";
 import LoadingSpinner from "../../assets/LoadingSpinner";
-const ALL_PROPS_URL = "http://localhost:8080/api/v1/property";
+const ALL_PROPS_URL = "http://172.17.3.125:8080/api/v1/property";
 
 export default function RentManage() {
   const { auth } = useAuth();

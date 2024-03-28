@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth.jsx";
 import LoadingSpinner from "../../assets/LoadingSpinner.jsx";
-const LOGIN_URL = "http://localhost:8080/api/v1/auth/login";
+const LOGIN_URL = "http://172.17.3.125:8080/api/v1/auth/login";
 import { toast, Bounce } from "react-toastify";
 import { httpPost } from "../../Utils/HttpRequest.jsx"; // Import the httpRequest module
 

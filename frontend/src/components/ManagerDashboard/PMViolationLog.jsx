@@ -8,9 +8,9 @@ import { sampleViolationLogData } from "../../Utils/SampleData";
 import { Tooltip } from "react-tooltip";
 import { IoIosArrowDown } from "react-icons/io";
 import useAppContext from "../../hooks/useAppContext.jsx";
-const ALL_PROPS_URL = "http://localhost:8080/api/v1/property/rented/";
-const CREATE_VLOG_URL = "http://localhost:8080/api/v1/violationlog/";
-const PROP_VLOGS_URL = "http://localhost:8080/api/v1/violationlog/property/";
+const ALL_PROPS_URL = "http://172.17.3.125:8080/api/v1/property/rented/";
+const CREATE_VLOG_URL = "http://172.17.3.125:8080/api/v1/violationlog/";
+const PROP_VLOGS_URL = "http://172.17.3.125:8080/api/v1/violationlog/property/";
 
 export default function PMViolationLog() {
   const { auth } = useAuth();
