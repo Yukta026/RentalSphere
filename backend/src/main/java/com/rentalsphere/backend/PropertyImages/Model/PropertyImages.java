@@ -1,4 +1,4 @@
-package com.rentalsphere.backend.Utils.PropertyImages.Model;
+package com.rentalsphere.backend.PropertyImages.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rentalsphere.backend.Property.Model.Property;
