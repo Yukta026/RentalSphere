@@ -15,7 +15,7 @@ import {
 } from "../Utils/SVGObjs";
 import { sampleListingsData } from "../Utils/SampleData.jsx";
 
-const LISTINGS_URL = "http://localhost:8080/api/v1/property";
+const LISTINGS_URL = "http://172.17.3.125:8080/api/v1/property";
 
 const Home = () => {
   // const [currListings, setCurrListings] = useState(sampleListingsData);

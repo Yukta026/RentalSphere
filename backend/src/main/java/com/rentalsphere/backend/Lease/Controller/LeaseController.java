@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.text.ParseException;
 
-@CrossOrigin(origins = "http://localhost:5173")
+//@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping(path = "/api/v1/lease")
 @RequiredArgsConstructor
@@ -42,5 +42,10 @@ public class LeaseController {
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<LeaseResponse> removeLease(@PathVariable Long id){
         return new ResponseEntity<>(leaseService.removeLease(id), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/tenant/{email}")
+    public ResponseEntity<GetLeaseResponse> getLeaseForTenant(@PathVariable String email){
+        return new ResponseEntity<>(leaseService.getLeaseForTenant(email), HttpStatus.OK);
     }
 }

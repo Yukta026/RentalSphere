@@ -102,11 +102,11 @@ export default function PMNewProperty() {
     });
     try {
       const response = await customAxios.post(
-        "http://localhost:8080/property/register",
+        "http://172.17.3.125:8080/property/register",
         formData
       );
 
-      // const response = httpPost("http://localhost:8080/property/register", form, {'Content-Type': 'multipart/form-data',
+      // const response = httpPost("http://172.17.3.125:8080/property/register", form, {'Content-Type': 'multipart/form-data',
       // 'Authorization': 'Bearer ' + auth.token, });
 
       console.log(response);

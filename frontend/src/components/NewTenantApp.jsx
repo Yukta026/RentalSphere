@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast, Bounce } from "react-toastify";
 import LoadingSpinner from "../assets/LoadingSpinner.jsx";
 const NEW_TENANT_URL =
-  "http://localhost:8080/api/v1/tenantapplications/register";
+  "http://172.17.3.125:8080/api/v1/tenantapplications/register";
 
 const testFormValues = {
   // emailAddress: "",

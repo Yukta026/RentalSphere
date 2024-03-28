@@ -21,10 +21,13 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class LeaseControllerTest {
+
+    final double monthlyRent = 2500.00;
     @InjectMocks
     private LeaseController leaseController;
     @Mock
@@ -41,8 +44,8 @@ public class LeaseControllerTest {
 
     @BeforeEach
     void init(){
-        leaseRequest = new LeaseRequest("2024-03-10", "2025-03-10", 2500.00, file, LeaseStatus.ACTIVE.name(), 1L, 1L);
-        updateLeaseRequest = new UpdateLeaseRequest(1L,"2024-03-10", "2025-03-10", 2500.00, LeaseStatus.INACTIVE);
+        leaseRequest = new LeaseRequest("2024-03-10", "2025-03-10", monthlyRent, file, LeaseStatus.ACTIVE.name(), 1L, 1L);
+        updateLeaseRequest = new UpdateLeaseRequest(1L,"2024-03-10", "2025-03-10", monthlyRent, LeaseStatus.INACTIVE);
     }
 
     @Test
@@ -118,5 +121,20 @@ public class LeaseControllerTest {
         when(leaseService.removeLease(anyLong())).thenReturn(leaseResponse);
 
         assertEquals(responseEntity, leaseController.removeLease(anyLong()));
+    }
+
+    @Test
+    void testGetLeaseForTenant(){
+        getLeaseResponse = GetLeaseResponse.builder()
+                .isSuccess(true)
+                .lease(leaseDTO)
+                .timeStamp(new Date())
+                .build();
+
+        ResponseEntity<?> responseEntity = new ResponseEntity<>(getLeaseResponse, HttpStatus.OK);
+
+        when(leaseService.getLeaseForTenant(anyString())).thenReturn(getLeaseResponse);
+
+        assertEquals(responseEntity, leaseController.getLeaseForTenant(anyString()));
     }
 }

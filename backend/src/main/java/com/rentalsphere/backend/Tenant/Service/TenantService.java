@@ -38,6 +38,8 @@ public class TenantService implements ITenantService {
     @Autowired
     private  PropertyRepository propertyRepository;
 
+    private TenantRegisterRequest tenantRequest;
+
 
     @Override
     public TenantResponse saveTenantApplication(TenantRegisterRequest tenantRequest) {
