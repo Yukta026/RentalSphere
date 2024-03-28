@@ -25,7 +25,7 @@ public class AuthenticationController{
 
     @PostMapping(path = "/login")
     public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody LoginRequest request){
-        return new ResponseEntity<>(authenticationService.login(request), HttpStatus.CREATED);
+        return new ResponseEntity<>(authenticationService.login(request), HttpStatus.OK);
     }
 
     @PostMapping(path = "/forgotpassword")
