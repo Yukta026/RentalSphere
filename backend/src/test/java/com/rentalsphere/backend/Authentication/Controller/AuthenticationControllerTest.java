@@ -1,6 +1,6 @@
 package com.rentalsphere.backend.Authentication.Controller;
 
-import com.rentalsphere.backend.Authentication.Service.AuthenticationService;
+import com.rentalsphere.backend.Authentication.Service.IService.IAuthenticationService;
 import com.rentalsphere.backend.RequestResponse.Authentication.*;
 import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +23,7 @@ public class AuthenticationControllerTest {
     @InjectMocks
     private AuthenticationController authenticationController;
     @Mock
-    private AuthenticationService authenticationService;
+    private IAuthenticationService authenticationService;
     @Mock
     private ResponseEntity<?> responseEntity;
     private RegisterRequest registerRequest;

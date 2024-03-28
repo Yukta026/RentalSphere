@@ -1,10 +1,10 @@
 package com.rentalsphere.backend.Marketplace.Controller;
 
-import com.rentalsphere.backend.Marketplace.Model.Post;
 import com.rentalsphere.backend.Marketplace.Service.IService.IPostService;
 import com.rentalsphere.backend.RequestResponse.Post.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +16,7 @@ import java.io.IOException;
 @RequestMapping(path = "/api/v1/marketplace/post")
 @RequiredArgsConstructor
 public class PostController {
+    @Autowired
     private final IPostService postService;
 
     @PostMapping("/")
@@ -41,5 +42,10 @@ public class PostController {
     @DeleteMapping("/{id}")
     public ResponseEntity<PostResponse> deletePost(@PathVariable Long id){
         return new ResponseEntity<>(postService.deletePost(id), HttpStatus.OK);
+    }
+
+    @GetMapping("tenant/{email}")
+    public ResponseEntity<GetAllPostResponse> getPostsOfTenant(@PathVariable String email){
+        return new ResponseEntity<>(postService.getPostOfTenant(email), HttpStatus.OK);
     }
 }
