@@ -68,11 +68,11 @@ export const sidebarMenuItems = [
     path: "tenantapprovals",
     icon: "IoCheckboxOutline",
   },
-  {
-    name: "Rent Management",
-    path: "rentmanagement",
-    icon: "FaRegMoneyBillAlt",
-  },
+  // {
+  //   name: "Rent Management",
+  //   path: "rentmanagement",
+  //   icon: "FaRegMoneyBillAlt",
+  // },
   {
     name: "Lease Management",
     path: "leasemanagement",
@@ -83,7 +83,7 @@ export const sidebarMenuItems = [
     path: "violationlog",
     icon: "AiTwotoneFileExclamation",
   },
-  { name: "Service Requests", path: "servicerequests", icon: "FiTool" },
+  // { name: "Service Requests", path: "servicerequests", icon: "FiTool" },
 ];
 
 export const sampleAnnouncements = [
@@ -359,21 +359,21 @@ export const sampleRequestData = [
     id: "d5e3",
     requestSubject: "New Req",
     requestType: "New Req type",
-    date:"24 Feb 2024",
-    requestMessage: "New Req type Message New Req type Message"
+    date: "24 Feb 2024",
+    requestMessage: "New Req type Message New Req type Message",
   },
   {
     id: "caee",
     requestSubject: "Test 1",
     requestType: "Test 1 type",
-    date:"24 Feb 2024",
-    requestMessage: "Test 1 message Test 1 messageTest 1 messageTest 1 message"
+    date: "24 Feb 2024",
+    requestMessage: "Test 1 message Test 1 messageTest 1 messageTest 1 message",
   },
   {
     id: "2fdd",
     requestSubject: "Testst",
     requestType: "Testst",
-    date:"24 Feb 2024",
+    date: "24 Feb 2024",
     requestMessage: "TeststTeststTeststTestst",
   },
 ];
@@ -613,5 +613,29 @@ export const sampleCommunityData = [
   },
 ];
 
-
-
+export const sampleTenantAnnouncements = [
+  {
+    id: "d6e3",
+    announcementMessage: "New announcements 1",
+    announcementdate: "18/02/2024",
+    announcementDetails: "announcementDetailsannouncementDetails",
+  },
+  {
+    id: "d6e4",
+    announcementMessage: "New announcements 2",
+    announcementdate: "06/02/2024",
+    announcementDetails: "announcementDetailsannouncementDetails",
+  },
+  {
+    id: "d6e6",
+    announcementMessage: "New announcements 3",
+    announcementdate: "10/01/2024",
+    announcementDetails: "announcementDetailsannouncementDetails",
+  },
+  {
+    id: "d6e7",
+    announcementMessage: "New announcements 4",
+    announcementdate: "10/01/2024",
+    announcementDetails: "announcementDetailsannouncementDetails",
+  },
+];

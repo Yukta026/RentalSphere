@@ -38,7 +38,7 @@ const PropertyDetails = () => {
     };
     setIsLoading(true);
     await axios
-      .get(`http://172.17.3.125:8080/api/v1/property/${id}`, { headers })
+      .get(`http://localhost:8080/api/v1/property/${id}`, { headers })
       .then((res) => setSingleListing(res.data.property))
       .catch((err) => console.log(err))
       .finally(setIsLoading(false));
@@ -66,9 +66,14 @@ const PropertyDetails = () => {
           <div className="flex justify-center gap-6 ml-12">
             <div className="w-[48%]">
               <CarouselSlider>
-                <div className="h-full w-full">
-                  <img className="object-cover" src={singleListing.imageURL} />
-                </div>
+                {singleListing &&
+                  singleListing.imageURLs &&
+                  singleListing.imageURLs.map((imgURL, index) => (
+                    <div className="h-full w-full">
+                      <img className="object-cover" src={imgURL} key={index} />
+                    </div>
+                  ))}
+
                 <div className="h-full w-full">
                   <img
                     className="object-cover"

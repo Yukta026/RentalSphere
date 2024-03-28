@@ -1,15 +1,24 @@
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 const RequestDetails = () => {
+  const { contReq } = useAuth();
   const navigate = useNavigate();
   let { id } = useParams();
+  const [currReq, setCurrReq] = useState({});
 
-  const [propertyManagerReq, setPropertyManagerReq] = useState([]);
+  // const [propertyManagerReq, setPropertyManagerReq] = useState([]);
+  // useEffect(() => {
+  //   loadPropertyManagerReq();
+  // }, []);
+
   useEffect(() => {
-    loadPropertyManagerReq();
-  }, []);
+    if (contReq && contReq.email) {
+      setCurrReq();
+    }
+  }, [contReq]);
 
   const loadPropertyManagerReq = async () => {
     const result = await Axios.get(
@@ -22,18 +31,6 @@ const RequestDetails = () => {
     try {
       await Axios.patch(`http://localhost:8000/property-managers/${id}`, {
         verified: true,
-      });
-      alert("Form submitted successfully!");
-      navigate("/admin");
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    }
-  };
-
-  const handleCancel = async (id) => {
-    try {
-      await Axios.patch(`http://localhost:8000/property-managers/${id}`, {
-        verified: false,
       });
       alert("Form submitted successfully!");
       navigate("/admin");
