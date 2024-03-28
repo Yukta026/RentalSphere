@@ -1,7 +1,7 @@
 package com.rentalsphere.backend.Marketplace.Controller;
 
 import com.rentalsphere.backend.DTOs.PostDTO;
-import com.rentalsphere.backend.Marketplace.Service.PostService;
+import com.rentalsphere.backend.Marketplace.Service.IService.IPostService;
 import com.rentalsphere.backend.RequestResponse.Post.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ public class PostControllerTest {
     @InjectMocks
     private PostController postController;
     @Mock
-    private PostService postService;
+    private IPostService postService;
     @Mock
     private CreatePostRequest createPostRequest;
     @Mock
@@ -113,5 +113,20 @@ public class PostControllerTest {
         when(postService.deletePost(anyLong())).thenReturn(postResponse);
 
         assertEquals(responseEntity, postController.deletePost(anyLong()));
+    }
+
+    @Test
+    void testGetPostOfTenant(){
+        getAllPostResponse = GetAllPostResponse.builder()
+                .isSuccess(true)
+                .posts(List.of(post))
+                .timeStamp(new Date())
+                .build();
+
+        ResponseEntity<?> responseEntity = new ResponseEntity<>(getAllPostResponse, HttpStatus.OK);
+
+        when(postService.getPostOfTenant("test@gmail.com")).thenReturn(getAllPostResponse);
+
+        assertEquals(responseEntity, postController.getPostsOfTenant("test@gmail.com"));
     }
 }

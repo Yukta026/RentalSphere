@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
 class ViolationLogControllerTest {
 
     @Mock
-    private ViolationLogService violationLogService;
+    private IViolationLogService violationLogService;
 
     @InjectMocks
     private ViolationLogController violationLogController;

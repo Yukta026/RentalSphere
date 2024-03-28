@@ -1,6 +1,6 @@
 package com.rentalsphere.backend.Property.Controller;
 
-import com.rentalsphere.backend.Property.Service.PropertyService;
+import com.rentalsphere.backend.Property.Service.IService.IPropertyService;
 import com.rentalsphere.backend.RequestResponse.Property.GetAllPropertyResponse;
 import com.rentalsphere.backend.RequestResponse.Property.GetPropertyResponse;
 import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterRequest;
@@ -8,6 +8,7 @@ import com.rentalsphere.backend.RequestResponse.Property.PropertyRegisterRespons
 import com.rentalsphere.backend.RequestResponse.Tenant.TenantResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,8 @@ import java.text.ParseException;
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/v1/property")
 public class PropertyController {
-    private final PropertyService propertyService;
+    @Autowired
+    private final IPropertyService propertyService;
 
     @PostMapping(path = "/register", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<PropertyRegisterResponse> createPropertyApplication(@Valid @ModelAttribute PropertyRegisterRequest request) throws IOException, ParseException {

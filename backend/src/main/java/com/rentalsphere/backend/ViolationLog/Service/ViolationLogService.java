@@ -6,7 +6,6 @@ import com.rentalsphere.backend.Exception.Property.PropertyNotFoundException;
 import com.rentalsphere.backend.Exception.Tenant.TenantNotFoundException;
 import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.Property.Repository.PropertyRepository;
-import com.rentalsphere.backend.RequestResponse.Lease.LeaseResponse;
 import com.rentalsphere.backend.RequestResponse.ViolationLog.UpdateViolationLogRequest;
 import com.rentalsphere.backend.RequestResponse.ViolationLog.UpdateViolationLogResponse;
 import com.rentalsphere.backend.RequestResponse.ViolationLog.ViolationLogRegisterRequest;
@@ -17,6 +16,7 @@ import com.rentalsphere.backend.ViolationLog.Model.ViolationLog;
 import com.rentalsphere.backend.ViolationLog.Repository.ViolationLogRepository;
 import com.rentalsphere.backend.ViolationLog.Service.IService.IViolationLogService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -29,8 +29,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ViolationLogService implements IViolationLogService {
 
+    @Autowired
     private final ViolationLogRepository violationLogRepository;
+    @Autowired
     private final PropertyRepository propertyRepository;
+    @Autowired
     private final TenantRepository tenantRepository;
 
     @Override

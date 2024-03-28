@@ -11,6 +11,7 @@ import com.rentalsphere.backend.Property.Repository.PropertyRepository;
 import com.rentalsphere.backend.RequestResponse.Announcement.AnnouncementRegisterRequest;
 import com.rentalsphere.backend.Tenant.Model.Tenant;
 import com.rentalsphere.backend.Tenant.Repository.TenantRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
@@ -20,14 +21,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class AnnouncementService implements IAnnouncementService {
 
     @Autowired
-    private AnnouncementRepository announcementRepository;
+    private final AnnouncementRepository announcementRepository;
     @Autowired
-    private PropertyRepository propertyRepository;
+    private final PropertyRepository propertyRepository;
     @Autowired
-    private TenantRepository tenantRepository;
+    private final TenantRepository tenantRepository;
 
     @Override
     public List<Announcement> getAllAnnouncements() {

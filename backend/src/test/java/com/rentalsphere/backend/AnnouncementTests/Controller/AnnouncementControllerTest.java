@@ -4,8 +4,8 @@ import com.rentalsphere.backend.Announcement.Controller.AnnouncementController;
 import com.rentalsphere.backend.Announcement.Model.Announcement;
 import com.rentalsphere.backend.Announcement.Repository.AnnouncementRepository;
 import com.rentalsphere.backend.Announcement.Service.AnnouncementService;
+import com.rentalsphere.backend.Announcement.Service.IService.IAnnouncementService;
 import com.rentalsphere.backend.Exception.Property.PropertyNotFoundException;
-import com.rentalsphere.backend.Property.Model.Property;
 import com.rentalsphere.backend.Property.Repository.PropertyRepository;
 import com.rentalsphere.backend.RequestResponse.Announcement.AnnouncementRegisterRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +25,7 @@ import static org.mockito.Mockito.*;
 class AnnouncementControllerTest {
 
     @Mock
-    private AnnouncementService announcementService;
+    private IAnnouncementService announcementService;
     @Mock
     private PropertyRepository propertyRepository;
     @Mock

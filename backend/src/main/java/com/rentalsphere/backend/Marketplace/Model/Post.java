@@ -1,20 +1,17 @@
 package com.rentalsphere.backend.Marketplace.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rentalsphere.backend.Enums.AvailabilityStatus;
 import com.rentalsphere.backend.Tenant.Model.Tenant;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity(name = "Marketplace_Post")
 @Table(name = "Marketplace_Post")
 @Builder
-@Data
+@Getter@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Post {
@@ -27,6 +24,7 @@ public class Post {
     @Enumerated(EnumType.STRING)
     private AvailabilityStatus availabilityStatus;
     private Date creationDate;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "tenant_id", referencedColumnName = "TenantID")
     private Tenant tenant;
