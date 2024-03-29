@@ -98,7 +98,7 @@ publish:
     - ls -a
 
   only:
-    - development
+    - main
 
 deploy-backend:
   image: alpine:latest
@@ -121,7 +121,7 @@ deploy-backend:
   #   name: production
   #   url: http://172.17.3.125:8080
   only:
-    - development
+    - main
 
 deploy-frontend:
   image: alpine:latest
@@ -164,4 +164,4 @@ deploy-frontend:
   #   url: http://172.17.3.125:5173
 
   only:
-    - development
+    - main
