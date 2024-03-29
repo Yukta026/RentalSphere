@@ -111,6 +111,7 @@ const AddViolationLog = () => {
               <img
                 src="/img/exclamation-mark-yellow-triangle-symbol-isolated-white-background-3d-rendering-illustration_276199-111.avif"
                 alt="violation-img"
+                className="w-1/4"
               />
             </div>
           </div>

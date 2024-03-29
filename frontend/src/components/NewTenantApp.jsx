@@ -23,7 +23,7 @@ const testFormValues = {
 };
 
 const initialValues = {
-  emailAddress: "",
+  // emailAddress: "",
   phoneNumber: "",
   // dateOfBirth: "",
   socialSecurityNumber: "",
@@ -34,7 +34,7 @@ const initialValues = {
   currentEmployer: "",
   lengthOfEmployment: "",
   creationDate: "",
-  propertyApplicationID: "",
+  // propertyApplicationID: "",
 };
 
 const NewTenantApp = () => {
@@ -43,7 +43,7 @@ const NewTenantApp = () => {
   const { id } = useParams();
   const desiredMoveInDateRef = useRef();
   const DOBRef = useRef();
-  const [formData, setFormData] = useState(testFormValues);
+  const [formData, setFormData] = useState(initialValues);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleInputChange = (e) => {

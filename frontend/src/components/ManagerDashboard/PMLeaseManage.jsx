@@ -1,14 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import LoadingSpinner from "../../assets/LoadingSpinner";
+import { toast, Bounce } from "react-toastify";
 import { IoIosArrowDown } from "react-icons/io";
 import { MdFileDownload, MdOutlineDelete } from "react-icons/md";
 import { sampleLeaseData } from "../../Utils/SampleData";
 import useAppContext from "../../hooks/useAppContext.jsx";
 const ALL_PROPS_URL = "http://172.17.3.125:8080/api/v1/property/rented/";
 const ALL_LEASE_URL = "http://172.17.3.125:8080/api/v1/lease/property/";
+const ADD_LEASE_URL = "http://172.17.3.125:8080/api/v1/lease/";
 
 export default function PMLeaseManage() {
   const { auth } = useAuth();
@@ -20,6 +22,10 @@ export default function PMLeaseManage() {
   const [currTenant, setCurrTenant] = useState("");
   const [leases, setLeases] = useState([]);
   const [currLease, setCurrLease] = useState({});
+  const [files, setFiles] = useState([]);
+  const startDateRef = useRef();
+  const endDateRef = useRef();
+  const [monthlyRent, setMonthlyRent] = useState("");
 
   const fetchAllProps = async () => {
     const headers = {
@@ -34,6 +40,7 @@ export default function PMLeaseManage() {
         setProperties(res.data.properties);
         console.log(res.data.properties[0].tenant);
         setContTenant(res.data.properties[0].tenant);
+        setCurrTenant(res.data.properties[0].tenant.tenantID);
       })
       .catch((err) => console.log(err))
       .finally(() => setIsLoading(false));
@@ -79,6 +86,56 @@ export default function PMLeaseManage() {
     fetchAllProps();
   }, [auth, navigate]);
 
+  const handleAddLease = () => {
+    document.getElementById("my_modal_3").showModal();
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formDataToSend = new FormData();
+    formDataToSend.append("propertyId", selectedProperty);
+    formDataToSend.append("startDate", startDateRef.current.value);
+    formDataToSend.append("endDate", endDateRef.current.value);
+    formDataToSend.append("monthlyRent", monthlyRent);
+    formDataToSend.append("tenantId", currTenant);
+    console.log(files);
+    files.map((file) => formDataToSend.append("leasePdf", file));
+
+    const headers = {
+      Authorization: `Bearer ${auth.token}`,
+    };
+    console.log(headers);
+    console.log(formDataToSend);
+
+    await axios
+      .post(ADD_LEASE_URL, formDataToSend, { headers })
+      .then((res) => {
+        toast.success("New Lease Created", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
+    t;
+    // setFormData(initialFormValues);
+    setFiles([]);
+    startDateRef.current.value = "";
+    endDateRef.current.value = "";
+  };
+
+  const handleFileUpload = (e) => {
+    setFiles([...files, e.target.files[0]]);
+  };
+
   return (
     <div>
       {isLoading ? (
@@ -90,7 +147,7 @@ export default function PMLeaseManage() {
           <div className="flex justify-between mb-10 items-center p-4">
             <h1 className="text-2xl font-bold">Lease Management</h1>
             <Link
-              to="/managerdashboard/add-new-lease"
+              onClick={handleAddLease}
               className="btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             >
               Add New Lease
@@ -292,6 +349,85 @@ export default function PMLeaseManage() {
               </div>
             </div>
           </div>
+
+          <dialog
+            id="my_modal_3"
+            className="modal modal-bottom sm:modal-middle"
+          >
+            <div className="modal-box">
+              <form method="dialog">
+                <button
+                  className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                  onClick={() => {
+                    document.getElementById("my_modal_3").close();
+                  }}
+                >
+                  ✕
+                </button>
+              </form>
+              <h3 className="font-bold text-lg mb-6">Add New Lease</h3>
+
+              <div className="modal-action flex flex-col justify-center ">
+                <form method="dialog" onSubmit={handleSubmit}>
+                  <div className="mb-4">
+                    <img
+                      src="/img/house-document-contract-7780840-6184494.webp"
+                      alt="lease-img"
+                    />
+
+                    <div className="mt-4">
+                      <label htmlFor="" className="font-medium text-[16px]">
+                        Select documents
+                      </label>
+                      <input
+                        type="file"
+                        name="document"
+                        onChange={(e) => handleFileUpload(e)}
+                      />
+                    </div>
+
+                    <div className="mt-4">
+                      <label htmlFor="startDate">Start Date</label>
+                      <input
+                        type="date"
+                        name="startDate"
+                        className="w-full h-10 px-4 mt-1 border rounded bg-gray-50"
+                        ref={startDateRef}
+                      />
+                    </div>
+
+                    <div className="mt-4">
+                      <label htmlFor="endDate">End Date</label>
+                      <input
+                        type="date"
+                        name="endDate"
+                        className="w-full h-10 px-4 mt-1 border rounded bg-gray-50"
+                        ref={endDateRef}
+                      />
+                    </div>
+
+                    <div className="mt-4">
+                      <label htmlFor="monthlyRent">Monthly Rent</label>
+                      <input
+                        type="text"
+                        name="monthlyRent"
+                        className="w-full h-10 px-4 mt-1 border rounded bg-gray-50"
+                        value={monthlyRent}
+                        onChange={(e) => setMonthlyRent(e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  >
+                    Create Log
+                  </button>
+                </form>
+              </div>
+            </div>
+          </dialog>
         </>
       )}
     </div>
