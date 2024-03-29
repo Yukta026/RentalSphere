@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import { createContext, useState, useEffect } from "react";
+import Navbar from "./components/Shared/Navbar";
+import Footer from "./components/Shared/Footer";
+import AppRoutes from "./AppRoutes.jsx";
+import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "./context/AuthProvider.jsx";
+import { AppProvider } from "./context/AppProvider.jsx";
+// import useAppContext from "./hooks/useAppContext.jsx";
+import { ToastContainer } from "react-toastify";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <BrowserRouter>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      <AuthProvider>
+        <AppProvider>
+          <div className="flex-col min-h-screen h-screen justify-between">
+            <Navbar />
+            <div className="min-h-full">
+              <AppRoutes />
+            </div>
+            <Footer />
+          </div>
+          <ToastContainer />
+        </AppProvider>
+      </AuthProvider>
+      <ToastContainer />
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
