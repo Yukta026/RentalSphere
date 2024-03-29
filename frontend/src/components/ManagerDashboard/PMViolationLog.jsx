@@ -155,14 +155,11 @@ export default function PMViolationLog() {
               </thead>
 
               <tbody className="text-black font-gilroy-medium">
-                {/* {vlogs && vlogs.map((data, index) => ( */}
-                {sampleViolationLogData &&
-                  sampleViolationLogData.map((data, index) => (
+                {vlogs &&
+                  vlogs.map((data, index) => (
                     <tr
                       key={index}
-                      className={`${
-                        statusClassMapping[data.damageIntensity]
-                      } border-b-8  border-white py-10`}
+                      className={"border-b-8  border-white py-10"}
                     >
                       <td className={`py-4 px-3 `}>{data.title}</td>
                       <td className={`py-4 px-3 `}>
@@ -188,22 +185,28 @@ export default function PMViolationLog() {
                           potation="center"
                           style={{ width: "300px" }}
                         />
-                        {data.personalComment.length > 30 ? (
+                        {data.personalComments.length > 30 ? (
                           <p
                             data-tooltip-id={`my-tooltip2-${index}`}
                             data-tooltip-content={data.personalComment}
                           >
-                            {data.personalComment.slice(0, 30)}...
+                            {data.personalComments.slice(0, 30)}...
                           </p>
                         ) : (
-                          data.personalComment
+                          data.personalComments
                         )}
                       </td>
                       <td className={`py-4 px-3  text-center`}>
-                        ${data.monetary}
+                        ${data.monetaryDamage}
                       </td>
                       <td className={`py-4 px-3  text-center`}>
-                        {data.damageIntensity}
+                        <p
+                          className={`${
+                            statusClassMapping[data.intensity]
+                          } py-2 rounded-md`}
+                        >
+                          {data.intensity}
+                        </p>
                       </td>
                     </tr>
                   ))}

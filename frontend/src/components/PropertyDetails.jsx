@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import useAppContext from "../hooks/useAppContext";
 import { sampleListingsData } from "../Utils/SampleData";
 import LoadingSpinner from "../assets/LoadingSpinner.jsx";
@@ -107,9 +107,11 @@ const PropertyDetails = () => {
 
                 <div className="bg-white p-4 border border-gray-300 mt-6 drop-shadow-sm">
                   <h6 className="text-center font-bold ">Contact User</h6>
-                  <button className="bg-[#373373] w-full rounded-[4px] py-2 text-white font-semibold mt-6">
-                    Send message
-                  </button>
+                  <Link to={`mailto:${singleListing.contactEmail}`}>
+                    <button className="bg-[#373373] w-full rounded-[4px] py-2 text-white font-semibold mt-6">
+                      Send Message
+                    </button>
+                  </Link>
                 </div>
 
                 <div className="text-center">
